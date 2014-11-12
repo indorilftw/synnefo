@@ -19,6 +19,6 @@
 Django settings metadata. To be used in setup.py snf-webproject entry points.
 """
 
-installed_apps = ['synnefo_branding'] 
+installed_apps = ['synnefo_branding']
 context_processors = ['synnefo_branding.context_processors.branding']
 static_files = {'synnefo_branding': ''}

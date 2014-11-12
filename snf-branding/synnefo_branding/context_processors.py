@@ -15,5 +15,6 @@
 
 from synnefo_branding import utils
 
+
 def branding(request):
-	return utils.get_branding_dict("BRANDING")
+    return utils.get_branding_dict("BRANDING")
