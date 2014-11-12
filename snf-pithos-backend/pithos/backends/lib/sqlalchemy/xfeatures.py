@@ -159,7 +159,7 @@ class XFeatures(DBWorker):
     def feature_setmany(self, feature, key, values):
         """Associate the given key, and values with a feature."""
 
-        #TODO: more efficient way to do it
+        # TODO: more efficient way to do it
         for v in values:
             self.feature_set(feature, key, v)
 

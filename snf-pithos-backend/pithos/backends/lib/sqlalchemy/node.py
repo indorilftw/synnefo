@@ -45,12 +45,12 @@ def strnextling(prefix):
        strnextling('hello') -> 'hellp'
     """
     if not prefix:
-        ## all strings start with the null string,
-        ## therefore we have to approximate strnextling('')
-        ## with the last unicode character supported by python
-        ## 0x10ffff for wide (32-bit unicode) python builds
-        ## 0x00ffff for narrow (16-bit unicode) python builds
-        ## We will not autodetect. 0xffff is safe enough.
+        # all strings start with the null string,
+        # therefore we have to approximate strnextling('')
+        # with the last unicode character supported by python
+        # 0x10ffff for wide (32-bit unicode) python builds
+        # 0x00ffff for narrow (16-bit unicode) python builds
+        # We will not autodetect. 0xffff is safe enough.
         return unichr(0xffff)
     s = prefix[:-1]
     c = ord(prefix[-1])
@@ -66,7 +66,7 @@ def strprevling(prefix):
        strprevling(u'hello') -> u'helln\\xffff'
     """
     if not prefix:
-        ## There is no prevling for the null string
+        # There is no prevling for the null string
         return prefix
     s = prefix[:-1]
     c = ord(prefix[-1])
@@ -78,7 +78,7 @@ def strprevling(prefix):
 def create_tables(engine):
     metadata = MetaData()
 
-    #create nodes table
+    # create nodes table
     columns = []
     columns.append(Column('node', Integer, primary_key=True))
     columns.append(Column('parent', Integer,
@@ -97,7 +97,7 @@ def create_tables(engine):
     Index('idx_nodes_parent0_path', nodes.c.parent, nodes.c.path,
           postgresql_where=nodes.c.parent == 0)
 
-    #create policy table
+    # create policy table
     columns = []
     columns.append(Column('node', Integer,
                           ForeignKey('nodes.node',
@@ -108,7 +108,7 @@ def create_tables(engine):
     columns.append(Column('value', String(256)))
     Table('policy', metadata, *columns, mysql_engine='InnoDB')
 
-    #create statistics table
+    # create statistics table
     columns = []
     columns.append(Column('node', Integer,
                           ForeignKey('nodes.node',
@@ -122,7 +122,7 @@ def create_tables(engine):
                           primary_key=True, autoincrement=False))
     Table('statistics', metadata, *columns, mysql_engine='InnoDB')
 
-    #create versions table
+    # create versions table
     columns = []
     columns.append(Column('serial', Integer, primary_key=True))
     columns.append(Column('node', Integer,
@@ -164,7 +164,7 @@ def create_tables(engine):
     Index('idx_versions_serial_cluster2', versions.c.serial,
           versions.c.cluster, postgresql_where=versions.c.cluster == 2)
 
-    #create attributes table
+    # create attributes table
     columns = []
     columns.append(Column('serial', Integer,
                           ForeignKey('versions.serial',
@@ -374,7 +374,7 @@ class Node(DBWorker):
            the hashes, the total size and the serials of versions deleted.
            Clears out nodes with no remaining versions.
         """
-        #update statistics
+        # update statistics
         c1 = select([self.nodes.c.node],
                     self.nodes.c.parent == parent)
         where_clause = and_(self.versions.c.node.in_(c1),
@@ -406,12 +406,12 @@ class Node(DBWorker):
             serials += [row[1]]
         r.close()
 
-        #delete versions
+        # delete versions
         s = self.versions.delete().where(where_clause)
         r = self.conn.execute(s)
         r.close()
 
-        #delete nodes
+        # delete nodes
         s = select([self.nodes.c.node],
                    and_(self.nodes.c.parent == parent,
                         select([func.count(self.versions.c.serial)],
@@ -434,7 +434,7 @@ class Node(DBWorker):
            Clears out the node if it has no remaining versions.
         """
 
-        #update statistics
+        # update statistics
         s = select([func.count(self.versions.c.serial),
                     func.sum(self.versions.c.size)])
         where_clause = and_(self.versions.c.node == node,
@@ -463,12 +463,12 @@ class Node(DBWorker):
             serials += [row[1]]
         r.close()
 
-        #delete versions
+        # delete versions
         s = self.versions.delete().where(where_clause)
         r = self.conn.execute(s)
         r.close()
 
-        #delete nodes
+        # delete nodes
         s = select([self.nodes.c.node],
                    and_(self.nodes.c.node == node,
                         select([func.count(self.versions.c.serial)],
@@ -608,7 +608,7 @@ class Node(DBWorker):
         return d
 
     def policy_set(self, node, policy):
-        #insert or replace
+        # insert or replace
         for k, v in policy.iteritems():
             s = self.policy.update().where(and_(self.policy.c.node == node,
                                                 self.policy.c.key == k))
@@ -656,8 +656,8 @@ class Node(DBWorker):
         population = max(population, 0)
         size += presize
 
-        #insert or replace
-        #TODO better upsert
+        # insert or replace
+        # TODO better upsert
         u = self.statistics.update().where(and_(
             self.statistics.c.node == node,
             self.statistics.c.cluster == cluster))

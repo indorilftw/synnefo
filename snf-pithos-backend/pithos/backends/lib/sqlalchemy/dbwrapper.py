@@ -31,11 +31,11 @@ class DBWrapper(object):
                 db, connect_args={'check_same_thread': False},
                 poolclass=NullPool, listeners=[ForeignKeysListener()],
                 isolation_level='SERIALIZABLE')
-        #elif db.startswith('mysql://'):
+        # elif db.startswith('mysql://'):
         #    db = '%s?charset=utf8&use_unicode=0' %db
         #    self.engine = create_engine(db, convert_unicode=True)
         else:
-            #self.engine = create_engine(db, pool_size=0, max_overflow=-1)
+            # self.engine = create_engine(db, pool_size=0, max_overflow=-1)
             self.engine = create_engine(
                 db, poolclass=NullPool, isolation_level='READ COMMITTED')
         self.engine.echo = False
