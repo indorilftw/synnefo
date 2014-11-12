@@ -1,4 +1,4 @@
-## -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from django.conf import settings
 
 STATS_SECRET_KEY = getattr(settings, 'STATS_SECRET_KEY', "secret key")
