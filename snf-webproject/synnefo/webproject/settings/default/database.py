@@ -23,9 +23,9 @@ DATABASES = {
         'PORT': '',
 
         # Uncomment the following lines if you use mysql database
-        #'OPTIONS': {
+        # 'OPTIONS': {
         #    'init_command': 'SET storage_engine=INNODB; ' +
         #        'SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED',
-        #}
+        # }
     }
 }

@@ -21,7 +21,7 @@ TEMPLATE_DIRS = (
 )
 
 LANGUAGES = (
-  ('en', 'English'),
+    ('en', 'English'),
 )
 
 # Local time zone for this installation. Choices can be found here:
@@ -32,4 +32,3 @@ LANGUAGES = (
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
 TIME_ZONE = 'UTC'   # Warning: The API depends on the TIME_ZONE being UTC
-

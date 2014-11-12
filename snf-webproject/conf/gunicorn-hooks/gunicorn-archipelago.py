@@ -20,7 +20,8 @@ import mmap
 import pickle
 import os
 
-SYNNEFO_UMASK=0o007
+SYNNEFO_UMASK = 0o007
+
 
 def find_hole(workers, fworkers):
     old_key = []

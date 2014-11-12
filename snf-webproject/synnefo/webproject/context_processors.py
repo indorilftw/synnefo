@@ -42,13 +42,13 @@ def cloudbar(request):
     CB_VERSION = version.get_component_version("webproject")
 
     CB_COOKIE_NAME = getattr(settings, 'CLOUDBAR_COOKIE_NAME',
-            'okeanos_account')
+                             'okeanos_account')
     CB_SERVICES_URL = getattr(settings, 'CLOUDBAR_SERVICES_URL')
     CB_MENU_URL = getattr(settings, 'CLOUDBAR_MENU_URL')
     CB_HEIGHT = getattr(settings, 'CLOUDBAR_HEIGHT',
-            '35')
+                        '35')
     CB_BGCOLOR = getattr(settings, 'CLOUDBAR_BACKGROUND_COLOR',
-            '#000000')
+                         '#000000')
 
     CB_CODE = """
     <script type="text/javascript">

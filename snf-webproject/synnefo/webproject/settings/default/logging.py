@@ -22,7 +22,7 @@ LOGGING_SETUP = {
     'version': 1,
     'disable_existing_loggers': False,
 
-    'formatters':  FORMATTERS,
+    'formatters': FORMATTERS,
     'handlers': {
         'null': {
             'class': 'logging.NullHandler',
@@ -64,10 +64,10 @@ LOGGING_SETUP = {
     }
 }
 
-#LOGGING_SETUP['loggers']['synnefo.admin'] = {'level': 'INFO', 'propagate': 1}
-#LOGGING_SETUP['loggers']['synnefo.api'] = {'level': 'INFO', 'propagate': 1}
-#LOGGING_SETUP['loggers']['synnefo.db'] = {'level': 'INFO', 'propagate': 1}
-#LOGGING_SETUP['loggers']['synnefo.logic'] = {'level': 'INFO', 'propagate': 1}
+# LOGGING_SETUP['loggers']['synnefo.admin'] = {'level': 'INFO', 'propagate': 1}
+# LOGGING_SETUP['loggers']['synnefo.api'] = {'level': 'INFO', 'propagate': 1}
+# LOGGING_SETUP['loggers']['synnefo.db'] = {'level': 'INFO', 'propagate': 1}
+# LOGGING_SETUP['loggers']['synnefo.logic'] = {'level': 'INFO', 'propagate': 1}
 
 # To set logging level for plankton to DEBUG just uncomment the follow line:
 # LOGGING_SETUP['loggers']['synnefo.plankton'] = {'level': 'INFO', 'propagate': 1}
