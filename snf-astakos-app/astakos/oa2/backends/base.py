@@ -193,8 +193,8 @@ class BackendBase(type):
 
     def __new__(cls, name, bases, attrs):
         super_new = super(BackendBase, cls).__new__
-        #parents = [b for b in bases if isinstance(b, BackendBase)]
-        #meta = attrs.pop('Meta', None)
+        # parents = [b for b in bases if isinstance(b, BackendBase)]
+        # meta = attrs.pop('Meta', None)
         return super_new(cls, name, bases, attrs)
 
     @classmethod
@@ -298,8 +298,8 @@ class SimpleBackend(object):
         logger.info(u'%r created' % token)
         return token
 
-#    def delete_authorization_code(self, code):
-#        del self.code_model.ENTRIES[code]
+    # def delete_authorization_code(self, code):
+    #     del self.code_model.ENTRIES[code]
 
     def get_client_by_id(self, client_id):
         return self.client_model.get(client_id)
@@ -365,7 +365,7 @@ class SimpleBackend(object):
     def grant_accept_response(self, client, redirect_uri, scope, state):
         context = {'client': client.get_id(), 'redirect_uri': redirect_uri,
                    'scope': scope, 'state': state,
-                   #'url': url,
+                   # 'url': url,
                    }
         json_content = json.dumps(context)
         return self.response_cls(status=200, body=json_content)
@@ -383,7 +383,7 @@ class SimpleBackend(object):
 
         parts[2] = self.get_login_uri()
         parts[3] = self.urlencode(query)
-        return Response(302, headers={'Location':  urlparse.urlunsplit(parts)})
+        return Response(302, headers={'Location': urlparse.urlunsplit(parts)})
 
     def redirect_to_uri(self, redirect_uri, code, state=None):
         parts = list(urlparse.urlsplit(redirect_uri))
@@ -551,7 +551,7 @@ class SimpleBackend(object):
 
     def validate_state(self, client, params, headers):
         return params.get('state')
-        #raise OA2Error("Invalid state")
+        # raise OA2Error("Invalid state")
 
     def validate_scope(self, client, params, headers):
         scope = params.get('scope')
@@ -622,10 +622,10 @@ class SimpleBackend(object):
                 self.validate_code_request(params, request.META)
         elif auth_type == 'token':
             raise OA2Error("Unsupported authorization type")
-#            client, uri, scope, state = \
-#                self.validate_token_request(params, request.META)
+            # client, uri, scope, state = \
+            #     self.validate_token_request(params, request.META)
         else:
-            #TODO: handle custom type
+            # TODO: handle custom type
             raise OA2Error("Invalid authorization type")
 
         user = getattr(request, 'user', None)
@@ -638,10 +638,10 @@ class SimpleBackend(object):
                                                  state)
             elif auth_type == 'token':
                 raise OA2Error("Unsupported response type")
-#                return self.process_token_request(user, client, uri, scope,
-#                                                 state)
+                # return self.process_token_request(user, client, uri, scope,
+                #                                   state)
             else:
-                #TODO: handle custom type
+                # TODO: handle custom type
                 raise OA2Error("Invalid authorization type")
         else:
             if client.is_trusted:
@@ -672,7 +672,7 @@ class SimpleBackend(object):
               self.is_uri(grant_type)):
             raise OA2Error("Unsupported grant type")
         else:
-            #TODO: handle custom type
+            # TODO: handle custom type
             raise OA2Error("Invalid grant type")
 
     @staticmethod

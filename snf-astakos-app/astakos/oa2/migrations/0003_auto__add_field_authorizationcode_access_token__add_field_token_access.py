@@ -18,14 +18,12 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.CharField')(default='online', max_length=100),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Deleting field 'AuthorizationCode.access_token'
         db.delete_column('oa2_authorizationcode', 'access_token')
 
         # Deleting field 'Token.access_token'
         db.delete_column('oa2_token', 'access_token')
-
 
     models = {
         'auth.group': {

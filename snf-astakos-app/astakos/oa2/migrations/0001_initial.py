@@ -61,7 +61,6 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('oa2', ['Token'])
 
-
     def backwards(self, orm):
         # Removing unique constraint on 'RedirectUrl', fields ['client', 'url']
         db.delete_unique('oa2_redirecturl', ['client_id', 'url'])
@@ -77,7 +76,6 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Token'
         db.delete_table('oa2_token')
-
 
     models = {
         'auth.group': {

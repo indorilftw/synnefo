@@ -14,8 +14,10 @@ class ClientBase(object):
 def authorize(request):
     pass
 
+
 def token(request):
     pass
+
 
 def redirect(request):
     pass

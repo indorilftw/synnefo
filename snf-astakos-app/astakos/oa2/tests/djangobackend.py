@@ -107,8 +107,8 @@ class OA2Client(TestClient):
         return super(OA2Client, self).__init__(*args, **kwargs)
 
     def request(self, *args, **kwargs):
-        #print kwargs.get('PATH_INFO') + '?' + kwargs.get('QUERY_STRING'), \
-            #kwargs.get('HTTP_AUTHORIZATION', None)
+        # print kwargs.get('PATH_INFO') + '?' + kwargs.get('QUERY_STRING'), \
+        #     kwargs.get('HTTP_AUTHORIZATION', None)
         return super(OA2Client, self).request(*args, **kwargs)
 
     def get_url(self, token_or_auth, **params):
@@ -199,7 +199,7 @@ class TestOA2(TestCase, URLAssertionsMixin):
                              datetime.timedelta(seconds=expires_in))
             self.assertEqual(token.token_type, token_type)
             self.assertEqual(token.grant_type, 'authorization_code')
-            #self.assertEqual(token.user, expected.get('user'))
+            # self.assertEqual(token.user, expected.get('user'))
             self.assertEqual(smart_str(token.redirect_uri),
                              smart_str(expected.get('redirect_uri')))
             self.assertEqual(smart_str(token.scope),
@@ -310,7 +310,7 @@ class TestOA2(TestCase, URLAssertionsMixin):
         self.assertPath(redirect, "/handle_code")
 
         code = AuthorizationCode.objects.get(code=redirect.params['code'][0])
-        #self.assertEqual(code.state, '')
+        # self.assertEqual(code.state, '')
         self.assertEqual(code.state, None)
         self.assertEqual(normalize(iri_to_uri(code.redirect_uri)),
                          normalize(iri_to_uri(self.client1_redirect_uri)))
@@ -376,7 +376,7 @@ class TestOA2(TestCase, URLAssertionsMixin):
         # redirect uri descendant
         redirect_uri = '%s/' % self.client3_redirect_uri
         rest = settings.MAXIMUM_ALLOWED_REDIRECT_URI_LENGTH - len(redirect_uri)
-        redirect_uri = '%s%s' % (redirect_uri, 'a'*rest)
+        redirect_uri = '%s%s' % (redirect_uri, 'a' * rest)
         params['redirect_uri'] = redirect_uri
         self.client.set_credentials('client3', 'secret')
         r = self.client.authorize_code('client3', urlparams=params)
@@ -514,7 +514,7 @@ class TestOA2(TestCase, URLAssertionsMixin):
         # generate authorization code with too long redirect_uri
         redirect_uri = '%s/' % self.client3_redirect_uri
         rest = settings.MAXIMUM_ALLOWED_REDIRECT_URI_LENGTH - len(redirect_uri)
-        redirect_uri = '%s%s' % (redirect_uri, 'a'*rest)
+        redirect_uri = '%s%s' % (redirect_uri, 'a' * rest)
         params = {'redirect_uri': redirect_uri}
         r = self.client.authorize_code('client3', urlparams=params)
         self.assertCount(AuthorizationCode, 1)

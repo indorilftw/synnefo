@@ -117,7 +117,7 @@ class DjangoBackend(DjangoBackendORMMixin, oa2base.SimpleBackend,
             'POST': django_request.POST,
             'META': django_request.META,
             'secure': settings.DEBUG or django_request.is_secure(),
-            #'secure': django_request.is_secure(),
+            # 'secure': django_request.is_secure(),
         }
         # TODO: check for valid astakos user
         if django_request.user.is_authenticated():

@@ -11,7 +11,6 @@ class Migration(SchemaMigration):
         # Removing unique constraint on 'RedirectUrl', fields ['url']
         db.delete_unique('oa2_redirecturl', ['url'])
 
-
         # Changing field 'RedirectUrl.url'
         db.alter_column('oa2_redirecturl', 'url', self.gf('django.db.models.fields.TextField')())
 
@@ -27,7 +26,6 @@ class Migration(SchemaMigration):
         db.alter_column('oa2_redirecturl', 'url', self.gf('django.db.models.fields.URLField')(max_length=200, unique=True))
         # Adding unique constraint on 'RedirectUrl', fields ['url']
         db.create_unique('oa2_redirecturl', ['url'])
-
 
         # Changing field 'AuthorizationCode.redirect_uri'
         db.alter_column('oa2_authorizationcode', 'redirect_uri', self.gf('django.db.models.fields.CharField')(max_length=255, null=True))
