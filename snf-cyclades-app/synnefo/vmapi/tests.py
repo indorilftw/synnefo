@@ -30,6 +30,7 @@ class VMAPITest(TestCase):
         super(VMAPITest, self).setUp(*args, **kwargs)
         self.api_path = get_service_path(cyclades_services, 'vmapi',
                                          version='v1.0')
+
     def myget(self, path, *args, **kwargs):
         path = join_urls(self.api_path, path)
         return self.client.get(path, *args, **kwargs)
