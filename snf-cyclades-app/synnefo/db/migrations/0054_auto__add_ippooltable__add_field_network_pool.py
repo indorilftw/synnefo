@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Adding model 'IPPoolTable'
         db.create_table('db_ippooltable', (
             ('reserved_map', self.gf('django.db.models.fields.TextField')(default='')),
@@ -21,17 +22,15 @@ class Migration(SchemaMigration):
 
         # Adding field 'Network.pool'
         db.add_column('db_network', 'pool', self.gf('django.db.models.fields.related.OneToOneField')(related_name='network', unique=True, null=True, to=orm['db.IPPoolTable']), keep_default=False)
-    
-    
+
     def backwards(self, orm):
-        
+
         # Deleting model 'IPPoolTable'
         db.delete_table('db_ippooltable')
 
         # Deleting field 'Network.pool'
         db.delete_column('db_network', 'pool_id')
-    
-    
+
     models = {
         'db.backend': {
             'Meta': {'object_name': 'Backend'},
@@ -172,5 +171,5 @@ class Migration(SchemaMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

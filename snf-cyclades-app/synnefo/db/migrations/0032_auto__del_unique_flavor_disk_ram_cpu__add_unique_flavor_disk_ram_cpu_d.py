@@ -4,6 +4,7 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
@@ -20,7 +21,6 @@ class Migration(SchemaMigration):
         except:
             pass
 
-
     def backwards(self, orm):
 
         try:
@@ -34,7 +34,6 @@ class Migration(SchemaMigration):
             db.create_unique('db_flavor', ['disk', 'ram', 'cpu'])
         except:
             pass
-
 
     models = {
         'db.flavor': {

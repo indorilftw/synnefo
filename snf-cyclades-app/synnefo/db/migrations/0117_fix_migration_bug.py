@@ -4,6 +4,7 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
@@ -14,13 +15,12 @@ class Migration(DataMigration):
         n_subs = {}
         for (subnet_id, network_id) in orm.Subnet.objects.values_list("id", "network_id"):
             if (network_id not in networks or
-                str(subnet_id) != str(networks[network_id])):
-               subnet_ids = n_subs.setdefault(network_id, [])
-               subnet_ids.append(subnet_id)
+                    str(subnet_id) != str(networks[network_id])):
+                subnet_ids = n_subs.setdefault(network_id, [])
+                subnet_ids.append(subnet_id)
         for network_id, subnet_ids in n_subs.items():
             updated = orm.Network.objects.filter(id=network_id).update(subnet_ids=subnet_ids)
             assert(updated == 1)
-
 
     def backwards(self, orm):
         "Write your backwards methods here."

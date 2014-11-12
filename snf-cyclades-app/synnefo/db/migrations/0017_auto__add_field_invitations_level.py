@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'Invitations.level'
         db.add_column('db_invitations', 'level', self.gf('django.db.models.fields.IntegerField')(null=True), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'Invitations.level'
         db.delete_column('db_invitations', 'level')
-
 
     models = {
         'db.debit': {

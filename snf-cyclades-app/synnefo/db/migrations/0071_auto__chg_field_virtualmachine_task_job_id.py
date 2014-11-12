@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Changing field 'VirtualMachine.task_job_id'
         db.alter_column('db_virtualmachine', 'task_job_id', self.gf('django.db.models.fields.BigIntegerField')(null=True))
 
-
     def backwards(self, orm):
-        
+
         # Changing field 'VirtualMachine.task_job_id'
         db.alter_column('db_virtualmachine', 'task_job_id', self.gf('django.db.models.fields.BigIntegerField')(max_length=64, null=True))
-
 
     models = {
         'db.backend': {

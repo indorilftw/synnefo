@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Changing field 'NetworkLink.available'
         db.alter_column('db_networklink', 'available', self.gf('django.db.models.fields.BooleanField')(blank=True))
 
@@ -29,9 +30,8 @@ class Migration(SchemaMigration):
         # Changing field 'Network.public'
         db.alter_column('db_network', 'public', self.gf('django.db.models.fields.BooleanField')(blank=True))
 
-
     def backwards(self, orm):
-        
+
         # Changing field 'NetworkLink.available'
         db.alter_column('db_networklink', 'available', self.gf('django.db.models.fields.BooleanField')())
 
@@ -52,7 +52,6 @@ class Migration(SchemaMigration):
 
         # Changing field 'Network.public'
         db.alter_column('db_network', 'public', self.gf('django.db.models.fields.BooleanField')())
-
 
     models = {
         'db.debit': {

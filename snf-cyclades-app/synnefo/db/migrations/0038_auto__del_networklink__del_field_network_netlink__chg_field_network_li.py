@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Deleting field 'Network.netlink'
         db.delete_column('db_network', 'link_id')
 
@@ -17,10 +18,8 @@ class Migration(SchemaMigration):
         # Deleting model 'NetworkLink'
         db.delete_table('db_networklink')
 
-    
-    
     def backwards(self, orm):
-        
+
         # Adding model 'NetworkLink'
         db.create_table('db_networklink', (
             ('available', self.gf('django.db.models.fields.BooleanField')(default=True, blank=True)),
@@ -39,8 +38,7 @@ class Migration(SchemaMigration):
 
         # Adding index on 'Network', fields ['link']
         # db.create_index('db_network', ['link_id'])
-    
-    
+
     models = {
         'db.backend': {
             'Meta': {'object_name': 'Backend'},
@@ -151,5 +149,5 @@ class Migration(SchemaMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

@@ -18,14 +18,12 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.BooleanField')(default=False, db_index=True),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Deleting field 'Subnet.userid'
         db.delete_column('db_subnet', 'userid')
 
         # Deleting field 'Subnet.public'
         db.delete_column('db_subnet', 'public')
-
 
     models = {
         'db.backend': {

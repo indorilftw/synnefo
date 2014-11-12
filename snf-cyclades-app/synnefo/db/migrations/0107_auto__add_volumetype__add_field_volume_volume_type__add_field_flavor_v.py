@@ -27,7 +27,6 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.related.ForeignKey')(related_name='flavors', null=True, on_delete=models.PROTECT, to=orm['db.VolumeType']),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Deleting model 'VolumeType'
         db.delete_table('db_volumetype')
@@ -37,7 +36,6 @@ class Migration(SchemaMigration):
 
         # Deleting field 'Flavor.volume_type'
         db.delete_column('db_flavor', 'volume_type_id')
-
 
     models = {
         'db.backend': {

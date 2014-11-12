@@ -4,25 +4,24 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'NetworkInterface.state'
         db.add_column('db_networkinterface', 'state', self.gf('django.db.models.fields.CharField')(default='ACTIVE', max_length=32), keep_default=False)
 
         # Changing field 'NetworkInterface.mac'
         db.alter_column('db_networkinterface', 'mac', self.gf('django.db.models.fields.CharField')(max_length=32, unique=True, null=True))
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'NetworkInterface.state'
         db.delete_column('db_networkinterface', 'state')
 
         # Changing field 'NetworkInterface.mac'
         db.alter_column('db_networkinterface', 'mac', self.gf('django.db.models.fields.CharField')(max_length=32, unique=True))
-
 
     models = {
         'db.backend': {

@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Changing field 'NetworkInterface.mac'
         db.alter_column('db_networkinterface', 'mac', self.gf('django.db.models.fields.CharField')(unique=True, max_length=32))
 
@@ -18,14 +19,13 @@ class Migration(SchemaMigration):
         db.add_column('db_backend', 'index', self.gf('django.db.models.fields.PositiveIntegerField')(default=0, unique=True), keep_default=False)
 
         # Changing field 'Network.mac_prefix'
-        db.alter_column('db_network', 'mac_prefix',self.gf('django.db.models.fields.CharField')(default='', max_length=32, null=True))
+        db.alter_column('db_network', 'mac_prefix', self.gf('django.db.models.fields.CharField')(default='', max_length=32, null=True))
 
         # Adding field 'BackendNetwork.mac_prefix'
         db.add_column('db_backendnetwork', 'mac_prefix', self.gf('django.db.models.fields.CharField')(default='', max_length=32), keep_default=False)
-    
-    
+
     def backwards(self, orm):
-        
+
         # Changing field 'NetworkInterface.mac'
         db.alter_column('db_networkinterface', 'mac', self.gf('django.db.models.fields.CharField')(max_length=32, null=True))
 
@@ -40,8 +40,7 @@ class Migration(SchemaMigration):
 
         # Deleting field 'BackendNetwork.mac_prefix'
         db.delete_column('db_backendnetwork', 'mac_prefix')
-    
-    
+
     models = {
         'db.backend': {
             'Meta': {'object_name': 'Backend'},
@@ -111,8 +110,7 @@ class Migration(SchemaMigration):
             'gateway6': ('django.db.models.fields.CharField', [], {'max_length': '64', 'null': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'link': ('django.db.models.fields.CharField', [], {'max_length': '128', 'null': 'True'}),
-            'mac_prefix': ('django.db.models.fields.CharField', [], {'default':
-                "''", 'max_length': '32', 'null':'True'}),
+            'mac_prefix': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '32', 'null': 'True'}),
             'machines': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['db.VirtualMachine']", 'through': "orm['db.NetworkInterface']", 'symmetrical': 'False'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
             'public': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
@@ -169,5 +167,5 @@ class Migration(SchemaMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

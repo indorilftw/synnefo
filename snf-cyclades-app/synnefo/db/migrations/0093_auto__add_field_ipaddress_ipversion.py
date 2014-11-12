@@ -13,11 +13,9 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.IntegerField')(null=True),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Deleting field 'IPAddress.ipversion'
         db.delete_column('db_ipaddress', 'ipversion')
-
 
     models = {
         'db.backend': {

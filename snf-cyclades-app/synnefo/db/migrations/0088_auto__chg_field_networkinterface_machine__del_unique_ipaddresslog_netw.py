@@ -16,7 +16,6 @@ class Migration(SchemaMigration):
         # User chose to not deal with backwards NULL issues for 'NetworkInterface.machine'
         raise RuntimeError("Cannot reverse this migration. 'NetworkInterface.machine' and its values cannot be restored.")
 
-
     models = {
         'db.backend': {
             'Meta': {'ordering': "['clustername']", 'object_name': 'Backend'},

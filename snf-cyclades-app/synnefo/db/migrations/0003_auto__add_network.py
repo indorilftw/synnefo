@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding model 'Network'
         db.create_table('db_network', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -26,15 +27,13 @@ class Migration(SchemaMigration):
         ))
         db.create_unique('db_network_machines', ['network_id', 'virtualmachine_id'])
 
-
     def backwards(self, orm):
-        
+
         # Deleting model 'Network'
         db.delete_table('db_network')
 
         # Removing M2M table for field machines on 'Network'
         db.delete_table('db_network_machines')
-
 
     models = {
         'db.debit': {

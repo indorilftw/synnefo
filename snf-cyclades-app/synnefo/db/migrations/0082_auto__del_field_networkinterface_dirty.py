@@ -11,13 +11,11 @@ class Migration(SchemaMigration):
         # Deleting field 'NetworkInterface.dirty'
         db.delete_column('db_networkinterface', 'dirty')
 
-
     def backwards(self, orm):
         # Adding field 'NetworkInterface.dirty'
         db.add_column('db_networkinterface', 'dirty',
                       self.gf('django.db.models.fields.BooleanField')(default=False),
                       keep_default=False)
-
 
     models = {
         'db.backend': {

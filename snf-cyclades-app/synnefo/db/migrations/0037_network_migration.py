@@ -5,6 +5,7 @@ from south.v2 import DataMigration
 from django.db import models
 from django.conf import settings
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
@@ -30,8 +31,8 @@ class Migration(DataMigration):
 
             network.netlink = network.link.name
             try:
-               # Do NOT import external code as can be depricated when the
-               # migration will run
+                # Do NOT import external code as can be depricated when the
+                # migration will run
                 base = settings.MAC_POOL_BASE
                 assert(len(base) == 7)
                 network.mac_prefix = base
@@ -47,7 +48,6 @@ class Migration(DataMigration):
                 network.type = 'PRIVATE_PHYSICAL_VLAN'
 
             network.save()
-
 
     def backwards(self, orm):
         "Write your backwards methods here."
@@ -172,5 +172,5 @@ class Migration(DataMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

@@ -4,25 +4,24 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'NetworkLink.network'
         db.add_column('db_networklink', 'network', self.gf('django.db.models.fields.related.ForeignKey')(related_name='+', null=True, to=orm['db.Network']), keep_default=False)
 
         # Adding field 'Network.link'
         db.add_column('db_network', 'link', self.gf('django.db.models.fields.related.ForeignKey')(default=1, related_name='+', to=orm['db.NetworkLink']), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'NetworkLink.network'
         db.delete_column('db_networklink', 'network_id')
 
         # Deleting field 'Network.link'
         db.delete_column('db_network', 'link_id')
-
 
     models = {
         'db.debit': {

@@ -5,6 +5,7 @@ from south.v2 import DataMigration
 from django.db import models
 import ipaddr
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):

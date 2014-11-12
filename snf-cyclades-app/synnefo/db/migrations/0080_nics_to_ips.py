@@ -4,6 +4,7 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
@@ -28,7 +29,6 @@ class Migration(DataMigration):
                                                  userid=userid,
                                                  address=address)
 
-
     def backwards(self, orm):
         "Write your backwards methods here."
         for ip in orm.IPAddress.objects.filter(deleted=False):
@@ -36,7 +36,6 @@ class Migration(DataMigration):
             attr = "ipv4" if nic.subnet.ipversion == 4 else "ipv6"
             setattr(nic, attr, ip.address)
             nic.save()
-
 
     models = {
         'db.backend': {

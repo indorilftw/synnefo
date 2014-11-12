@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Adding model 'BridgePoolTable'
         db.create_table('db_bridgepooltable', (
             ('reserved_map', self.gf('django.db.models.fields.TextField')(default='')),
@@ -29,17 +30,15 @@ class Migration(SchemaMigration):
             ('size', self.gf('django.db.models.fields.IntegerField')()),
         ))
         db.send_create_signal('db', ['MacPrefixPoolTable'])
-    
-    
+
     def backwards(self, orm):
-        
+
         # Deleting model 'BridgePoolTable'
         db.delete_table('db_bridgepooltable')
 
         # Deleting model 'MacPrefixPoolTable'
         db.delete_table('db_macprefixpooltable')
-    
-    
+
     models = {
         'db.backend': {
             'Meta': {'object_name': 'Backend'},
@@ -184,5 +183,5 @@ class Migration(SchemaMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

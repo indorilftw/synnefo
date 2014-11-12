@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding model 'QuotaHolderSerial'
         db.create_table('db_quotaholderserial', (
             ('serial', self.gf('django.db.models.fields.BigIntegerField')(primary_key=True, db_index=True)),
@@ -23,9 +24,8 @@ class Migration(SchemaMigration):
         # Adding field 'Network.serial'
         db.add_column('db_network', 'serial', self.gf('django.db.models.fields.related.ForeignKey')(related_name='network', null=True, to=orm['db.QuotaHolderSerial']), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting model 'QuotaHolderSerial'
         db.delete_table('db_quotaholderserial')
 
@@ -34,7 +34,6 @@ class Migration(SchemaMigration):
 
         # Deleting field 'Network.serial'
         db.delete_column('db_network', 'serial_id')
-
 
     models = {
         'db.backend': {

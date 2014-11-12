@@ -4,20 +4,19 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Adding field 'NetworkInterface.dirty'
         db.add_column('db_networkinterface', 'dirty', self.gf('django.db.models.fields.BooleanField')(default=False, blank=True), keep_default=False)
-    
-    
+
     def backwards(self, orm):
-        
+
         # Deleting field 'NetworkInterface.dirty'
         db.delete_column('db_networkinterface', 'dirty')
-    
-    
+
     models = {
         'db.backend': {
             'Meta': {'object_name': 'Backend'},
@@ -139,5 +138,5 @@ class Migration(SchemaMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

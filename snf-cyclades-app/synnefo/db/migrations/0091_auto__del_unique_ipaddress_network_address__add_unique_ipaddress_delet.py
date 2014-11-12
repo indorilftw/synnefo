@@ -14,14 +14,12 @@ class Migration(SchemaMigration):
         # Adding unique constraint on 'IPAddress', fields ['deleted', 'network', 'address']
         db.create_unique('db_ipaddress', ['deleted', 'network_id', 'address'])
 
-
     def backwards(self, orm):
         # Removing unique constraint on 'IPAddress', fields ['deleted', 'network', 'address']
         db.delete_unique('db_ipaddress', ['deleted', 'network_id', 'address'])
 
         # Adding unique constraint on 'IPAddress', fields ['network', 'address']
         db.create_unique('db_ipaddress', ['network_id', 'address'])
-
 
     models = {
         'db.backend': {

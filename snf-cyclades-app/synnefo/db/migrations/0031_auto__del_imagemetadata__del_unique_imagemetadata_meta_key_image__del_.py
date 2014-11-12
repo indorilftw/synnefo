@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Removing unique constraint on 'ImageMetadata', fields ['meta_key', 'image']
         db.delete_unique('db_imagemetadata', ['meta_key', 'image_id'])
 
@@ -20,9 +21,8 @@ class Migration(SchemaMigration):
         # Deleting field 'VirtualMachine.charged'
         db.delete_column('db_virtualmachine', 'charged')
 
-
     def backwards(self, orm):
-        
+
         # Adding model 'ImageMetadata'
         db.create_table('db_imagemetadata', (
             ('meta_value', self.gf('django.db.models.fields.CharField')(max_length=500)),
@@ -52,7 +52,6 @@ class Migration(SchemaMigration):
 
         # Adding field 'VirtualMachine.charged'
         db.add_column('db_virtualmachine', 'charged', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2012, 1, 23, 15, 32, 51, 475392)), keep_default=False)
-
 
     models = {
         'db.flavor': {

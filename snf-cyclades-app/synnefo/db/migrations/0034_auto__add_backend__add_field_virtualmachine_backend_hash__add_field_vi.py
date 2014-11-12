@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Adding model 'Backend'
         db.create_table('db_backend', (
             ('username', self.gf('django.db.models.fields.CharField')(max_length=64, null=True, blank=True)),
@@ -33,10 +34,9 @@ class Migration(SchemaMigration):
 
         # Adding field 'VirtualMachine.backend'
         db.add_column('db_virtualmachine', 'backend', self.gf('django.db.models.fields.related.ForeignKey')(related_name='virtual_machines', null=True, to=orm['db.Backend']), keep_default=False)
-    
-    
+
     def backwards(self, orm):
-        
+
         # Deleting model 'Backend'
         db.delete_table('db_backend')
 
@@ -45,8 +45,7 @@ class Migration(SchemaMigration):
 
         # Deleting field 'VirtualMachine.backend'
         db.delete_column('db_virtualmachine', 'backend_id')
-    
-    
+
     models = {
         'db.backend': {
             'Meta': {'object_name': 'Backend'},
@@ -139,5 +138,5 @@ class Migration(SchemaMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

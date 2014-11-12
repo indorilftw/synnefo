@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Deleting model 'Disk'
         db.delete_table('db_disk')
 
@@ -20,9 +21,8 @@ class Migration(SchemaMigration):
         # Adding field 'Network.userid'
         db.add_column('db_network', 'userid', self.gf('django.db.models.fields.CharField')(default='', max_length=100), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Adding model 'Disk'
         db.create_table('db_disk', (
             ('vm', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['db.VirtualMachine'], null=True, blank=True)),
@@ -43,7 +43,6 @@ class Migration(SchemaMigration):
 
         # Deleting field 'Network.userid'
         db.delete_column('db_network', 'userid')
-
 
     models = {
         'db.flavor': {

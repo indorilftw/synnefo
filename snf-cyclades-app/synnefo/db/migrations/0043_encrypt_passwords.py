@@ -13,8 +13,9 @@ except ImportError:
     encrypt = None
     decrypt = None
 
+
 class Migration(DataMigration):
-    
+
     def forwards(self, orm):
         "Write your forwards methods here."
         if encrypt and decrypt:
@@ -25,12 +26,10 @@ class Migration(DataMigration):
                 backend.save()
         else:
             pass
-    
-    
+
     def backwards(self, orm):
         "Write your backwards methods here."
         pass
-    
     models = {
         'db.backend': {
             'Meta': {'object_name': 'Backend'},
@@ -152,5 +151,5 @@ class Migration(DataMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

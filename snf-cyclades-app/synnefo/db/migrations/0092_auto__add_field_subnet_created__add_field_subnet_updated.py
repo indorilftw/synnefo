@@ -18,14 +18,12 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.DateTimeField')(auto_now=True, default=datetime.datetime(2013, 12, 17, 0, 0), blank=True),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Deleting field 'Subnet.created'
         db.delete_column('db_subnet', 'created')
 
         # Deleting field 'Subnet.updated'
         db.delete_column('db_subnet', 'updated')
-
 
     models = {
         'db.backend': {

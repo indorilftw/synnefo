@@ -4,11 +4,12 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
-       # Adding field 'SynnefoUser.tmp_auth_token'
+
+        # Adding field 'SynnefoUser.tmp_auth_token'
         db.add_column('db_synnefouser', 'tmp_auth_token', self.gf('django.db.models.fields.CharField')(max_length=32, null=True), keep_default=False)
 
         # Adding field 'SynnefoUser.tmp_auth_token_expires'

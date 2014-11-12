@@ -4,6 +4,7 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
@@ -14,7 +15,6 @@ class Migration(DataMigration):
             serial.resolved = True
             serial.save()
 
-
     def backwards(self, orm):
         "Write your backwards methods here."
         for serial in orm.QuotaHolderSerial.objects.filter(pending=False):
@@ -23,7 +23,6 @@ class Migration(DataMigration):
             else:
                 serial.rejected = True
             serial.save()
-
 
     models = {
         'db.backend': {

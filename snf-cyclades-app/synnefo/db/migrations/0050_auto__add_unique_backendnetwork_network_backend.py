@@ -4,20 +4,19 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Adding unique constraint on 'BackendNetwork', fields ['network', 'backend']
         db.create_unique('db_backendnetwork', ['network_id', 'backend_id'])
-    
-    
+
     def backwards(self, orm):
-        
+
         # Removing unique constraint on 'BackendNetwork', fields ['network', 'backend']
         db.delete_unique('db_backendnetwork', ['network_id', 'backend_id'])
-    
-    
+
     models = {
         'db.backend': {
             'Meta': {'object_name': 'Backend'},
@@ -144,5 +143,5 @@ class Migration(SchemaMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

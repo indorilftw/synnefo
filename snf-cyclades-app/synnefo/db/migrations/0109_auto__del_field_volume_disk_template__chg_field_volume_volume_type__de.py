@@ -14,18 +14,15 @@ class Migration(SchemaMigration):
         # Deleting field 'Volume.disk_template'
         db.delete_column('db_volume', 'disk_template')
 
-
         # Changing field 'Volume.volume_type'
         db.alter_column('db_volume', 'volume_type_id', self.gf('django.db.models.fields.related.ForeignKey')(default=1, on_delete=models.PROTECT, to=orm['db.VolumeType']))
         # Deleting field 'Flavor.disk_template'
         db.delete_column('db_flavor', 'disk_template')
 
-
         # Changing field 'Flavor.volume_type'
         db.alter_column('db_flavor', 'volume_type_id', self.gf('django.db.models.fields.related.ForeignKey')(default=1, on_delete=models.PROTECT, to=orm['db.VolumeType']))
         # Adding unique constraint on 'Flavor', fields ['disk', 'ram', 'cpu', 'volume_type']
         db.create_unique('db_flavor', ['disk', 'ram', 'cpu', 'volume_type_id'])
-
 
     def backwards(self, orm):
         # Removing unique constraint on 'Flavor', fields ['disk', 'ram', 'cpu', 'volume_type']
@@ -36,7 +33,6 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.CharField')(default='none', max_length=32),
                       keep_default=False)
 
-
         # Changing field 'Volume.volume_type'
         db.alter_column('db_volume', 'volume_type_id', self.gf('django.db.models.fields.related.ForeignKey')(null=True, on_delete=models.PROTECT, to=orm['db.VolumeType']))
         # Adding field 'Flavor.disk_template'
@@ -44,12 +40,10 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.CharField')(default='none', max_length=32),
                       keep_default=False)
 
-
         # Changing field 'Flavor.volume_type'
         db.alter_column('db_flavor', 'volume_type_id', self.gf('django.db.models.fields.related.ForeignKey')(null=True, on_delete=models.PROTECT, to=orm['db.VolumeType']))
         # Adding unique constraint on 'Flavor', fields ['disk', 'ram', 'cpu', 'disk_template']
         db.create_unique('db_flavor', ['disk', 'ram', 'cpu', 'disk_template'])
-
 
     models = {
         'db.backend': {

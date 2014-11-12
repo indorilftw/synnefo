@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Deleting model 'FlavorCost'
         db.delete_table('db_flavorcost')
 
@@ -32,9 +33,8 @@ class Migration(SchemaMigration):
         # Deleting field 'SynnefoUser.max_invitations'
         db.delete_column('db_synnefouser', 'max_invitations')
 
-
     def backwards(self, orm):
-        
+
         # Adding model 'FlavorCost'
         db.create_table('db_flavorcost', (
             ('cost_active', self.gf('django.db.models.fields.PositiveIntegerField')()),
@@ -99,7 +99,6 @@ class Migration(SchemaMigration):
 
         # Adding field 'SynnefoUser.max_invitations'
         db.add_column('db_synnefouser', 'max_invitations', self.gf('django.db.models.fields.IntegerField')(null=True), keep_default=False)
-
 
     models = {
         'db.disk': {

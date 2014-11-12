@@ -18,14 +18,12 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.IntegerField')(null=True),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Deleting field 'Volume.source_version'
         db.delete_column('db_volume', 'source_version')
 
         # Deleting field 'VirtualMachine.image_version'
         db.delete_column('db_virtualmachine', 'image_version')
-
 
     models = {
         'db.backend': {

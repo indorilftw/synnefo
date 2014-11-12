@@ -4,25 +4,24 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Removing unique constraint on 'Flavor', fields ['disk', 'ram', 'cpu']
         db.delete_unique('db_flavor', ['disk', 'ram', 'cpu'])
 
         # Adding unique constraint on 'Flavor', fields ['disk', 'ram', 'cpu', 'disk_template']
         db.create_unique('db_flavor', ['disk', 'ram', 'cpu', 'disk_template'])
 
-
     def backwards(self, orm):
-        
+
         # Removing unique constraint on 'Flavor', fields ['disk', 'ram', 'cpu', 'disk_template']
         db.delete_unique('db_flavor', ['disk', 'ram', 'cpu', 'disk_template'])
 
         # Adding unique constraint on 'Flavor', fields ['disk', 'ram', 'cpu']
         db.create_unique('db_flavor', ['disk', 'ram', 'cpu'])
-
 
     models = {
         'db.debit': {

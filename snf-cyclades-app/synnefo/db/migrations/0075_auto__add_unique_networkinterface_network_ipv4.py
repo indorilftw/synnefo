@@ -11,11 +11,9 @@ class Migration(SchemaMigration):
         # Adding unique constraint on 'NetworkInterface', fields ['network', 'ipv4']
         db.create_unique('db_networkinterface', ['network_id', 'ipv4'])
 
-
     def backwards(self, orm):
         # Removing unique constraint on 'NetworkInterface', fields ['network', 'ipv4']
         db.delete_unique('db_networkinterface', ['network_id', 'ipv4'])
-
 
     models = {
         'db.backend': {

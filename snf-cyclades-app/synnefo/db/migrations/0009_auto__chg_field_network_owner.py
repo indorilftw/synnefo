@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Changing field 'Network.owner'
         db.alter_column('db_network', 'owner_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['db.SynnefoUser'], null=True))
 
-
     def backwards(self, orm):
-        
+
         # Changing field 'Network.owner'
         db.alter_column('db_network', 'owner_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['db.SynnefoUser']))
-
 
     models = {
         'db.debit': {

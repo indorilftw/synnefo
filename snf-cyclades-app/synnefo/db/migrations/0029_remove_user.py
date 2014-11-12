@@ -4,21 +4,22 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
         for image in orm.Image.objects.all():
             image.userid = image.owner.uniq if image.owner else ''
             image.save()
-        
+
         for vm in orm.VirtualMachine.objects.all():
             vm.userid = vm.owner.uniq if vm.owner else ''
             vm.save()
-        
+
         for network in orm.Network.objects.all():
             network.userid = network.owner.uniq if network.owner else ''
             network.save()
-    
+
     def backwards(self, orm):
         raise RuntimeError("Cannot reverse this migration.")
 

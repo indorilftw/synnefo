@@ -28,14 +28,12 @@ class Migration(SchemaMigration):
         # Adding unique constraint on 'Image', fields ['uuid', 'version']
         db.create_unique('db_image', ['uuid', 'version'])
 
-
     def backwards(self, orm):
         # Removing unique constraint on 'Image', fields ['uuid', 'version']
         db.delete_unique('db_image', ['uuid', 'version'])
 
         # Deleting model 'Image'
         db.delete_table('db_image')
-
 
     models = {
         'db.backend': {

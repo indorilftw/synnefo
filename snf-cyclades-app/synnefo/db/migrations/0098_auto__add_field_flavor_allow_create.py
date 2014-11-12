@@ -13,11 +13,9 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.BooleanField')(default=True),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Deleting field 'Flavor.allow_create'
         db.delete_column('db_flavor', 'allow_create')
-
 
     models = {
         'db.backend': {

@@ -4,26 +4,25 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Changing field 'NetworkInterface.mac'
         db.alter_column('db_networkinterface', 'mac', self.gf('django.db.models.fields.CharField')(max_length=32, null=True))
 
         # Adding field 'Network.reservations'
         db.add_column('db_network', 'reservations', self.gf('django.db.models.fields.TextField')(default=''), keep_default=False)
-    
-    
+
     def backwards(self, orm):
-        
+
         # Changing field 'NetworkInterface.mac'
         db.alter_column('db_networkinterface', 'mac', self.gf('django.db.models.fields.CharField')(max_length=17, null=True))
 
         # Deleting field 'Network.reservations'
         db.delete_column('db_network', 'reservations')
-    
-    
+
     models = {
         'db.backend': {
             'Meta': {'object_name': 'Backend'},
@@ -148,5 +147,5 @@ class Migration(SchemaMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

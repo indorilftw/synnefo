@@ -4,25 +4,24 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding unique constraint on 'ImageMetadata', fields ['image', 'meta_key']
         db.create_unique('db_imagemetadata', ['image_id', 'meta_key'])
 
         # Adding unique constraint on 'VirtualMachineMetadata', fields ['vm', 'meta_key']
         db.create_unique('db_virtualmachinemetadata', ['vm_id', 'meta_key'])
 
-
     def backwards(self, orm):
-        
+
         # Removing unique constraint on 'VirtualMachineMetadata', fields ['vm', 'meta_key']
         db.delete_unique('db_virtualmachinemetadata', ['vm_id', 'meta_key'])
 
         # Removing unique constraint on 'ImageMetadata', fields ['image', 'meta_key']
         db.delete_unique('db_imagemetadata', ['image_id', 'meta_key'])
-
 
     models = {
         'db.debit': {

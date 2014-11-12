@@ -13,11 +13,9 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.CharField')(max_length=255, null=True),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Deleting field 'Volume.project'
         db.delete_column('db_volume', 'project')
-
 
     models = {
         'db.backend': {

@@ -4,20 +4,19 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Changing field 'Backend.password_hash'
         db.alter_column('db_backend', 'password_hash', self.gf('django.db.models.fields.CharField')(max_length=128, null=True, blank=True))
-    
-    
+
     def backwards(self, orm):
-        
+
         # Changing field 'Backend.password_hash'
         db.alter_column('db_backend', 'password_hash', self.gf('django.db.models.fields.CharField')(max_length=64, null=True, blank=True))
-    
-    
+
     models = {
         'db.backend': {
             'Meta': {'object_name': 'Backend'},
@@ -142,5 +141,5 @@ class Migration(SchemaMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

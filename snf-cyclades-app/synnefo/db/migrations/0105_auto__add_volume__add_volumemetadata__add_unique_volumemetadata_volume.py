@@ -42,7 +42,6 @@ class Migration(SchemaMigration):
         # Adding unique constraint on 'VolumeMetadata', fields ['volume', 'key']
         db.create_unique('db_volumemetadata', ['volume_id', 'key'])
 
-
     def backwards(self, orm):
         # Removing unique constraint on 'VolumeMetadata', fields ['volume', 'key']
         db.delete_unique('db_volumemetadata', ['volume_id', 'key'])
@@ -52,7 +51,6 @@ class Migration(SchemaMigration):
 
         # Deleting model 'VolumeMetadata'
         db.delete_table('db_volumemetadata')
-
 
     models = {
         'db.backend': {

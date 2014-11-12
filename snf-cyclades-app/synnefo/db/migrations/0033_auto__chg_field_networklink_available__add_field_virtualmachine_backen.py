@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Changing field 'NetworkLink.available'
         db.alter_column('db_networklink', 'available', self.gf('django.db.models.fields.BooleanField')(blank=True))
 
@@ -25,10 +26,9 @@ class Migration(SchemaMigration):
 
         # Changing field 'Network.public'
         db.alter_column('db_network', 'public', self.gf('django.db.models.fields.BooleanField')(blank=True))
-    
-    
+
     def backwards(self, orm):
-        
+
         # Changing field 'NetworkLink.available'
         db.alter_column('db_networklink', 'available', self.gf('django.db.models.fields.BooleanField')())
 
@@ -46,8 +46,7 @@ class Migration(SchemaMigration):
 
         # Changing field 'Network.public'
         db.alter_column('db_network', 'public', self.gf('django.db.models.fields.BooleanField')())
-    
-    
+
     models = {
         'db.flavor': {
             'Meta': {'unique_together': "(('cpu', 'ram', 'disk', 'disk_template'),)", 'object_name': 'Flavor'},
@@ -120,5 +119,5 @@ class Migration(SchemaMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

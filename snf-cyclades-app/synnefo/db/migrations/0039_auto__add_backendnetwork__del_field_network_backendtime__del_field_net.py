@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Adding model 'BackendNetwork'
         db.create_table('db_backendnetwork', (
             ('backendtime', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(1, 1, 1, 0, 0))),
@@ -48,10 +49,9 @@ class Migration(SchemaMigration):
 
         # Changing field 'Network.action'
         db.alter_column('db_network', 'action', self.gf('django.db.models.fields.CharField')(max_length=32, null=True))
-    
-    
+
     def backwards(self, orm):
-        
+
         # Deleting model 'BackendNetwork'
         db.delete_table('db_backendnetwork')
 
@@ -78,8 +78,7 @@ class Migration(SchemaMigration):
 
         # Changing field 'Network.action'
         db.alter_column('db_network', 'action', self.gf('django.db.models.fields.CharField')(max_length=30, null=True))
-    
-    
+
     models = {
         'db.backend': {
             'Meta': {'object_name': 'Backend'},
@@ -200,5 +199,5 @@ class Migration(SchemaMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

@@ -4,20 +4,19 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Deleting field 'VirtualMachine.sourceimage'
         db.delete_column('db_virtualmachine', 'sourceimage_id')
 
-
     def backwards(self, orm):
-        
+
         # We cannot add back in field 'VirtualMachine.sourceimage'
         raise RuntimeError(
             "Cannot reverse this migration. 'VirtualMachine.sourceimage' and its values cannot be restored.")
-
 
     models = {
         'db.debit': {

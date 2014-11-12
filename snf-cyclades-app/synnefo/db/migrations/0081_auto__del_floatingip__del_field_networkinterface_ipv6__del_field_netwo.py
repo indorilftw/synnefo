@@ -17,7 +17,6 @@ class Migration(SchemaMigration):
         # Deleting field 'NetworkInterface.ipv4'
         db.delete_column('db_networkinterface', 'ipv4')
 
-
     def backwards(self, orm):
         # Adding model 'FloatingIP'
         db.create_table('db_floatingip', (
@@ -41,7 +40,6 @@ class Migration(SchemaMigration):
         db.add_column('db_networkinterface', 'ipv4',
                       self.gf('django.db.models.fields.CharField')(max_length=15, null=True),
                       keep_default=False)
-
 
     models = {
         'db.backend': {

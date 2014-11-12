@@ -4,25 +4,24 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'SynnefoUser.auth_token_expires'
         db.add_column('db_synnefouser', 'auth_token_expires', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True), keep_default=False)
 
         # Changing field 'SynnefoUser.auth_token_created'
         db.alter_column('db_synnefouser', 'auth_token_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True))
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'SynnefoUser.auth_token_expires'
         db.delete_column('db_synnefouser', 'auth_token_expires')
 
         # Changing field 'SynnefoUser.auth_token_created'
         db.alter_column('db_synnefouser', 'auth_token_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True))
-
 
     models = {
         'db.debit': {

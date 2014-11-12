@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding model 'FloatingIP'
         db.create_table('db_floatingip', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -33,9 +34,8 @@ class Migration(SchemaMigration):
         # Adding field 'Network.floating_ip_pool'
         db.add_column('db_network', 'floating_ip_pool', self.gf('django.db.models.fields.BooleanField')(default=False), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting model 'FloatingIP'
         db.delete_table('db_floatingip')
 
@@ -50,7 +50,6 @@ class Migration(SchemaMigration):
 
         # Deleting field 'Network.floating_ip_pool'
         db.delete_column('db_network', 'floating_ip_pool')
-
 
     models = {
         'db.backend': {

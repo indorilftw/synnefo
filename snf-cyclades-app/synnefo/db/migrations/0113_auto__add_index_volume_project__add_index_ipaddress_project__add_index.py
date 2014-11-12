@@ -20,7 +20,6 @@ class Migration(SchemaMigration):
         # Adding index on 'Network', fields ['project']
         db.create_index('db_network', ['project'])
 
-
     def backwards(self, orm):
         # Removing index on 'Network', fields ['project']
         db.delete_index('db_network', ['project'])
@@ -33,7 +32,6 @@ class Migration(SchemaMigration):
 
         # Removing index on 'Volume', fields ['project']
         db.delete_index('db_volume', ['project'])
-
 
     models = {
         'db.backend': {

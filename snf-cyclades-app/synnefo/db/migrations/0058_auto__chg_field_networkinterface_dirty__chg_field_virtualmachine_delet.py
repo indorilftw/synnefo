@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Changing field 'NetworkInterface.dirty'
         db.alter_column('db_networkinterface', 'dirty', self.gf('django.db.models.fields.BooleanField')(blank=True))
 
@@ -53,9 +54,8 @@ class Migration(SchemaMigration):
         # Changing field 'BackendNetwork.deleted'
         db.alter_column('db_backendnetwork', 'deleted', self.gf('django.db.models.fields.BooleanField')(blank=True))
 
-
     def backwards(self, orm):
-        
+
         # Changing field 'NetworkInterface.dirty'
         db.alter_column('db_networkinterface', 'dirty', self.gf('django.db.models.fields.BooleanField')())
 
@@ -100,7 +100,6 @@ class Migration(SchemaMigration):
 
         # Changing field 'BackendNetwork.deleted'
         db.alter_column('db_backendnetwork', 'deleted', self.gf('django.db.models.fields.BooleanField')())
-
 
     models = {
         'db.backend': {

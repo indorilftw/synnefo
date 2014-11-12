@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'SynnefoUser.realname'
         db.add_column('db_synnefouser', 'realname', self.gf('django.db.models.fields.CharField')(default='', max_length=255), keep_default=False)
 
@@ -23,9 +24,8 @@ class Migration(SchemaMigration):
         # Adding field 'SynnefoUser.type'
         db.add_column('db_synnefouser', 'type', self.gf('django.db.models.fields.CharField')(default=None, max_length=30), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'SynnefoUser.realname'
         db.delete_column('db_synnefouser', 'realname')
 
@@ -40,7 +40,6 @@ class Migration(SchemaMigration):
 
         # Deleting field 'SynnefoUser.type'
         db.delete_column('db_synnefouser', 'type')
-
 
     models = {
         'db.debit': {

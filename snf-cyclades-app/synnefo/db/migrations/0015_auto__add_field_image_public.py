@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'Image.public'
         db.add_column('db_image', 'public', self.gf('django.db.models.fields.BooleanField')(default=False, blank=True), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'Image.public'
         db.delete_column('db_image', 'public')
-
 
     models = {
         'db.debit': {

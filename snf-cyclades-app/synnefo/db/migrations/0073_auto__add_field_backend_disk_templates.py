@@ -13,11 +13,9 @@ class Migration(SchemaMigration):
                       self.gf('synnefo.db.fields.SeparatedValuesField')(null=True),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Deleting field 'Backend.disk_templates'
         db.delete_column('db_backend', 'disk_templates')
-
 
     models = {
         'db.backend': {

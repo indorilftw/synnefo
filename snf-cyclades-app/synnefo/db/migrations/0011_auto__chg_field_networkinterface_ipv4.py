@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Changing field 'NetworkInterface.ipv4'
         db.alter_column('db_networkinterface', 'ipv4', self.gf('django.db.models.fields.CharField')(max_length=15, null=True))
 
-
     def backwards(self, orm):
-        
+
         # Changing field 'NetworkInterface.ipv4'
         db.alter_column('db_networkinterface', 'ipv4', self.gf('django.db.models.fields.IPAddressField')(max_length=15, null=True))
-
 
     models = {
         'db.debit': {

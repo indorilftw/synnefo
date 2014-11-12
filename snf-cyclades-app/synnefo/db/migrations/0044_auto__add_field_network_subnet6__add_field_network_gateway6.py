@@ -4,26 +4,25 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Adding field 'Network.subnet6'
         db.add_column('db_network', 'subnet6', self.gf('django.db.models.fields.CharField')(max_length=64, null=True), keep_default=False)
 
         # Adding field 'Network.gateway6'
         db.add_column('db_network', 'gateway6', self.gf('django.db.models.fields.CharField')(max_length=64, null=True), keep_default=False)
-    
-    
+
     def backwards(self, orm):
-        
+
         # Deleting field 'Network.subnet6'
         db.delete_column('db_network', 'subnet6')
 
         # Deleting field 'Network.gateway6'
         db.delete_column('db_network', 'gateway6')
-    
-    
+
     models = {
         'db.backend': {
             'Meta': {'object_name': 'Backend'},
@@ -147,5 +146,5 @@ class Migration(SchemaMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

@@ -13,11 +13,9 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.related.ForeignKey')(related_name='volume', null=True, on_delete=models.SET_NULL, to=orm['db.QuotaHolderSerial']),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Deleting field 'Volume.serial'
         db.delete_column('db_volume', 'serial_id')
-
 
     models = {
         'db.backend': {

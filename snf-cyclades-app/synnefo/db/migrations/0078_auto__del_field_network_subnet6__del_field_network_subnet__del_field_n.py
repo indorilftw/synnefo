@@ -31,7 +31,6 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.BooleanField')(default=False),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Adding field 'Network.subnet6'
         db.add_column('db_network', 'subnet6',
@@ -65,7 +64,6 @@ class Migration(SchemaMigration):
 
         # Deleting field 'Network.external_router'
         db.delete_column('db_network', 'external_router')
-
 
     models = {
         'db.backend': {

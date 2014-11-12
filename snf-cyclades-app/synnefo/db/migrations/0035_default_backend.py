@@ -6,6 +6,7 @@ from django.db import models
 
 from django.conf import settings
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
@@ -18,24 +19,19 @@ class Migration(DataMigration):
             return
 
         (ip, port, username, password) = cluster_info
-        backend = orm.Backend.objects.create(clustername = ip,
-                                             port = port,
-                                             username = username,
-                                             password = password)
+        backend = orm.Backend.objects.create(clustername=ip,
+                                             port=port,
+                                             username=username,
+                                             password=password)
         for vm in orm.VirtualMachine.objects.all():
             vm.backend = backend
             vm.save()
-
-
-
 
     def backwards(self, orm):
         "Write your backwards methods here."
         for vm in orm.VirtualMachine.objects.all():
             vm.backend = None
             vm.save()
-
-
 
     models = {
         'db.backend': {

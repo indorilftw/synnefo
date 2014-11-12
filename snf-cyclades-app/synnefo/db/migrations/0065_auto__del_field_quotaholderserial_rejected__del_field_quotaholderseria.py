@@ -4,25 +4,24 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Deleting field 'QuotaHolderSerial.rejected'
         db.delete_column('db_quotaholderserial', 'rejected')
 
         # Deleting field 'QuotaHolderSerial.accepted'
         db.delete_column('db_quotaholderserial', 'accepted')
 
-
     def backwards(self, orm):
-        
+
         # Adding field 'QuotaHolderSerial.rejected'
         db.add_column('db_quotaholderserial', 'rejected', self.gf('django.db.models.fields.BooleanField')(default=False, blank=True), keep_default=False)
 
         # Adding field 'QuotaHolderSerial.accepted'
         db.add_column('db_quotaholderserial', 'accepted', self.gf('django.db.models.fields.BooleanField')(default=False, blank=True), keep_default=False)
-
 
     models = {
         'db.backend': {

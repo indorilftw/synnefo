@@ -13,11 +13,9 @@ class Migration(SchemaMigration):
                       self.gf('synnefo.db.fields.SeparatedValuesField')(null=True),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Deleting field 'Network.subnet_ids'
         db.delete_column('db_network', 'subnet_ids')
-
 
     models = {
         'db.backend': {

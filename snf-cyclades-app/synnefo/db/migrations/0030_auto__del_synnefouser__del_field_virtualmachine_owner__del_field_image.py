@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Deleting model 'SynnefoUser'
         db.delete_table('db_synnefouser')
 
@@ -26,9 +27,8 @@ class Migration(SchemaMigration):
         # Changing field 'Network.userid'
         db.alter_column('db_network', 'userid', self.gf('django.db.models.fields.CharField')(max_length=100, null=True))
 
-
     def backwards(self, orm):
-        
+
         # Adding model 'SynnefoUser'
         db.create_table('db_synnefouser', (
             ('updated', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
@@ -61,7 +61,6 @@ class Migration(SchemaMigration):
 
         # Changing field 'Network.userid'
         db.alter_column('db_network', 'userid', self.gf('django.db.models.fields.CharField')(max_length=100))
-
 
     models = {
         'db.flavor': {

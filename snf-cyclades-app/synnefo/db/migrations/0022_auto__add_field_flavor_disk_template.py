@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'Flavor.disk_template'
         db.add_column('db_flavor', 'disk_template', self.gf('django.db.models.fields.CharField')(default='drbd', max_length=32), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'Flavor.disk_template'
         db.delete_column('db_flavor', 'disk_template')
-
 
     models = {
         'db.debit': {

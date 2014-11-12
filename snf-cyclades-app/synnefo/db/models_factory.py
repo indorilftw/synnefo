@@ -101,7 +101,7 @@ class VirtualMachineFactory(factory.DjangoModelFactory):
     flavor = factory.SubFactory(FlavorFactory)
     deleted = False
     suspended = False
-    #operstate = factory.Sequence(round_seq_first(FACTORY_FOR.OPER_STATES))
+    # operstate = factory.Sequence(round_seq_first(FACTORY_FOR.OPER_STATES))
     operstate = "STARTED"
     project = factory.LazyAttribute(lambda a: a.userid)
 
@@ -110,7 +110,7 @@ class VolumeFactory(factory.DjangoModelFactory):
     FACTORY_FOR = models.Volume
     userid = factory.Sequence(user_seq())
     size = factory.Sequence(lambda x: x, type=int)
-    name = factory.Sequence(lambda x: "volume-name-"+x, type=str)
+    name = factory.Sequence(lambda x: "volume-name-" + x, type=str)
     machine = factory.SubFactory(VirtualMachineFactory,
                                  userid=factory.SelfAttribute('..userid'))
     volume_type = factory.SubFactory(VolumeTypeFactory)

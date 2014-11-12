@@ -20,11 +20,9 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('db', ['IPAddressLog'])
 
-
     def backwards(self, orm):
         # Deleting model 'IPAddressLog'
         db.delete_table('db_ipaddresslog')
-
 
     models = {
         'db.backend': {

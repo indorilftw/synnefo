@@ -11,11 +11,9 @@ class Migration(SchemaMigration):
         # Adding index on 'Volume', fields ['deleted']
         db.create_index('db_volume', ['deleted'])
 
-
     def backwards(self, orm):
         # Removing index on 'Volume', fields ['deleted']
         db.delete_index('db_volume', ['deleted'])
-
 
     models = {
         'db.backend': {

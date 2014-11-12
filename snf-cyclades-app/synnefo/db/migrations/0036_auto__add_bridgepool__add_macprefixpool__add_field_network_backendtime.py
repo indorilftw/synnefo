@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Adding model 'BridgePool'
         db.create_table('db_bridgepool', (
             ('available', self.gf('django.db.models.fields.BooleanField')(default=True, blank=True)),
@@ -70,10 +71,9 @@ class Migration(SchemaMigration):
 
         # Changing field 'Network.userid'
         db.alter_column('db_network', 'userid', self.gf('django.db.models.fields.CharField')(max_length=128, null=True))
-    
-    
+
     def backwards(self, orm):
-        
+
         # Deleting model 'BridgePool'
         db.delete_table('db_bridgepool')
 
@@ -124,8 +124,7 @@ class Migration(SchemaMigration):
 
         # Changing field 'Network.userid'
         db.alter_column('db_network', 'userid', self.gf('django.db.models.fields.CharField')(max_length=100, null=True))
-    
-    
+
     models = {
         'db.backend': {
             'Meta': {'object_name': 'Backend'},
@@ -245,5 +244,5 @@ class Migration(SchemaMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

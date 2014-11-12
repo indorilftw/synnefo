@@ -28,14 +28,12 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.related.ForeignKey')(related_name='ip_pools', null=True, to=orm['db.Subnet']),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Deleting model 'Subnet'
         db.delete_table('db_subnet')
 
         # Deleting field 'IPPoolTable.subnet'
         db.delete_column('db_ippooltable', 'subnet_id')
-
 
     models = {
         'db.backend': {

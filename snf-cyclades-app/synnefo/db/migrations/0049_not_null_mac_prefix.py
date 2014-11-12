@@ -4,18 +4,17 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
         # Changing field 'Network.mac_prefix'
         db.alter_column('db_network', 'mac_prefix', self.gf('django.db.models.fields.CharField')(max_length=32, null=False))
-    
-    
+
     def backwards(self, orm):
         # Changing field 'Network.mac_prefix'
         db.alter_column('db_network', 'mac_prefix', self.gf('django.db.models.fields.CharField')(default='', max_length=32, null=True))
-    
-    
+
     models = {
         'db.backend': {
             'Meta': {'object_name': 'Backend'},
@@ -142,5 +141,5 @@ class Migration(SchemaMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

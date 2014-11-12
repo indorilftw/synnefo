@@ -4,25 +4,24 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Changing field 'Image.format'
         db.alter_column('db_image', 'format', self.gf('django.db.models.fields.CharField')(max_length=30))
 
         # Changing field 'Image.backend_id'
         db.alter_column('db_image', 'backend_id', self.gf('django.db.models.fields.CharField')(max_length=50))
 
-
     def backwards(self, orm):
-        
+
         # Changing field 'Image.format'
         db.alter_column('db_image', 'format', self.gf('django.db.models.fields.TextField')())
 
         # Changing field 'Image.backend_id'
         db.alter_column('db_image', 'backend_id', self.gf('django.db.models.fields.TextField')())
-
 
     models = {
         'db.debit': {

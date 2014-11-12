@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Rename field 'Network.type' to 'Network.flavor'
         db.rename_column('db_network', 'type', 'flavor')
 
@@ -20,9 +21,8 @@ class Migration(SchemaMigration):
         # Changing field 'Network.link'
         db.alter_column('db_network', 'link', self.gf('django.db.models.fields.CharField')(max_length=32, null=True))
 
-
     def backwards(self, orm):
-        
+
         # Rename field 'Network.type' to 'Network.flavor'
         db.rename_column('db_network', 'flavor', 'type')
 
@@ -34,7 +34,6 @@ class Migration(SchemaMigration):
 
         # Changing field 'Network.link'
         db.alter_column('db_network', 'link', self.gf('django.db.models.fields.CharField')(max_length=128, null=True))
-
 
     models = {
         'db.backend': {

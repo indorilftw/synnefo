@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'Backend.hypervisor'
         db.add_column('db_backend', 'hypervisor', self.gf('django.db.models.fields.CharField')(default='kvm', max_length=32), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'Backend.hypervisor'
         db.delete_column('db_backend', 'hypervisor')
-
 
     models = {
         'db.backend': {

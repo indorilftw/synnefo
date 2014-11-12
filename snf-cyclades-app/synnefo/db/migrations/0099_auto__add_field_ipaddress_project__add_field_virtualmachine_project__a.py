@@ -23,7 +23,6 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.CharField')(max_length=255, null=True),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Deleting field 'IPAddress.project'
         db.delete_column('db_ipaddress', 'project')
@@ -33,7 +32,6 @@ class Migration(SchemaMigration):
 
         # Deleting field 'Network.project'
         db.delete_column('db_network', 'project')
-
 
     models = {
         'db.backend': {

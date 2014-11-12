@@ -7,18 +7,22 @@ from synnefo import settings
 from bitarray import bitarray
 from base64 import b64encode
 
+
 def create_empty_pool(size):
     ba = bitarray(size)
     ba.setall(True)
     return ba
 
+
 def bitarray_to_string(bitarray_):
     return b64encode(bitarray_.tobytes())
+
 
 def validate_mac(value):
     hex_ = value.replace(":", "")
     bin_ = bin(int(hex_, 16))[2:].zfill(8)
     return bin_[6] == '1' and bin_[7] == '0'
+
 
 def mac_from_index(base, index):
     """Convert number to mac prefix
@@ -28,8 +32,9 @@ def mac_from_index(base, index):
     mac_prefix = ":".join([a[x:x + 2] for x in xrange(0, len(a), 2)])
     return mac_prefix
 
+
 class Migration(DataMigration):
-    
+
     def forwards(self, orm):
         "Write your forwards methods here."
 
@@ -63,7 +68,6 @@ class Migration(DataMigration):
                                                size=pool_length,
                                                base=pool_prefix)
 
-
         mac_prefixes = orm.MacPrefixPool.objects.all()
         if mac_prefixes:
             try:
@@ -72,8 +76,8 @@ class Migration(DataMigration):
                 macp_base = settings.MAC_POOL_BASE
             except AttributeError:
                 first = mac_prefixes[0]
-                first[-1]= '0'
-                macp_base =  first
+                first[-1] = '0'
+                macp_base = first
 
             try:
                 macp_length = settings.MAC_POOL_LIMIT
@@ -96,9 +100,9 @@ class Migration(DataMigration):
             reserved_map = bitarray_to_string(reserved)
 
             orm.MacPrefixPoolTable.objects.create(available_map=available_map,
-                                               reserved_map=reserved_map,
-                                               size=macp_length,
-                                               base=macp_base)
+                                                  reserved_map=reserved_map,
+                                                  size=macp_length,
+                                                  base=macp_base)
 
     def backwards(self, orm):
         "Write your backwards methods here."
@@ -248,5 +252,5 @@ class Migration(DataMigration):
             'vm': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'metadata'", 'to': "orm['db.VirtualMachine']"})
         }
     }
-    
+
     complete_apps = ['db']

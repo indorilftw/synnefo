@@ -4,6 +4,7 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
@@ -31,7 +32,6 @@ class Migration(DataMigration):
                 net.tags = None
             net.save()
 
-
     def backwards(self, orm):
         "Write your backwards methods here."
         for net in orm.Network.objects.all():
@@ -46,7 +46,6 @@ class Migration(DataMigration):
             if net.flavor == 'PHYSICAL_VLAN':
                 net.flavor = 'PRIVATE_PHYSICAL_VLAN'
             net.save()
-
 
     models = {
         'db.backend': {
