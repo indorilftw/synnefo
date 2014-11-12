@@ -18,7 +18,7 @@ def _pad_secret(secret, blocksize=32, padding='}'):
     len_secret = len(secret)
     if len_secret > 32:
         raise ValueError('Encryption key must be smaller than 32 bytes')
-    if not len_secret in (16, 24, 32):
+    if len_secret not in (16, 24, 32):
         return secret + (blocksize - len(secret)) * padding
     return secret
 

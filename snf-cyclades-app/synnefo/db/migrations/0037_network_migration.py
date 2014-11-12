@@ -39,7 +39,7 @@ class Migration(DataMigration):
             except AttributeError:
                 network.mac_prefix = 'aa:00:0'
 
-            if network.public == True:
+            if network.public is True:
                 # Public Network
                 network.dhcp = True
                 network.type = 'PUBLIC_ROUTED'

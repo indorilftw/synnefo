@@ -128,7 +128,7 @@ class ImageCache(object):
         self.images = {}
 
     def get_image(self, imageid, userid):
-        if not imageid in self.images:
+        if imageid not in self.images:
             try:
                 self.images[imageid] = get_image(imageid, userid)['name']
             except Exception as e:

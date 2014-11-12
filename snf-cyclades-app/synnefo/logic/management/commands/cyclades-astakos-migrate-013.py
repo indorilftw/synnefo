@@ -131,7 +131,7 @@ def migrate_users(usernames, dry=True):
     usernames = filter(bool, usernames)
     count = 0
     for u in usernames:
-        if not '@' in u:
+        if '@' not in u:
             warn('Skipping %s. It doesn\'t seem to be an email' % u)
             continue
 

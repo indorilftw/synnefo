@@ -412,7 +412,7 @@ def drain_queue(queue):
     if not queue:
         return
 
-    if not queue in queues.QUEUES:
+    if queue not in queues.QUEUES:
         print "Queue %s not configured" % queue
         return
 

@@ -281,7 +281,7 @@ def validate_subnet_params(subnet=None, gateway=None, subnet6=None,
                 gateway6 = ipaddr.IPv6Address(gateway6)
             except ValueError:
                 raise faults.BadRequest("Invalid network IPv6 gateway")
-            if not gateway6 in network6:
+            if gateway6 not in network6:
                 raise faults.BadRequest("Invalid network IPv6 gateway")
 
 
