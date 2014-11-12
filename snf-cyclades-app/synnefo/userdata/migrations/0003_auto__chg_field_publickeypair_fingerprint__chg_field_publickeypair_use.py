@@ -4,6 +4,7 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     needed_by = (
@@ -30,7 +31,6 @@ class Migration(SchemaMigration):
         except:
             pass
 
-
     def backwards(self, orm):
 
         # Changing field 'PublicKeyPair.fingerprint'
@@ -43,7 +43,6 @@ class Migration(SchemaMigration):
 
         # Adding index on 'PublicKeyPair', fields ['user']
         db.create_index('userdata_publickeypair', ['user_id'])
-
 
     models = {
         'userdata.publickeypair': {

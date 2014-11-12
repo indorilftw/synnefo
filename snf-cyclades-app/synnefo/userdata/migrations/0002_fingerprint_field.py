@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'PublicKeyPair.fingerprint'
         db.add_column('userdata_publickeypair', 'fingerprint', self.gf('django.db.models.fields.CharField')(default='', max_length=100), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'PublicKeyPair.fingerprint'
         db.delete_column('userdata_publickeypair', 'fingerprint')
-
 
     models = {
         'db.synnefouser': {

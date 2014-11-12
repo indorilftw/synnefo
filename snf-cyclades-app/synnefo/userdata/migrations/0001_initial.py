@@ -4,6 +4,7 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     depends_on = (
@@ -21,12 +22,10 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('userdata', ['PublicKeyPair'])
 
-
     def backwards(self, orm):
 
         # Deleting model 'PublicKeyPair'
         db.delete_table('userdata_publickeypair')
-
 
     models = {
         'db.synnefouser': {
