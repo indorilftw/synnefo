@@ -48,7 +48,7 @@ DEFAULT_ADMIN_VIEWS = {
     'ip_log': {'label': 'IP History'},
     'project': {'label': 'Projects'},
     'group': {'label': 'User Groups'},
-    #'auth_provider': {'label': 'User Auth Providers'},
+    # 'auth_provider': {'label': 'User Auth Providers'},
 }
 # A list with the appropriate appearance order of the above views in the UI.
 DEFAULT_ADMIN_VIEWS_ORDER = ['user', 'vm', 'volume', 'network', 'ip', 'ip_log',

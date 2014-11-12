@@ -150,9 +150,9 @@ def image_info(vm):
 
     # TODO: Add this code when deferred loading works.
     # Try to retrieve Image info using Plankton.
-    #try:
+    # try:
     #    image_info = get_image(vm.imageid, vm.userid)
-    #except faults.ItemNotFound:
+    # except faults.ItemNotFound:
 
     # Check if Cyclades DB has any info about this Image.
     try:

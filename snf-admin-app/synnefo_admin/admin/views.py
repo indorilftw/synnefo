@@ -106,7 +106,7 @@ def get_token_from_cookie(request, cookiename):
 # Security functions ###
 
 
-def admin_user_required(func, permitted_groups=admin_settings.\
+def admin_user_required(func, permitted_groups=admin_settings.
                         ADMIN_PERMITTED_GROUPS):
     """
     Django view wrapper that checks if identified request user has admin
