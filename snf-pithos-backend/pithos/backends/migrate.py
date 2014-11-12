@@ -90,7 +90,7 @@ def main(argv=None, **kwargs):
         exit(1)
 
     # default config arg, if not already set
-    if not '-c' in argv:
+    if '-c' not in argv:
         argv.insert(0, DEFAULT_ALEMBIC_INI_PATH)
         argv.insert(0, '-c')
 

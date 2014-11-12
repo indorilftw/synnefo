@@ -100,7 +100,7 @@ class Public(DBWorker):
     def public_get(self, path):
         s = select([self.public.c.url])
         s = s.where(and_(self.public.c.path == path,
-                         self.public.c.active == True))
+                         self.public.c.active is True))
         r = self.conn.execute(s)
         row = r.fetchone()
         r.close()
@@ -112,7 +112,7 @@ class Public(DBWorker):
         s = select([self.public.c.path, self.public.c.url])
         s = s.where(self.public.c.path.like(
             self.escape_like(prefix) + '%', escape=ESCAPE_CHAR))
-        s = s.where(self.public.c.active == True)
+        s = s.where(self.public.c.active is True)
         r = self.conn.execute(s)
         rows = r.fetchall()
         r.close()
@@ -121,7 +121,7 @@ class Public(DBWorker):
     def public_path(self, public):
         s = select([self.public.c.path])
         s = s.where(and_(self.public.c.url == public,
-                         self.public.c.active == True))
+                         self.public.c.active is True))
         r = self.conn.execute(s)
         row = r.fetchone()
         r.close()
