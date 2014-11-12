@@ -25,7 +25,7 @@ from synnefo import settings
 from copy import copy
 
 
-#@patch("synnefo.logic.rapi_pool.GanetiRapiClient")
+# @patch("synnefo.logic.rapi_pool.GanetiRapiClient")
 class NetworkTest(TestCase):
     def test_create(self):
         kwargs = {

@@ -104,19 +104,19 @@ class ServerReconciliationTest(TestCase):
         cmrapi = self.reconciler.client
         mrapi().GetInstances.return_value =\
             [{"name": "%s22" % settings.BACKEND_PREFIX_ID,
-             "beparams": {"maxmem": 1024,
-                          "minmem": 1024,
-                          "vcpus": 4},
-             "oper_state": True,
-             "mtime": time(),
-             "disk.sizes": [],
-             "disk.names": [],
-             "disk.uuids": [],
-             "nic.ips": [],
-             "nic.names": [],
-             "nic.macs": [],
-             "nic.networks.names": [],
-             "tags": []}]
+              "beparams": {"maxmem": 1024,
+                           "minmem": 1024,
+                           "vcpus": 4},
+              "oper_state": True,
+              "mtime": time(),
+              "disk.sizes": [],
+              "disk.names": [],
+              "disk.uuids": [],
+              "nic.ips": [],
+              "nic.names": [],
+              "nic.macs": [],
+              "nic.networks.names": [],
+              "tags": []}]
         self.reconciler.reconcile()
         cmrapi.DeleteInstance\
               .assert_called_once_with("%s22" % settings.BACKEND_PREFIX_ID)
@@ -127,19 +127,19 @@ class ServerReconciliationTest(TestCase):
                                              operstate="STOPPED")
         mrapi().GetInstances.return_value =\
             [{"name": vm1.backend_vm_id,
-             "beparams": {"maxmem": 1024,
-                          "minmem": 1024,
-                          "vcpus": 4},
-             "oper_state": True,
-             "mtime": time(),
-             "disk.sizes": [],
-             "disk.names": [],
-             "disk.uuids": [],
-             "nic.ips": [],
-             "nic.names": [],
-             "nic.macs": [],
-             "nic.networks.names": [],
-             "tags": []}]
+              "beparams": {"maxmem": 1024,
+                           "minmem": 1024,
+                           "vcpus": 4},
+              "oper_state": True,
+              "mtime": time(),
+              "disk.sizes": [],
+              "disk.names": [],
+              "disk.uuids": [],
+              "nic.ips": [],
+              "nic.names": [],
+              "nic.macs": [],
+              "nic.networks.names": [],
+              "tags": []}]
         with mocked_quotaholder():
             self.reconciler.reconcile()
         vm1 = VirtualMachine.objects.get(id=vm1.id)
@@ -156,19 +156,19 @@ class ServerReconciliationTest(TestCase):
                                              operstate="STARTED")
         mrapi().GetInstances.return_value =\
             [{"name": vm1.backend_vm_id,
-             "beparams": {"maxmem": 2048,
-                          "minmem": 2048,
-                          "vcpus": 4},
-             "oper_state": True,
-             "mtime": time(),
-             "disk.sizes": [],
-             "disk.names": [],
-             "disk.uuids": [],
-             "nic.ips": [],
-             "nic.names": [],
-             "nic.macs": [],
-             "nic.networks.names": [],
-             "tags": []}]
+              "beparams": {"maxmem": 2048,
+                           "minmem": 2048,
+                           "vcpus": 4},
+              "oper_state": True,
+              "mtime": time(),
+              "disk.sizes": [],
+              "disk.names": [],
+              "disk.uuids": [],
+              "nic.ips": [],
+              "nic.names": [],
+              "nic.macs": [],
+              "nic.networks.names": [],
+              "tags": []}]
         with mocked_quotaholder():
             self.reconciler.reconcile()
         vm1 = VirtualMachine.objects.get(id=vm1.id)
@@ -190,19 +190,19 @@ class ServerReconciliationTest(TestCase):
         nic = ip.nic
         mrapi().GetInstances.return_value =\
             [{"name": vm1.backend_vm_id,
-             "beparams": {"maxmem": 2048,
-                          "minmem": 2048,
-                          "vcpus": 4},
-             "oper_state": True,
-             "mtime": time(),
-             "disk.sizes": [],
-             "disk.names": [],
-             "disk.uuids": [],
-             "nic.names": [nic.backend_uuid],
-             "nic.ips": ["192.168.2.5"],
-             "nic.macs": ["aa:00:bb:cc:dd:ee"],
-             "nic.networks.names": [network2.backend_id],
-             "tags": []}]
+              "beparams": {"maxmem": 2048,
+                           "minmem": 2048,
+                           "vcpus": 4},
+              "oper_state": True,
+              "mtime": time(),
+              "disk.sizes": [],
+              "disk.names": [],
+              "disk.uuids": [],
+              "nic.names": [nic.backend_uuid],
+              "nic.ips": ["192.168.2.5"],
+              "nic.macs": ["aa:00:bb:cc:dd:ee"],
+              "nic.networks.names": [network2.backend_id],
+              "tags": []}]
         with mocked_quotaholder():
             self.reconciler.reconcile()
         vm1 = VirtualMachine.objects.get(id=vm1.id)
@@ -275,7 +275,7 @@ class NetworkReconciliationTest(TestCase):
         self.reconciler.reconcile_networks()
         self.assertEqual(len(mrapi().CreateNetwork.mock_calls), 1)
 
-    #def test_hanging_networks(self, mrapi):
+    # def test_hanging_networks(self, mrapi):
     #    pass
 
     def test_unsynced_networks(self, mrapi):

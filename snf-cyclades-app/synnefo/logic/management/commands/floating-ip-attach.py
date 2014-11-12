@@ -45,7 +45,7 @@ class Command(SynnefoCommand):
         if not device:
             raise CommandError('Please give either a server or a router id')
 
-        #get the vm
+        # get the vm
         vm = common.get_resource("server", device, for_update=True)
         floating_ip = common.get_resource("floating-ip", floating_ip_id,
                                           for_update=True)

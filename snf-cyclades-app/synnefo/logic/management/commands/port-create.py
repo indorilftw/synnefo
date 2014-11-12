@@ -55,7 +55,7 @@ class Command(SynnefoCommand):
             dest="server_id",
             default=None,
             help="The ID of the server that the port will be connected to."),
-        #make_option(
+        # make_option(
         #    "--router",
         #    dest="router_id",
         #    default=None,
@@ -94,7 +94,7 @@ class Command(SynnefoCommand):
         user_id = options["user_id"]
         network_id = options["network_id"]
         server_id = options["server_id"]
-        #router_id = options["router_id"]
+        # router_id = options["router_id"]
         router_id = None
         # assume giving security groups comma separated
         security_group_ids = options["security-groups"]
@@ -111,7 +111,7 @@ class Command(SynnefoCommand):
         if server_id:
             owner = "vm"
             vm = common.get_resource("server", server_id, for_update=True)
-            #if vm.router:
+            # if vm.router:
             #    raise CommandError("Server '%s' does not exist." % server_id)
         elif router_id:
             owner = "router"

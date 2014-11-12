@@ -186,7 +186,7 @@ def update_subnet(sub_id, name, user_id):
     return subnet
 
 
-#Utility functions
+# Utility functions
 def create_ip_pools(pools, cidr, subnet):
     """Create IP Pools in the database"""
     return [_create_ip_pool(pool, cidr, subnet) for pool in pools]

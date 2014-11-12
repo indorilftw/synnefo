@@ -16,7 +16,7 @@
 
 # Provides automated tests for logic module
 from django.test import TransactionTestCase
-#from snf_django.utils.testing import mocked_quotaholder
+# from snf_django.utils.testing import mocked_quotaholder
 from synnefo.logic import servers
 from synnefo import quotas
 from synnefo.db import models_factory as mfactory, models
@@ -28,8 +28,8 @@ from django.conf import settings
 from copy import deepcopy
 
 fixed_image = Mock()
-fixed_image.return_value = {'location': 'pithos://foo',
-                            'mapfile': 'test_mapfile',
+fixed_image.return_value = {"location": "pithos://foo",
+                            "mapfile": "test_mapfile",
                             "id": 1,
                             "name": "test_image",
                             "version": 42,
@@ -38,7 +38,7 @@ fixed_image.return_value = {'location': 'pithos://foo',
                             "status": "AVAILABLE",
                             "size": 1000,
                             "is_snapshot": False,
-                            'disk_format': 'diskdump'}
+                            "disk_format": "diskdump"}
 
 
 @patch('synnefo.api.util.get_image', fixed_image)
@@ -190,7 +190,7 @@ class ServerCommandTest(TransactionTestCase):
             self.assertRaises(faults.BadRequest, servers.connect, vm, network)
             self.assertRaises(faults.BadRequest, servers.disconnect, vm,
                               network)
-        #test valid
+        # test valid
         vm = mfactory.VirtualMachineFactory(operstate="STOPPED")
         mrapi().StartupInstance.return_value = 1
         with mocked_quotaholder():

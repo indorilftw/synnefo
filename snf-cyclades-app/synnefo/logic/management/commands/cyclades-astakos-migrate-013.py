@@ -30,17 +30,19 @@ from synnefo.userdata.models import PublicKeyPair
 
 from snf_django.lib import astakos
 
+
 def warn(*msgs):
     print "WARNING: %s" % ' '.join(msgs)
 
 get_displayname = functools.partial(astakos.get_displayname,
-                                 settings.CYCLADES_SERVICE_TOKEN,
-                                 url=settings.ASTAKOS_URL.replace('im/authenticate',
-                                                                 'service/api/user_catalogs'))
+                                    settings.CYCLADES_SERVICE_TOKEN,
+                                    url=settings.ASTAKOS_URL.replace('im/authenticate',
+                                                                     'service/api/user_catalogs'))
 get_user_uuid = functools.partial(astakos.get_user_uuid,
-                                 settings.CYCLADES_SERVICE_TOKEN,
-                                 url=settings.ASTAKOS_URL.replace('im/authenticate',
-                                                                 'service/api/user_catalogs'))
+                                  settings.CYCLADES_SERVICE_TOKEN,
+                                  url=settings.ASTAKOS_URL.replace('im/authenticate',
+                                                                   'service/api/user_catalogs'))
+
 
 def _validate_db_state(usernames):
 
@@ -50,7 +52,7 @@ def _validate_db_state(usernames):
         invalid_case_users.append(invalid_case_users[0].lower())
         raise CommandError("Duplicate case insensitive user identifiers exist %r" % invalid_case_users)
 
-    uuidusers = filter(lambda uid:'@' in uid or uid == None, usernames)
+    uuidusers = filter(lambda uid: '@' in uid or uid == None, usernames)
     if len(uuidusers) != len(usernames):
         warn('It seems that mixed uuid/email user identifiers exist in database.')
         return False

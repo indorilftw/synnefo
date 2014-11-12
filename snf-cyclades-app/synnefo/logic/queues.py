@@ -56,7 +56,7 @@ BINDINGS = (
 )
 
 
-## Extra for DEBUG:
+# Extra for DEBUG:
 if DEBUG is True:
     # Debug queue, retrieves all messages
     QUEUE_DEBUG = "%s-debug" % prefix

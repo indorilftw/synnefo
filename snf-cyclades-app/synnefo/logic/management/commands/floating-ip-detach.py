@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#from optparse import make_option
+# from optparse import make_option
 
 from django.core.management.base import CommandError
 
@@ -33,7 +33,7 @@ class Command(SynnefoCommand):
 
         floating_ip_id = args[0]
 
-        #get the floating-ip
+        # get the floating-ip
         floating_ip = common.get_resource("floating-ip", floating_ip_id,
                                           for_update=True)
 
