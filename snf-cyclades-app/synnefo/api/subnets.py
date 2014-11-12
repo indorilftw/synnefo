@@ -191,7 +191,7 @@ def update_subnet(request, sub_id):
     return HttpResponse(data, status=200)
 
 
-#Utility functions
+# Utility functions
 def subnet_to_dict(subnet):
     """Returns a dictionary containing the info of a subnet"""
     dns = check_empty_lists(subnet.dns_nameservers)

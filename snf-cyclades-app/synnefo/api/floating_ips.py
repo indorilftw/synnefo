@@ -204,22 +204,22 @@ def release_floating_ip(request, floating_ip_id):
 def update_floating_ip(request, floating_ip_id):
     """Update a floating IP."""
     raise faults.NotImplemented("Updating a floating IP is not supported.")
-    #userid = request.user_uniq
-    #log.info("update_floating_ip '%s'. User '%s'.", floating_ip_id, userid)
+    # userid = request.user_uniq
+    # log.info("update_floating_ip '%s'. User '%s'.", floating_ip_id, userid)
 
-    #req = utils.get_json_body(request)
-    #info = api.utils.get_attribute(req, "floatingip", required=True)
+    # req = utils.get_json_body(request)
+    # info = api.utils.get_attribute(req, "floatingip", required=True)
 
-    #device_id = api.utils.get_attribute(info, "device_id", required=False)
+    # device_id = api.utils.get_attribute(info, "device_id", required=False)
 
-    #floating_ip = util.get_floating_ip_by_id(userid, floating_ip_id,
+    # floating_ip = util.get_floating_ip_by_id(userid, floating_ip_id,
     #                                         for_update=True)
-    #if device_id:
+    # if device_id:
     #    # attach
     #    vm = util.get_vm(device_id, userid)
     #    nic, floating_ip = servers.create_nic(vm, ipaddress=floating_ip)
     #    backend.connect_to_network(vm, nic)
-    #else:
+    # else:
     #    # dettach
     #    nic = floating_ip.nic
     #    if not nic:
@@ -227,7 +227,7 @@ def update_floating_ip(request, floating_ip_id):
     #                                with any device")
     #    vm = nic.machine
     #    servers.disconnect(vm, nic)
-    #return HttpResponse(status=202)
+    # return HttpResponse(status=202)
 
 
 # Floating IP pools

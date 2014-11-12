@@ -300,7 +300,7 @@ class PortTest(BaseAPITest):
         response = self.post(PORTS_URL, params=json.dumps(request),
                              user=net.userid)
         self.assertBadRequest(response)
-        #self.assertFault(response, 403, 'forbidden')
+        # self.assertFault(response, 403, 'forbidden')
 
     def test_add_nic_malformed_2(self):
         user = 'userr'
@@ -333,22 +333,22 @@ class PortTest(BaseAPITest):
         # Test that returns BuildInProgress
         self.assertEqual(response.status_code, 409)
 
-#    def test_add_nic_full_network(self, mrapi):
-#        """Test connecting VM to a full network"""
-#        user = 'userr'
-#        vm = dbmf.VirtualMachineFactory(name='yo', userid=user,
-#                                            operstate="STARTED")
-#        net = dbmf.NetworkFactory(state='ACTIVE', subnet='10.0.0.0/30',
-#                                      userid=user, dhcp=True)
-#        pool = net.get_pool()
-#        while not pool.empty():
-#            pool.get()
-#        pool.save()
-#        pool = net.get_pool()
-#        self.assertTrue(pool.empty())
-#        request = {'add': {'serverRef': vm.id}}
-#        response = self.mypost('networks/%d/action' % net.id,
-#                               net.userid, json.dumps(request), 'json')
-#        # Test that returns OverLimit
-#        self.assertEqual(response.status_code, 413)
-#        self.assertFalse(mrapi.called)
+    # def test_add_nic_full_network(self, mrapi):
+    #     """Test connecting VM to a full network"""
+    #     user = 'userr'
+    #     vm = dbmf.VirtualMachineFactory(name='yo', userid=user,
+    #                                         operstate="STARTED")
+    #     net = dbmf.NetworkFactory(state='ACTIVE', subnet='10.0.0.0/30',
+    #                                   userid=user, dhcp=True)
+    #     pool = net.get_pool()
+    #     while not pool.empty():
+    #         pool.get()
+    #     pool.save()
+    #     pool = net.get_pool()
+    #     self.assertTrue(pool.empty())
+    #     request = {'add': {'serverRef': vm.id}}
+    #     response = self.mypost('networks/%d/action' % net.id,
+    #                            net.userid, json.dumps(request), 'json')
+    #     # Test that returns OverLimit
+    #     self.assertEqual(response.status_code, 413)
+    #     self.assertFalse(mrapi.called)

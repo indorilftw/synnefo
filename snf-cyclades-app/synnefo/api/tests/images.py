@@ -63,70 +63,71 @@ class ImageAPITest(BaseAPITest):
     @assert_backend_closed
     def test_list_images_detail(self, mimage):
         self.maxDiff = None
-        images = [{'id': 1,
-                   'name': u'image-1 \u2601',
-                   'status': 'available',
-                   'created_at': '2012-11-26 11:52:54',
-                   'updated_at': '2012-12-26 11:52:54',
-                   'owner': 'user1',
-                   'deleted_at': '',
-                   'is_snapshot': False,
-                   'is_public': True,
-                   'properties': {u'foo\u2610': u'bar\u2611'}},
-                  {'id': 2,
-                   'name': 'image-2',
-                   'status': 'deleted',
-                   'created_at': '2012-11-26 11:52:54',
-                   'updated_at': '2012-12-26 11:52:54',
-                   'owner': 'user1',
-                   'deleted_at': '2012-12-27 11:52:54',
-                   'is_snapshot': False,
-                   'is_public': True,
-                   'properties': ''},
-                  {'id': 3,
-                   'name': 'image-3',
-                   'status': 'available',
-                   'created_at': '2012-11-26 11:52:54',
-                   'deleted_at': '',
-                   'updated_at': '2012-12-26 11:52:54',
-                   'owner': 'user1',
-                   'is_snapshot': False,
-                   'is_public': False,
-                   'properties': ''}]
+        images = [
+            {'id': 1,
+             'name': u'image-1 \u2601',
+             'status': 'available',
+             'created_at': '2012-11-26 11:52:54',
+             'updated_at': '2012-12-26 11:52:54',
+             'owner': 'user1',
+             'deleted_at': '',
+             'is_snapshot': False,
+             'is_public': True,
+             'properties': {u'foo\u2610': u'bar\u2611'}},
+            {'id': 2,
+             'name': 'image-2',
+             'status': 'deleted',
+             'created_at': '2012-11-26 11:52:54',
+             'updated_at': '2012-12-26 11:52:54',
+             'owner': 'user1',
+             'deleted_at': '2012-12-27 11:52:54',
+             'is_snapshot': False,
+             'is_public': True,
+             'properties': ''},
+            {'id': 3,
+             'name': 'image-3',
+             'status': 'available',
+             'created_at': '2012-11-26 11:52:54',
+             'deleted_at': '',
+             'updated_at': '2012-12-26 11:52:54',
+             'owner': 'user1',
+             'is_snapshot': False,
+             'is_public': False,
+             'properties': ''}]
         result_images = [
-                  {'id': 1,
-                   'name': u'image-1 \u2601',
-                   'status': 'ACTIVE',
-                   'progress': 100,
-                   'created': '2012-11-26T11:52:54+00:00',
-                   'updated': '2012-12-26T11:52:54+00:00',
-                   'user_id': 'user1',
-                   'tenant_id': 'user1',
-                   'is_snapshot': False,
-                   'public': True,
-                   'metadata': {u'foo\u2610': u'bar\u2611'}},
-                  {'id': 2,
-                   'name': 'image-2',
-                   'status': 'DELETED',
-                   'progress': 0,
-                   'user_id': 'user1',
-                   'tenant_id': 'user1',
-                   'created': '2012-11-26T11:52:54+00:00',
-                   'updated': '2012-12-26T11:52:54+00:00',
-                   'is_snapshot': False,
-                   'public': True,
-                   'metadata': {}},
-                  {'id': 3,
-                   'name': 'image-3',
-                   'status': 'ACTIVE',
-                   'progress': 100,
-                   'user_id': 'user1',
-                   'tenant_id': 'user1',
-                   'created': '2012-11-26T11:52:54+00:00',
-                   'updated': '2012-12-26T11:52:54+00:00',
-                   'is_snapshot': False,
-                   'public': False,
-                   'metadata': {}}]
+            {'id': 1,
+             'name': u'image-1 \u2601',
+             'status': 'ACTIVE',
+             'progress': 100,
+             'created': '2012-11-26T11:52:54+00:00',
+             'updated': '2012-12-26T11:52:54+00:00',
+             'user_id': 'user1',
+             'tenant_id': 'user1',
+             'is_snapshot': False,
+             'public': True,
+             'metadata': {u'foo\u2610': u'bar\u2611'}},
+            {'id': 2,
+             'name': 'image-2',
+             'status': 'DELETED',
+             'progress': 0,
+             'user_id': 'user1',
+             'tenant_id': 'user1',
+             'created': '2012-11-26T11:52:54+00:00',
+             'updated': '2012-12-26T11:52:54+00:00',
+             'is_snapshot': False,
+             'public': True,
+             'metadata': {}},
+            {'id': 3,
+             'name': 'image-3',
+             'status': 'ACTIVE',
+             'progress': 100,
+             'user_id': 'user1',
+             'tenant_id': 'user1',
+             'created': '2012-11-26T11:52:54+00:00',
+             'updated': '2012-12-26T11:52:54+00:00',
+             'is_snapshot': False,
+             'public': False,
+             'metadata': {}}]
         mimage().__enter__().list_images.return_value = images
         response = self.get(join_urls(IMAGES_URL, "detail"), 'user')
         self.assertSuccess(response)
@@ -143,28 +144,28 @@ class ImageAPITest(BaseAPITest):
         new_time = old_time + timedelta(seconds=0.1)
         sleep(0.1)
         images = [
-                  {'id': 1,
-                   'name': 'image-1',
-                   'status': 'available',
-                   'progress': 100,
-                   'created_at': old_time.isoformat(),
-                   'deleted_at': '',
-                   'updated_at': old_time.isoformat(),
-                   'owner': 'user1',
-                   'is_snapshot': False,
-                   'is_public': True,
-                   'properties': ''},
-                  {'id': 2,
-                   'name': 'image-2',
-                   'status': 'deleted',
-                   'progress': 0,
-                   'owner': 'user2',
-                   'created_at': new_time.isoformat(),
-                   'updated_at': new_time.isoformat(),
-                   'deleted_at': new_time.isoformat(),
-                   'is_snapshot': False,
-                   'is_public': False,
-                   'properties': ''}]
+            {'id': 1,
+             'name': 'image-1',
+             'status': 'available',
+             'progress': 100,
+             'created_at': old_time.isoformat(),
+             'deleted_at': '',
+             'updated_at': old_time.isoformat(),
+             'owner': 'user1',
+             'is_snapshot': False,
+             'is_public': True,
+             'properties': ''},
+            {'id': 2,
+             'name': 'image-2',
+             'status': 'deleted',
+             'progress': 0,
+             'owner': 'user2',
+             'created_at': new_time.isoformat(),
+             'updated_at': new_time.isoformat(),
+             'deleted_at': new_time.isoformat(),
+             'is_snapshot': False,
+             'is_public': False,
+             'properties': ''}]
         mimage().__enter__().list_images.return_value = images
         response =\
             self.get(join_urls(IMAGES_URL, 'detail?changes-since=%sUTC' %
@@ -176,28 +177,29 @@ class ImageAPITest(BaseAPITest):
     @assert_backend_closed
     def test_get_image_details(self, mimage):
         self.maxDiff = None
-        image = {'id': 42,
-                 'name': 'image-1',
-                 'status': 'available',
-                 'created_at': '2012-11-26 11:52:54',
-                 'updated_at': '2012-12-26 11:52:54',
-                 'deleted_at': '',
-                 'owner': 'user1',
-                 'is_snapshot': False,
-                 'is_public': True,
-                 'properties': {'foo': 'bar'}}
+        image = \
+            {'id': 42,
+             'name': 'image-1',
+             'status': 'available',
+             'created_at': '2012-11-26 11:52:54',
+             'updated_at': '2012-12-26 11:52:54',
+             'deleted_at': '',
+             'owner': 'user1',
+             'is_snapshot': False,
+             'is_public': True,
+             'properties': {'foo': 'bar'}}
         result_image = \
-                  {'id': 42,
-                   'name': 'image-1',
-                   'status': 'ACTIVE',
-                   'progress': 100,
-                   'created': '2012-11-26T11:52:54+00:00',
-                   'updated': '2012-12-26T11:52:54+00:00',
-                   'user_id': 'user1',
-                   'tenant_id': 'user1',
-                   'is_snapshot': False,
-                   'public': True,
-                   'metadata': {'foo': 'bar'}}
+            {'id': 42,
+             'name': 'image-1',
+             'status': 'ACTIVE',
+             'progress': 100,
+             'created': '2012-11-26T11:52:54+00:00',
+             'updated': '2012-12-26T11:52:54+00:00',
+             'user_id': 'user1',
+             'tenant_id': 'user1',
+             'is_snapshot': False,
+             'public': True,
+             'metadata': {'foo': 'bar'}}
         mimage().__enter__().get_image.return_value = image
         response = self.get(join_urls(IMAGES_URL, "42"), 'user')
         self.assertSuccess(response)
@@ -255,13 +257,14 @@ class ImageAPITest(BaseAPITest):
 @patch('synnefo.plankton.backend.PlanktonBackend')
 class ImageMetadataAPITest(BaseAPITest):
     def setUp(self):
-        self.image = {'id': 42,
-                      'name': 'image-1',
-                      'status': 'available',
-                      'created_at': '2012-11-26 11:52:54',
-                      'updated_at': '2012-12-26 11:52:54',
-                      'deleted_at': '',
-                      'properties': {'foo': 'bar', 'foo2': 'bar2'}}
+        self.image = \
+            {'id': 42,
+             'name': 'image-1',
+             'status': 'available',
+             'created_at': '2012-11-26 11:52:54',
+             'updated_at': '2012-12-26 11:52:54',
+             'deleted_at': '',
+             'properties': {'foo': 'bar', 'foo2': 'bar2'}}
         self.result_image = \
             {'id': 42,
              'name': 'image-1',
@@ -301,7 +304,7 @@ class ImageMetadataAPITest(BaseAPITest):
                                'user')
         self.assertEqual(response.status_code, 204)
         backend().__enter__().update_metadata\
-               .assert_called_once_with('42', {'properties': {'foo2': 'bar2'}})
+            .assert_called_once_with('42', {'properties': {'foo2': 'bar2'}})
 
     @assert_backend_closed
     def test_create_metadata_item(self, backend):
@@ -310,9 +313,10 @@ class ImageMetadataAPITest(BaseAPITest):
         response = self.put(join_urls(IMAGES_URL, '42/metadata/foo3'), 'user',
                             json.dumps(request), 'json')
         self.assertEqual(response.status_code, 201)
-        backend().__enter__().update_metadata.assert_called_once_with('42',
-                {'properties':
-                    {'foo': 'bar', 'foo2': 'bar2', 'foo3': 'bar3'}})
+        backend().__enter__().update_metadata\
+            .assert_called_once_with('42', {'properties': {'foo': 'bar',
+                                                           'foo2': 'bar2',
+                                                           'foo3': 'bar3'}})
 
     @assert_backend_closed
     def test_create_metadata_malformed_1(self, backend):
@@ -353,10 +357,10 @@ class ImageMetadataAPITest(BaseAPITest):
         response = self.post(join_urls(IMAGES_URL, '42/metadata'), 'user',
                              json.dumps(request), 'json')
         self.assertEqual(response.status_code, 201)
-        backend().__enter__().update_metadata.assert_called_once_with('42',
-                {'properties':
-                    {'foo': 'bar_new', 'foo2': 'bar2', 'foo4': 'bar4'}
-                })
+        backend().__enter__().update_metadata\
+            .assert_called_once_with('42', {'properties': {'foo': 'bar_new',
+                                                           'foo2': 'bar2',
+                                                           'foo4': 'bar4'}})
 
     @assert_backend_closed
     def test_update_metadata_malformed(self, backend):

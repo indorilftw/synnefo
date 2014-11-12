@@ -196,7 +196,7 @@ class ServerAPITest(ComputeAPITest):
 
         def _port_from_ip(ip, base):
             fields = ip.split('.', 4)
-            return (base + 256*int(fields[2]) + int(fields[3]))
+            return (base + 256 * int(fields[2]) + int(fields[3]))
 
         ports = {
             22: lambda ip, id, fqdn, user:

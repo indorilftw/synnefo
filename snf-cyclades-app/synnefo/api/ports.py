@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#from django.conf import settings
+# from django.conf import settings
 import ipaddr
 from django.conf.urls import patterns
 from django.http import HttpResponse
@@ -153,7 +153,7 @@ def create_port(request):
                                               "security_groups",
                                               required=False,
                                               attr_type=list)
-    #validate security groups
+    # validate security groups
     # like get security group from db
     sg_list = []
     if security_groups:
@@ -200,7 +200,7 @@ def update_port(request, port_id):
 
     if security_groups:
         sg_list = []
-        #validate security groups
+        # validate security groups
         for gid in security_groups:
             try:
                 sg = util.get_security_group(int(gid))
@@ -208,10 +208,10 @@ def update_port(request, port_id):
                 raise faults.BadRequest("Invalid 'security_groups' field.")
             sg_list.append(sg)
 
-        #clear the old security groups
+        # clear the old security groups
         port.security_groups.clear()
 
-        #add the new groups
+        # add the new groups
         port.security_groups.add(*sg_list)
 
     port.save()
@@ -238,9 +238,8 @@ def delete_port(request, port_id):
     servers.delete_port(port)
     return HttpResponse(status=204)
 
-#util functions
 
-
+# Utility functions
 def port_to_dict(port, detail=True):
     d = {'id': str(port.id), 'name': port.name}
     d['links'] = util.port_to_links(port.id)
@@ -263,7 +262,7 @@ def port_to_dict(port, detail=True):
             d['fixed_ips'].append({"ip_address": ip.address,
                                    "subnet": str(ip.subnet_id)})
         # Avoid extra queries until security groups are implemented!
-        #sg_list = list(port.security_groups.values_list('id', flat=True))
+        # sg_list = list(port.security_groups.values_list('id', flat=True))
         d['security_groups'] = []
 
     return d
