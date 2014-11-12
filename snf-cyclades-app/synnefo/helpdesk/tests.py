@@ -72,8 +72,8 @@ def get_user_mock(request, *args, **kwargs):
                             "tenant": {
                                 "id": "test",
                                 "name": "Firstname Lastname"
-                                }
-                            },
+                            }
+                        },
                         "serviceCatalog": [],
                         "user": {
                             "roles_links": [],
@@ -91,8 +91,8 @@ def get_user_mock(request, *args, **kwargs):
                             "tenant": {
                                 "id": "test",
                                 "name": "Firstname Lastname"
-                                }
-                            },
+                            }
+                        },
                         "serviceCatalog": [],
                         "user": {
                             "roles_links": [],
@@ -137,10 +137,10 @@ class HelpdeskTests(TestCase):
                                           network__userid=None,
                                           address="195.251.222.211")
         ipv6 = mfactory.IPv4AddressFactory(nic__machine=vm1u1,
-                                          userid=vm1u1.userid,
-                                          network__public=True,
-                                          network__userid=None,
-                                          address="2001:648:2ffc:200::184")
+                                           userid=vm1u1.userid,
+                                           network__public=True,
+                                           network__userid=None,
+                                           address="2001:648:2ffc:200::184")
         mfactory.IPAddressLogFactory(address=ip2.address,
                                      server_id=vm1u1.id,
                                      network_id=ip2.network.id,
@@ -179,7 +179,7 @@ class HelpdeskTests(TestCase):
         # ipv6 matched
         r = self.client.get(reverse('helpdesk-details',
                                     args=["2001:648:2ffc:200::184"]),
-                                    user_token='0001')
+                            user_token='0001')
         self.assertTrue(r.context["ip_exists"])
         ips = r.context["ips"]
         for ip in ips:

@@ -171,7 +171,7 @@ def account(request, search_query):
     vms = []
     networks = []
     is_ip = IP_SEARCH_REGEX.match(search_query) or \
-            IP_V6_SEARCH_REGEX.match(search_query)
+        IP_V6_SEARCH_REGEX.match(search_query)
     is_uuid = UUID_SEARCH_REGEX.match(search_query)
     is_vm = VM_SEARCH_REGEX.match(search_query)
     account_name = search_query

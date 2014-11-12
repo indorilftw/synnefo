@@ -31,13 +31,13 @@ def vm_public_ip(vm):
 
 
 VM_STATE_CSS_MAP = {
-        'BUILD': 'warning',
-        'PENDING': 'warning',
-        'ERROR': 'important',
-        'STOPPED': 'notice',
-        'STARTED': 'success',
-        'ACTIVE': 'success',
-        'DESTROYED': 'inverse'
+    'BUILD': 'warning',
+    'PENDING': 'warning',
+    'ERROR': 'important',
+    'STOPPED': 'notice',
+    'STARTED': 'success',
+    'ACTIVE': 'success',
+    'DESTROYED': 'inverse'
 }
 
 
