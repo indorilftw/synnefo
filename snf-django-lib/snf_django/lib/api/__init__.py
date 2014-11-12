@@ -69,7 +69,7 @@ def api_method(http_method=None, token_required=True, user_required=True,
                 # If guessed serialization is not supported, fallback to
                 # the default serialization or return an API error in case
                 # strict serialization flag is set.
-                if not serialization in serializations:
+                if serialization not in serializations:
                     if strict_serlization:
                         raise faults.BadRequest(("%s serialization not "
                                                 "supported") % serialization)

@@ -81,7 +81,7 @@ def override_settings(settings, **kwargs):
     if kwargs.get('reset_changes', True):
         newkeys = [k for k in dir(settings) if k.upper() == k]
         for key in newkeys:
-            if not key in oldkeys:
+            if key not in oldkeys:
                 delattr(settings, key)
 
     # Revert old keys

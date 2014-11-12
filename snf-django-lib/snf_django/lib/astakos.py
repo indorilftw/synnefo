@@ -114,7 +114,7 @@ class UserCache(object):
     def get_name(self, uuid):
         name = "-"
 
-        if not uuid in self.users:
+        if uuid not in self.users:
             try:
                 name = self.astakos.service_get_username(uuid)
             except NoUserName:

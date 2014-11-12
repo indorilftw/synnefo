@@ -55,7 +55,7 @@ def proxy(request, proxy_base=None, target_base=None, redirect=False):
     # set X-Forwarded-For, if already set, pass it through, otherwise set it
     # to the current request remote address
     source_ip = request.META.get('REMOTE_ADDR', None)
-    if source_ip and not 'X-Forwarded-For' in headers:
+    if source_ip and 'X-Forwarded-For' not in headers:
         headers['X-Forwarded-For'] = source_ip
 
     # request.META remains cleanup
