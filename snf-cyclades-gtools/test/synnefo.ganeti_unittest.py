@@ -62,16 +62,16 @@ class GanetiNICTestCase(unittest.TestCase):
                   "mac": "mac1",
                   "mode": "mode1",
                   "link": "link1"},
-                  {"network": "network2",
-                   "ip": "ip2",
-                   "mac": "mac2",
-                   "mode": "mode2",
-                   "link": "link2"}]
+                 {"network": "network2",
+                  "ip": "ip2",
+                  "mac": "mac2",
+                  "mode": "mode2",
+                  "link": "link2"}]
         self.assertEqual(nics0, nics1)
 
     def test_firewall(self, client):
         ret = [[["network"], ["ip"], ["mac"], ["mode"], ["link"],
-            ["tag1", "synnefo:network:0:protected"]]]
+                ["tag1", "synnefo:network:0:protected"]]]
         client.return_value.QueryInstances.return_value = ret
         nics0 = get_instance_nics("test", log)
         nics1 = [{"network": "network",

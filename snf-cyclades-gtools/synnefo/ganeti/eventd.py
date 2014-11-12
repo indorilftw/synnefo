@@ -368,10 +368,10 @@ class JobFileHandler(pyinotify.ProcessEvent):
             # 'network_link': get_field(input, 'network_link'),
             'group_name': get_field(input, 'group_name')}
 
-        msg = {'operation':    op_id,
-               'type':         "ganeti-network-status",
-               'network':      network_name,
-               'job_fields':   job_fields}
+        msg = {'operation':  op_id,
+               'type':       "ganeti-network-status",
+               'network':    network_name,
+               'job_fields': job_fields}
 
         routekey = "ganeti.%s.event.network" % prefix_from_name(network_name)
 
@@ -391,8 +391,8 @@ class JobFileHandler(pyinotify.ProcessEvent):
             # Send only modifications of cluster
             return None, None
 
-        msg = {'operation':    op_id,
-               'type':         "ganeti-cluster-status"}
+        msg = {'operation': op_id,
+               'type':      "ganeti-cluster-status"}
 
         routekey = "ganeti.event.cluster"
 

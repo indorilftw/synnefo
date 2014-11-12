@@ -3,7 +3,8 @@ import imp
 import sys
 import glob
 
-def load(conf_dir): 
+
+def load(conf_dir):
     """Takes a configuration file directory and interprets all *.conf files"""
 
     files = glob.glob(os.path.join(conf_dir, '*.conf'))
@@ -13,10 +14,10 @@ def load(conf_dir):
             # We are using a version that understands PYTHONDONTWRITEBYTECODE
             # so it is safe to use imp.load_source here
             module = imp.load_source(filename, filename)
-            #CONFIG = getattr(module, 'CONFIG', None)
+            # CONFIG = getattr(module, 'CONFIG', None)
         else:
             module = {}
             execfile(filename, module)
-            #CONFIG = module.get('CONFIG')
+            # CONFIG = module.get('CONFIG')
 
         return module
