@@ -223,7 +223,7 @@ class ImagesTestSuite(BurninTests):
 
         self.info("Set image metadata in the pithos domain")
         pithos.set_object_meta('%s_copy' % self.temp_image_name,
-                {'foo': 'bar'})
+                               {'foo': 'bar'})
 
         self.info("Checking copied image "
                   "is still listed among the images.")
