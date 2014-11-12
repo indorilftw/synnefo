@@ -44,6 +44,7 @@ activation_backend = activation_backends.get_backend()
 
 logger = logging.getLogger(__name__)
 
+
 @csrf_exempt
 @api.api_method(http_method="POST", token_required=True, user_required=False,
                 logger=logger)
