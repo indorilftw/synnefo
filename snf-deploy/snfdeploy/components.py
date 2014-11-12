@@ -1275,8 +1275,8 @@ class NFS(base.Component):
             "mkdir -p %s" % config.ganeti_dir,
             "mkdir -p %s" % config.archip_dir,
             "cd %s && mkdir {maps,blocks,locks}" % config.archip_dir,
-            "cd %s && chown archipelago:synnefo {maps,blocks,locks}" % \
-              config.archip_dir,
+            "cd %s && chown archipelago:synnefo {maps,blocks,locks}" %
+            config.archip_dir,
             "cd %s && chmod 770 {maps,blocks,locks}" % config.archip_dir,
             "cd %s && chmod g+s {maps,blocks,locks}" % config.archip_dir,
             ]
@@ -1334,7 +1334,7 @@ class Pithos(base.Component):
     @base.run_cmds
     def prepare(self):
         return [
-            #FIXME: Workaround until snf-pithos-webclient creates conf
+            # FIXME: Workaround until snf-pithos-webclient creates conf
             # files properly with root:synnefo
             "chown root:synnefo /etc/synnefo/*snf-pithos-webclient*conf",
             ]
@@ -1668,6 +1668,7 @@ class Admin(base.Component):
             "snf-manage user-modify %s --add-group=admin" % user_id
             ]
 
+
 class Kamaki(base.Component):
     REQUIRED_PACKAGES = [
         "python-progress",
@@ -1682,7 +1683,7 @@ class Kamaki(base.Component):
         self.ADMIN.make_user_admin_user()
         self.CA.get("/root/ca/cacert.pem", "/tmp/cacert.pem")
         self.put("/tmp/cacert.pem",
-          "/usr/local/share/ca-certificates/Synnefo_Root_CA.crt")
+                 "/usr/local/share/ca-certificates/Synnefo_Root_CA.crt")
 
     @base.run_cmds
     def prepare(self):
@@ -1848,7 +1849,7 @@ class Archip(base.Component):
     @base.run_cmds
     def restart(self):
         return [
-            #FIXME: See https://github.com/grnet/archipelago/pull/44
+            # FIXME: See https://github.com/grnet/archipelago/pull/44
             "mkdir -p /dev/shm/posixfd",
             "chown -R synnefo:synnefo /dev/shm/posixfd",
             "archipelago restart",

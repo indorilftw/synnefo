@@ -40,12 +40,11 @@ def cert_override(cert_contents, domain):
     issuer_name = "".join(issuer_parts[:-2])
     issuer_domain = ".".join(issuer_parts[-2:])
 
-    serial_prefix =  "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\t" + \
-                     "\x00\x00\x00$\x00"
+    serial_prefix = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\t" + \
+                    "\x00\x00\x00$\x00"
     serial_content = serial_prefix + serial + issuer_name
     serial_hash = base64.b64encode(serial_content)
     issuer_hash = base64.b64encode(issuer_domain)
-
 
     return tpl % {
         'domain': domain,
