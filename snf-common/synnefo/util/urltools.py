@@ -32,9 +32,9 @@ __all__ = ["ParseResult", "SplitResult", "split",
            "normalize_fragment", "unquote"]
 
 
-#PSL_URL = 'http://mxr.mozilla.org/mozilla-central/source/netwerk/dns/effective_tld_names.dat?raw=1'
-#
-#def _get_public_suffix_list():
+# PSL_URL = 'http://mxr.mozilla.org/mozilla-central/source/netwerk/dns/effective_tld_names.dat?raw=1'
+
+# def _get_public_suffix_list():
 #    """Get the public suffix list.
 #    """
 #    local_psl = os.environ.get('PUBLIC_SUFFIX_LIST')
@@ -48,8 +48,8 @@ __all__ = ["ParseResult", "SplitResult", "split",
 #        if item != '' and not item.startswith('//'):
 #            psl.add(item)
 #    return psl
-#
-#PSL = _get_public_suffix_list()
+
+# PSL = _get_public_suffix_list()
 
 
 SCHEMES = ['http', 'https', 'ftp', 'sftp', 'file', 'gopher', 'imap', 'mms',
@@ -71,8 +71,8 @@ UNQUOTE_EXCEPTIONS = {
     'fragment': ' +#'
 }
 
-#_hextochr = {'%02x' % i: chr(i) for i in range(256)}
-#_hextochr.update({'%02X' % i: chr(i) for i in range(256)})
+# _hextochr = {'%02x' % i: chr(i) for i in range(256)}
+# _hextochr.update({'%02X' % i: chr(i) for i in range(256)})
 _hextochr = dict(('%02x' % i, chr(i)) for i in range(256))
 _hextochr.update(dict(('%02X' % i, chr(i)) for i in range(256)))
 _idna_encode = lambda x: x.decode('utf-8').encode('idna')
@@ -114,7 +114,7 @@ def normalize(url):
     return assemble(result)
 
 
-#def encode(url):
+# def encode(url):
 #    """Encode URL
 #    """
 #    parts = extract(url)
@@ -172,7 +172,7 @@ def normalize_port(scheme, port):
 def normalize_path(path):
     """Normalize path (collapse etc.)
     """
-    if path in ['//', '/' ,'']:
+    if path in ['//', '/', '']:
         return '/'
     npath = normpath(unquote(path, exceptions=UNQUOTE_EXCEPTIONS['path']))
     if path[-1] == '/' and npath != '/':
@@ -222,7 +222,7 @@ def unquote(text, exceptions=[]):
     return ''.join(res)
 
 
-#def parse(url):
+# def parse(url):
 #    """Parse a URL
 #    """
 #    parts = split(url)
@@ -235,7 +235,7 @@ def unquote(text, exceptions=[]):
 #                       port, parts.path, parts.query, parts.fragment)
 
 
-#def extract(url):
+# def extract(url):
 #    """Extract as much information from a (relative) URL as possible
 #    """
 #    parts = split(url)
@@ -341,7 +341,7 @@ def split_netloc(netloc):
     return username, password, host, port
 
 
-#def split_host(host):
+# def split_host(host):
 #    """Use the Public Suffix List to split host into subdomain, domain and tld
 #    """
 #    if '[' in host:

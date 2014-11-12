@@ -78,7 +78,7 @@ class AMQPHaighaClient():
         host = self.hosts.pop()
         self.hosts.insert(0, host)
 
-        #Patch gevent
+        # Patch gevent
         monkey.patch_all()
 
         try:
