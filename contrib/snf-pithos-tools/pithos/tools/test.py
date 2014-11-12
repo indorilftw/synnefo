@@ -109,7 +109,7 @@ class BaseTestCase(unittest.TestCase):
 
     def assert_status(self, status, codes):
         l = [elem for elem in self.return_codes]
-        if type(codes) == types.ListType:
+        if isinstance(codes, list):
             l.extend(codes)
         else:
             l.append(codes)
@@ -154,7 +154,7 @@ class BaseTestCase(unittest.TestCase):
             r = callableObj(*args, **kwargs)
             self.fail('Should never reach here')
         except Fault, f:
-            if type(status) == types.ListType:
+            if isinstance(status, list):
                 self.failUnless(f.status in status)
             else:
                 self.failUnless(f.status == status)
@@ -202,9 +202,9 @@ class BaseTestCase(unittest.TestCase):
                                  container, object)
 
     def assert_versionlist_structure(self, versionlist):
-        self.assertTrue(type(versionlist) == types.ListType)
+        self.assertTrue(isinstance(versionlist, list))
         for elem in versionlist:
-            self.assertTrue(type(elem) == types.ListType)
+            self.assertTrue(isinstance(elem, list))
             self.assertEqual(len(elem), 2)
 
     def upload_random_data(self, container, name, length=1024, type=None,
@@ -2757,8 +2757,7 @@ class TestUsageFreeVersioningAutoContainerPolicy(BaseTestCase):
         self.assertEqual(self.usage, self.initial_usage)
 
 
-class TestUsageFreeVersioningNoneContainerPolicy(
-    TestUsageFreeVersioningAutoContainerPolicy):
+class TestUsageFreeVersioningNoneContainerPolicy(BaseTestCase):
     """ Challenge free version accounting
        in a container with none versioning policy
 
