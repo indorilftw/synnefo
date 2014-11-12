@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from snf_django.utils.testing import BaseAPITest, mocked_quotaholder
-#from synnefo.db.models import Volume
+# from synnefo.db.models import Volume
 from synnefo.db import models_factory as mf
 from synnefo.volume import volumes
 from snf_django.lib.api import faults
