@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'Resource.uplimit'
         db.add_column('im_resource', 'uplimit', self.gf('snf_django.lib.db.fields.IntDecimalField')(default=0, max_digits=38, decimal_places=0), keep_default=False)
 
@@ -23,9 +24,8 @@ class Migration(SchemaMigration):
         # Changing field 'AstakosUserQuota.quantity'
         db.alter_column('im_astakosuserquota', 'quantity', self.gf('snf_django.lib.db.fields.IntDecimalField')(max_digits=38, decimal_places=0))
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'Resource.uplimit'
         db.delete_column('im_resource', 'uplimit')
 
@@ -40,7 +40,6 @@ class Migration(SchemaMigration):
 
         # Changing field 'AstakosUserQuota.quantity'
         db.alter_column('im_astakosuserquota', 'quantity', self.gf('django.db.models.fields.BigIntegerField')(null=True))
-
 
     models = {
         'auth.group': {

@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding model 'ProjectResourceQuota'
         db.create_table('im_projectresourcequota', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -69,9 +70,8 @@ class Migration(SchemaMigration):
         # Adding field 'Project.private'
         db.add_column('im_project', 'private', self.gf('django.db.models.fields.BooleanField')(default=False), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Removing unique constraint on 'ProjectResourceQuota', fields ['resource', 'project']
         db.delete_unique('im_projectresourcequota', ['resource_id', 'project_id'])
 
@@ -125,7 +125,6 @@ class Migration(SchemaMigration):
 
         # Deleting field 'Project.private'
         db.delete_column('im_project', 'private')
-
 
     models = {
         'auth.group': {

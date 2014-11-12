@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'Resource.project_default'
         db.add_column('im_resource', 'project_default', self.gf('django.db.models.fields.BigIntegerField')(default=0), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'Resource.project_default'
         db.delete_column('im_resource', 'project_default')
-
 
     models = {
         'auth.group': {

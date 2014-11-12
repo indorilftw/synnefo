@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Removing unique constraint on 'ProjectApplication', fields ['precursor_application']
         db.delete_unique('im_projectapplication', ['precursor_application_id'])
 
@@ -35,9 +36,8 @@ class Migration(SchemaMigration):
         # Changing field 'ProjectApplication.precursor_application'
         db.alter_column('im_projectapplication', 'precursor_application_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['im.ProjectApplication'], null=True))
 
-
     def backwards(self, orm):
-        
+
         # Changing field 'ApprovalTerms.date'
         db.alter_column('im_approvalterms', 'date', self.gf('django.db.models.fields.DateTimeField')())
 
@@ -64,7 +64,6 @@ class Migration(SchemaMigration):
 
         # Adding unique constraint on 'ProjectApplication', fields ['precursor_application']
         db.create_unique('im_projectapplication', ['precursor_application_id'])
-
 
     models = {
         'auth.group': {

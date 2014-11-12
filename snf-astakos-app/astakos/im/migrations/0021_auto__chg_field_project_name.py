@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Changing field 'Project.name'
         db.alter_column('im_project', 'name', self.gf('django.db.models.fields.CharField')(max_length=80, unique=True, null=True))
 
-
     def backwards(self, orm):
-        
+
         # Changing field 'Project.name'
         db.alter_column('im_project', 'name', self.gf('django.db.models.fields.CharField')(default='', max_length=80, unique=True))
-
 
     models = {
         'auth.group': {

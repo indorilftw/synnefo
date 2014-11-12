@@ -4,6 +4,7 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
+
 def _partition_by(f, l):
     d = {}
     for x in l:
@@ -53,13 +54,13 @@ class Migration(DataMigration):
         logs = []
         for m in memberships:
             logs.append(orm.ProjectMembershipLog(
-                    membership=m, date=m.request_date,
-                    from_state=None, to_state=REQUESTED))
+                        membership=m, date=m.request_date,
+                        from_state=None, to_state=REQUESTED))
 
             if m.leave_request_date:
                 logs.append(orm.ProjectMembershipLog(
-                        membership=m, date=m.leave_request_date,
-                        from_state=ACCEPTED, to_state=LEAVE_REQUESTED))
+                            membership=m, date=m.leave_request_date,
+                            from_state=ACCEPTED, to_state=LEAVE_REQUESTED))
 
         orm.ProjectMembershipLog.objects.bulk_create(logs)
 
@@ -91,14 +92,13 @@ class Migration(DataMigration):
             to_state = H2S[mh.reason]
             from_state = ASSUMED_PRED[to_state]
             logs.append(orm.ProjectMembershipLog(
-                    membership=m, date=mh.date,
-                    from_state=from_state, to_state=to_state))
+                        membership=m, date=mh.date,
+                        from_state=from_state, to_state=to_state))
 
         orm.ProjectMembershipLog.objects.bulk_create(logs)
 
     def backwards(self, orm):
         "Write your backwards methods here."
-
 
     models = {
         'auth.group': {

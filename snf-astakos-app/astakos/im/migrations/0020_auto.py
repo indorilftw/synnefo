@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding index on 'ProjectApplication', fields ['state']
         db.create_index('im_projectapplication', ['state'])
 
-
     def backwards(self, orm):
-        
+
         # Removing index on 'ProjectApplication', fields ['state']
         db.delete_index('im_projectapplication', ['state'])
-
 
     models = {
         'auth.group': {

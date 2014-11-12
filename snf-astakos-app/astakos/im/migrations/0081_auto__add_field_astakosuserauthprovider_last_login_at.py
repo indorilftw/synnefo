@@ -13,11 +13,9 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.DateTimeField')(default=None, null=True),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Deleting field 'AstakosUserAuthProvider.last_login_at'
         db.delete_column('im_astakosuserauthprovider', 'last_login_at')
-
 
     models = {
         'auth.group': {

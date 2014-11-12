@@ -4,25 +4,24 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Changing field 'AstakosUser.auth_token'
         db.alter_column('im_astakosuser', 'auth_token', self.gf('django.db.models.fields.CharField')(max_length=64, unique=True, null=True))
 
         # Changing field 'Component.auth_token'
         db.alter_column('im_component', 'auth_token', self.gf('django.db.models.fields.CharField')(max_length=64, unique=True, null=True))
 
-
     def backwards(self, orm):
-        
+
         # Changing field 'AstakosUser.auth_token'
         db.alter_column('im_astakosuser', 'auth_token', self.gf('django.db.models.fields.CharField')(unique=True, max_length=32, null=True))
 
         # Changing field 'Component.auth_token'
         db.alter_column('im_component', 'auth_token', self.gf('django.db.models.fields.CharField')(unique=True, max_length=32, null=True))
-
 
     models = {
         'auth.group': {

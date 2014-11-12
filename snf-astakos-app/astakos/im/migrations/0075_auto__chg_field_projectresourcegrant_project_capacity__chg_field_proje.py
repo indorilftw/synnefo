@@ -4,25 +4,24 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Changing field 'ProjectResourceGrant.project_capacity'
         db.alter_column('im_projectresourcegrant', 'project_capacity', self.gf('django.db.models.fields.BigIntegerField')(default=0))
 
         # Changing field 'ProjectResourceGrant.project_application'
         db.alter_column('im_projectresourcegrant', 'project_application_id', self.gf('django.db.models.fields.related.ForeignKey')(default=None, to=orm['im.ProjectApplication']))
 
-
     def backwards(self, orm):
-        
+
         # Changing field 'ProjectResourceGrant.project_capacity'
         db.alter_column('im_projectresourcegrant', 'project_capacity', self.gf('django.db.models.fields.BigIntegerField')(null=True))
 
         # Changing field 'ProjectResourceGrant.project_application'
         db.alter_column('im_projectresourcegrant', 'project_application_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['im.ProjectApplication'], null=True))
-
 
     models = {
         'auth.group': {

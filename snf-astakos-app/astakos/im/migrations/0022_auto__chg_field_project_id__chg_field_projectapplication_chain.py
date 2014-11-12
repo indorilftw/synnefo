@@ -4,6 +4,7 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
@@ -26,7 +27,6 @@ class Migration(SchemaMigration):
             # Adding index on 'ProjectApplication', fields ['chain']
             db.create_index('im_projectapplication', ['chain'])
 
-
     def backwards(self, orm):
 
         # Removing index on 'ProjectApplication', fields ['chain']
@@ -40,7 +40,6 @@ class Migration(SchemaMigration):
 
         # Changing field 'ProjectApplication.chain'
         db.alter_column('im_projectapplication', 'chain', self.gf('django.db.models.fields.IntegerField')())
-
 
     models = {
         'auth.group': {

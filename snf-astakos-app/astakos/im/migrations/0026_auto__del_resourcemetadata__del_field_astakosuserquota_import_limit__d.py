@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Removing unique constraint on 'Resource', fields ['name', 'service']
         db.delete_unique('im_resource', ['name', 'service_id'])
 
@@ -80,9 +81,8 @@ class Migration(SchemaMigration):
         # Changing field 'ProjectResourceGrant.project_capacity'
         db.alter_column('im_projectresourcegrant', 'project_capacity', self.gf('snf_django.lib.db.fields.IntDecimalField')(null=True, max_digits=38, decimal_places=0))
 
-
     def backwards(self, orm):
-        
+
         # Removing unique constraint on 'Resource', fields ['name']
         db.delete_unique('im_resource', ['name'])
 
@@ -164,7 +164,6 @@ class Migration(SchemaMigration):
 
         # Changing field 'ProjectResourceGrant.project_capacity'
         db.alter_column('im_projectresourcegrant', 'project_capacity', self.gf('snf_django.lib.db.fields.IntDecimalField')(max_digits=38, decimal_places=0))
-
 
     models = {
         'auth.group': {

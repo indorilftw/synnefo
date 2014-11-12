@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding model 'EndpointData'
         db.create_table('im_endpointdata', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -36,9 +37,8 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('im', ['Endpoint'])
 
-
     def backwards(self, orm):
-        
+
         # Removing unique constraint on 'EndpointData', fields ['endpoint', 'key']
         db.delete_unique('im_endpointdata', ['endpoint_id', 'key'])
 
@@ -50,7 +50,6 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Endpoint'
         db.delete_table('im_endpoint')
-
 
     models = {
         'auth.group': {

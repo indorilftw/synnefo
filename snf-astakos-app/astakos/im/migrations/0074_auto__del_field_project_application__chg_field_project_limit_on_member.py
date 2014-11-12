@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Deleting field 'Project.application'
         db.delete_column('im_project', 'application_id')
 
@@ -32,9 +33,8 @@ class Migration(SchemaMigration):
         # Changing field 'Project.description'
         db.alter_column('im_project', 'description', self.gf('django.db.models.fields.TextField')(default=''))
 
-
     def backwards(self, orm):
-        
+
         # Adding field 'Project.application'
         db.add_column('im_project', 'application', self.gf('django.db.models.fields.related.OneToOneField')(default=None, related_name='project', unique=True, to=orm['im.ProjectApplication']), keep_default=False)
 
@@ -58,7 +58,6 @@ class Migration(SchemaMigration):
 
         # Changing field 'Project.description'
         db.alter_column('im_project', 'description', self.gf('django.db.models.fields.TextField')(null=True))
-
 
     models = {
         'auth.group': {

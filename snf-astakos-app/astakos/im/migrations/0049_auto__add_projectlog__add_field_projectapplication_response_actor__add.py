@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding model 'ProjectLog'
         db.create_table('im_projectlog', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -33,9 +34,8 @@ class Migration(SchemaMigration):
         # Adding field 'ProjectApplication.waive_actor'
         db.add_column('im_projectapplication', 'waive_actor', self.gf('django.db.models.fields.related.ForeignKey')(related_name='waived_apps', null=True, to=orm['im.AstakosUser']), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting model 'ProjectLog'
         db.delete_table('im_projectlog')
 
@@ -50,7 +50,6 @@ class Migration(SchemaMigration):
 
         # Deleting field 'ProjectApplication.waive_actor'
         db.delete_column('im_projectapplication', 'waive_actor_id')
-
 
     models = {
         'auth.group': {

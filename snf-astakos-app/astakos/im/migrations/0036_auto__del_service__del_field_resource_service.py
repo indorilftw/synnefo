@@ -4,19 +4,19 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Deleting model 'Service'
         db.delete_table('im_service')
 
         # Deleting field 'Resource.service'
         db.delete_column('im_resource', 'service_id')
 
-
     def backwards(self, orm):
-        
+
         # Adding model 'Service'
         db.create_table('im_service', (
             ('api_url', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
@@ -32,7 +32,6 @@ class Migration(SchemaMigration):
 
         # User chose to not deal with backwards NULL issues for 'Resource.service'
         raise RuntimeError("Cannot reverse this migration. 'Resource.service' and its values cannot be restored.")
-
 
     models = {
         'auth.group': {

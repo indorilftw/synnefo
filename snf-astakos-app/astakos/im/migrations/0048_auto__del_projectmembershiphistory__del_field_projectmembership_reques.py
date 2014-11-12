@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Deleting model 'ProjectMembershipHistory'
         db.delete_table('im_projectmembershiphistory')
 
@@ -20,9 +21,8 @@ class Migration(SchemaMigration):
         # Deleting field 'ProjectMembership.acceptance_date'
         db.delete_column('im_projectmembership', 'acceptance_date')
 
-
     def backwards(self, orm):
-        
+
         # Adding model 'ProjectMembershipHistory'
         db.create_table('im_projectmembershiphistory', (
             ('project', self.gf('django.db.models.fields.BigIntegerField')()),
@@ -42,7 +42,6 @@ class Migration(SchemaMigration):
 
         # Adding field 'ProjectMembership.acceptance_date'
         db.add_column('im_projectmembership', 'acceptance_date', self.gf('django.db.models.fields.DateTimeField')(null=True, db_index=True), keep_default=False)
-
 
     models = {
         'auth.group': {

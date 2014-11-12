@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'Resource.service_origin'
         db.add_column('im_resource', 'service_origin', self.gf('django.db.models.fields.CharField')(default='', max_length=255, db_index=True), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'Resource.service_origin'
         db.delete_column('im_resource', 'service_origin')
-
 
     models = {
         'auth.group': {

@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding model 'AuthProviderPolicyProfile'
         db.create_table('im_authproviderpolicyprofile', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -43,9 +44,8 @@ class Migration(SchemaMigration):
         ))
         db.create_unique('im_authproviderpolicyprofile_users', ['authproviderpolicyprofile_id', 'astakosuser_id'])
 
-
     def backwards(self, orm):
-        
+
         # Deleting model 'AuthProviderPolicyProfile'
         db.delete_table('im_authproviderpolicyprofile')
 
@@ -54,7 +54,6 @@ class Migration(SchemaMigration):
 
         # Removing M2M table for field users on 'AuthProviderPolicyProfile'
         db.delete_table('im_authproviderpolicyprofile_users')
-
 
     models = {
         'auth.group': {

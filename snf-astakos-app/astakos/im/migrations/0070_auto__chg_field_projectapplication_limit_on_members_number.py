@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Changing field 'ProjectApplication.limit_on_members_number'
         db.alter_column('im_projectapplication', 'limit_on_members_number', self.gf('django.db.models.fields.BigIntegerField')(null=True))
 
-
     def backwards(self, orm):
-        
+
         # Changing field 'ProjectApplication.limit_on_members_number'
         db.alter_column('im_projectapplication', 'limit_on_members_number', self.gf('django.db.models.fields.PositiveIntegerField')(null=True))
-
 
     models = {
         'auth.group': {

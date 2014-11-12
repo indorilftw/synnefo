@@ -4,11 +4,12 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        custom = set(orm.AstakosUserQuota.objects.all().\
-                         values_list("user__uuid", "resource__name"))
+        custom = set(orm.AstakosUserQuota.objects.all().
+                     values_list("user__uuid", "resource__name"))
 
         users = orm.AstakosUser.objects.filter(
             moderated=True, is_rejected=False)

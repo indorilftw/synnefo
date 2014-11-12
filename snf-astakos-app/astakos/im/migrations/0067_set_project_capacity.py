@@ -6,7 +6,7 @@ from django.db import models
 
 APPROVED = 1
 ACTUALLY_ACCEPTED = [1, 5]
-MAX = 2**63 - 1
+MAX = 2 ** 63 - 1
 
 
 class Migration(DataMigration):

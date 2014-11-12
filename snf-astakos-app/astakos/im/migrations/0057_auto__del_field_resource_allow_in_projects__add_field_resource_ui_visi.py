@@ -15,13 +15,11 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.BooleanField')(default=True),
                       keep_default=False)
 
-
     def backwards(self, orm):
         db.rename_column('im_resource', 'ui_visible', 'allow_in_projects')
 
         # Deleting field 'Resource.api_visible'
         db.delete_column('im_resource', 'api_visible')
-
 
     models = {
         'auth.group': {

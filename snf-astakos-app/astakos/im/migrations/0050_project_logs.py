@@ -8,6 +8,7 @@ NORMAL = 1
 SUSPENDED = 10
 TERMINATED = 100
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
@@ -16,22 +17,21 @@ class Migration(DataMigration):
         suspended = orm.Project.objects.filter(state=SUSPENDED)
         for project in suspended:
             logs.append(orm.ProjectLog(
-                    project=project, date=project.deactivation_date,
-                    reason=project.deactivation_reason,
-                    from_state=NORMAL, to_state=SUSPENDED))
+                        project=project, date=project.deactivation_date,
+                        reason=project.deactivation_reason,
+                        from_state=NORMAL, to_state=SUSPENDED))
 
         terminated = orm.Project.objects.filter(state=TERMINATED)
         for project in terminated:
             logs.append(orm.ProjectLog(
-                    project=project, date=project.deactivation_date,
-                    reason=project.deactivation_reason,
-                    from_state=NORMAL, to_state=TERMINATED))
+                        project=project, date=project.deactivation_date,
+                        reason=project.deactivation_reason,
+                        from_state=NORMAL, to_state=TERMINATED))
 
         orm.ProjectLog.objects.bulk_create(logs)
 
     def backwards(self, orm):
         "Write your backwards methods here."
-
 
     models = {
         'auth.group': {

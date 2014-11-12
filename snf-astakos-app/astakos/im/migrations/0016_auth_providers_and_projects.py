@@ -9,6 +9,7 @@ from django.core.validators import email_re
 
 from django.conf import settings
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
@@ -21,7 +22,7 @@ class Migration(DataMigration):
                     user.save()
 
             while not user.uuid:
-                uuid_val =  str(uuid.uuid4())
+                uuid_val = str(uuid.uuid4())
                 try:
                     orm.AstakosUser.objects.get(uuid=uuid_val)
                 except orm.AstakosUser.DoesNotExist, e:
@@ -55,16 +56,15 @@ class Migration(DataMigration):
 
             if orm.AstakosUser.objects.filter(email__iexact=u.email).count() == 1:
                 msg = ("You requested user with duplicate email %s and id (%d) to"
-                " be removed, but it seems that only one user exists with this"
-                " email in the database.") % (u.email , pk)
+                       " be removed, but it seems that only one user exists with this"
+                       " email in the database.") % (u.email, pk)
                 raise Exception(msg)
             else:
                 orm.AstakosUser.objects.filter(pk=int(pk)).delete()
 
         for u in orm.AstakosUser.objects.all():
             if orm.AstakosUser.objects.filter(email__iexact=u.email).count() > 1:
-                existing = orm.AstakosUser.objects.filter(
-                                email__iexact=u.email)
+                existing = orm.AstakosUser.objects.filter(email__iexact=u.email)
                 print "Duplicate email found in database"
                 for e in existing:
                     print "%d: %s (is_active: %s)" % (e.pk, e.email, e.is_active)
@@ -73,8 +73,8 @@ class Migration(DataMigration):
                     for e in existing.exclude(pk=int(keep)):
                         e.delete()
                 else:
-                    raise Exception("Email %s is not unique %r. Please resolve conflicts and run migrate again." % (u.email,
-                                                                 existing))
+                    raise Exception("Email %s is not unique %r. Please resolve conflicts and run migrate again." %
+                                    (u.email, existing))
             u = orm.AstakosUser.objects.get(email__iexact=u.email)
             save = False
             if not email_re.match(u.username):
@@ -82,7 +82,6 @@ class Migration(DataMigration):
                 save = True
             if save:
                 u.save()
-
 
     def backwards(self, orm):
         # set third_party_identifier
@@ -102,12 +101,11 @@ class Migration(DataMigration):
                 while not username:
                     username_val = uuid.uuid4().hex[:30]
                     try:
-                        orm.AstakosUser.objects.get(username = username_val)
+                        orm.AstakosUser.objects.get(username=username_val)
                     except orm.AstakosUser.DoesNotExist, e:
                         username = username_val
                 u.username = username
             u.save()
-
 
     models = {
         'auth.group': {

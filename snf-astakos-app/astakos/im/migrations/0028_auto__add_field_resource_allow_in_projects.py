@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'Resource.allow_in_projects'
         db.add_column('im_resource', 'allow_in_projects', self.gf('django.db.models.fields.BooleanField')(default=True), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'Resource.allow_in_projects'
         db.delete_column('im_resource', 'allow_in_projects')
-
 
     models = {
         'auth.group': {

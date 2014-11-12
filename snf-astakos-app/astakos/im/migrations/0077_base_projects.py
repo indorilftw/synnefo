@@ -8,6 +8,7 @@ from django.db import models
 CLOSED_POLICY = 3
 ACTIVATED = 1
 
+
 class Migration(DataMigration):
 
     def new_chain(self, orm):
@@ -80,7 +81,6 @@ class Migration(DataMigration):
 
     def backwards(self, orm):
         "Write your backwards methods here."
-
 
     models = {
         'auth.group': {

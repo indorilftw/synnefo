@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
-    
+
     def forwards(self, orm):
-        
+
         # Changing field 'ProjectApplication.chain'
         db.alter_column('im_projectapplication', 'chain', self.gf('django.db.models.fields.related.ForeignKey')(db_column='chain', to=orm['im.Project']))
 
@@ -17,10 +18,9 @@ class Migration(SchemaMigration):
         if db.backend_name != 'sqlite3':
             # Removing index on 'Project', fields ['id']
             db.delete_index('im_project', ['id'])
-    
-    
+
     def backwards(self, orm):
-        
+
         # Changing field 'ProjectApplication.chain'
         db.alter_column('im_projectapplication', 'chain', self.gf('django.db.models.fields.related.ForeignKey')(db_column='chain', to=orm['im.Chain']))
 
@@ -29,8 +29,7 @@ class Migration(SchemaMigration):
 
         # Adding index on 'Project', fields ['id']
         db.create_index('im_project', ['id'])
-    
-    
+
     models = {
         'auth.group': {
             'Meta': {'object_name': 'Group'},
@@ -304,5 +303,5 @@ class Migration(SchemaMigration):
             'value': ('django.db.models.fields.IntegerField', [], {})
         }
     }
-    
+
     complete_apps = ['im']

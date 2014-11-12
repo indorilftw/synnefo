@@ -4,25 +4,24 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'Project.is_base'
         db.add_column('im_project', 'is_base', self.gf('django.db.models.fields.BooleanField')(default=False), keep_default=False)
 
         # Adding field 'AstakosUser.base_project'
         db.add_column('im_astakosuser', 'base_project', self.gf('django.db.models.fields.related.ForeignKey')(related_name='base_user', null=True, to=orm['im.Project']), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'Project.is_base'
         db.delete_column('im_project', 'is_base')
 
         # Deleting field 'AstakosUser.base_project'
         db.delete_column('im_astakosuser', 'base_project_id')
-
 
     models = {
         'auth.group': {

@@ -4,6 +4,7 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
@@ -28,7 +29,6 @@ class Migration(DataMigration):
             resource.name = prefix + resource_name
             resource.save()
 
-
     def backwards(self, orm):
         # Prefix resource names
         resources = orm.Resource.objects.all().select_related()
@@ -50,7 +50,6 @@ class Migration(DataMigration):
         else:
             s.name = 'pithos+'
             s.save()
-
 
     models = {
         'auth.group': {

@@ -4,11 +4,10 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
+
 class Migration(DataMigration):
 
-    depends_on = (
-        ("quotaholder_app", "0010_non_accepted.py"),
-        )
+    depends_on = (("quotaholder_app", "0010_non_accepted.py"),)
 
     def forwards(self, orm):
         Holding = orm["quotaholder_app.holding"]

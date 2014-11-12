@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'Component.base_url'
         db.add_column('im_component', 'base_url', self.gf('django.db.models.fields.CharField')(max_length=1024, null=True), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'Component.base_url'
         db.delete_column('im_component', 'base_url')
-
 
     models = {
         'auth.group': {

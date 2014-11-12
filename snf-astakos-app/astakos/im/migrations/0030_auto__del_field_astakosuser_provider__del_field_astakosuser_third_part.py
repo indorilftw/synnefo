@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Deleting field 'AstakosUser.provider'
         db.delete_column('im_astakosuser', 'provider')
 
@@ -47,9 +48,8 @@ class Migration(SchemaMigration):
         # Adding field 'AstakosUser.accepted_email'
         db.add_column('im_astakosuser', 'accepted_email', self.gf('django.db.models.fields.EmailField')(default=None, max_length=75, null=True, blank=True), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Adding field 'AstakosUser.provider'
         db.add_column('im_astakosuser', 'provider', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
 
@@ -88,7 +88,6 @@ class Migration(SchemaMigration):
 
         # Deleting field 'AstakosUser.accepted_email'
         db.delete_column('im_astakosuser', 'accepted_email')
-
 
     models = {
         'auth.group': {

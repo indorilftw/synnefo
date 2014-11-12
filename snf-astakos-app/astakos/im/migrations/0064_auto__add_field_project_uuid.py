@@ -13,11 +13,9 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.CharField')(max_length=255, unique=True, null=True),
                       keep_default=False)
 
-
     def backwards(self, orm):
         # Deleting field 'Project.uuid'
         db.delete_column('im_project', 'uuid')
-
 
     models = {
         'auth.group': {

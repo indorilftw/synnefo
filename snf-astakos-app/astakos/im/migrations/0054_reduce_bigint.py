@@ -6,6 +6,7 @@ from django.db import models
 
 MAX = 2**63 - 1
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):

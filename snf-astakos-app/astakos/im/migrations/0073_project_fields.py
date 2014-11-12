@@ -63,10 +63,10 @@ class Migration(DataMigration):
         for grant in grants:
             project = grant.project_application.project
             quotas.append(orm.ProjectResourceQuota(
-                    resource=grant.resource,
-                    project=project,
-                    project_capacity=grant.project_capacity,
-                    member_capacity=grant.member_capacity))
+                          resource=grant.resource,
+                          project=project,
+                          project_capacity=grant.project_capacity,
+                          member_capacity=grant.member_capacity))
 
         orm.ProjectResourceQuota.objects.bulk_create(quotas)
 
@@ -92,7 +92,6 @@ class Migration(DataMigration):
 
     def backwards(self, orm):
         "Write your backwards methods here."
-
 
     models = {
         'auth.group': {

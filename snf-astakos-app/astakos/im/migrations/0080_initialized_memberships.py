@@ -6,6 +6,7 @@ from django.db import models
 
 ACCEPTED_STATES = [1, 5, 10]
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
@@ -19,7 +20,6 @@ class Migration(DataMigration):
 
     def backwards(self, orm):
         "Write your backwards methods here."
-
 
     models = {
         'auth.group': {

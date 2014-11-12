@@ -4,6 +4,7 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
@@ -11,7 +12,7 @@ class Migration(DataMigration):
             'astakos':  'account',  # astakos.pending_app is account-related
             'cyclades': 'compute',
             'pithos':   'object-store',
-            }
+        }
 
         services = orm.Service.objects.all()
         for service in services:
@@ -30,7 +31,6 @@ class Migration(DataMigration):
 
     def backwards(self, orm):
         "Write your backwards methods here."
-
 
     models = {
         'auth.group': {
