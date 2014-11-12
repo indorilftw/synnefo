@@ -179,6 +179,7 @@ WHERE vm.deleted=false
 GROUP BY is_system, osfamily, os
 """
 
+
 def get_image_stats(backend=None):
     cursor = connection.cursor()
     cursor.execute(IMAGES_QUERY)
