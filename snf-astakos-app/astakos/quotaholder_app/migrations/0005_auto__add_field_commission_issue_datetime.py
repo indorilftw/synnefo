@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'Commission.issue_datetime'
         db.add_column('quotaholder_app_commission', 'issue_datetime', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 1, 1, 0, 0, 0)), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'Commission.issue_datetime'
         db.delete_column('quotaholder_app_commission', 'issue_datetime')
-
 
     models = {
         'quotaholder_app.commission': {

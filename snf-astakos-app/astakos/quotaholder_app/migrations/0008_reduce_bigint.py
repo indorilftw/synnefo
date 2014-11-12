@@ -4,7 +4,8 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
-MAX = 2**63 - 1
+MAX = 2 ** 63 - 1
+
 
 class Migration(DataMigration):
 

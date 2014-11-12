@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'ProvisionLog.holder'
         db.add_column('quotaholder_app_provisionlog', 'holder', self.gf('django.db.models.fields.CharField')(default='', max_length=4096), keep_default=False)
 
@@ -41,9 +42,8 @@ class Migration(SchemaMigration):
         # Adding field 'Provision.source'
         db.add_column('quotaholder_app_provision', 'source', self.gf('django.db.models.fields.CharField')(max_length=4096, null=True), keep_default=False)
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'ProvisionLog.holder'
         db.delete_column('quotaholder_app_provisionlog', 'holder')
 
@@ -76,7 +76,6 @@ class Migration(SchemaMigration):
 
         # Deleting field 'Provision.source'
         db.delete_column('quotaholder_app_provision', 'source')
-
 
     models = {
         'quotaholder_app.callserial': {

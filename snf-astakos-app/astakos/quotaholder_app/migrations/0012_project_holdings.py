@@ -4,6 +4,7 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
+
 def _partition_by(f, l):
     d = {}
     for x in l:

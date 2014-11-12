@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding model 'Holder'
         db.create_table('quotaholder_app_holder', (
             ('attribute', self.gf('django.db.models.fields.CharField')(max_length=4096, primary_key=True)),
@@ -117,9 +118,8 @@ class Migration(SchemaMigration):
         # Adding unique constraint on 'CallSerial', fields ['serial', 'clientkey']
         db.create_unique('quotaholder_app_callserial', ['serial', 'clientkey'])
 
-
     def backwards(self, orm):
-        
+
         # Removing unique constraint on 'CallSerial', fields ['serial', 'clientkey']
         db.delete_unique('quotaholder_app_callserial', ['serial', 'clientkey'])
 
@@ -149,7 +149,6 @@ class Migration(SchemaMigration):
 
         # Deleting model 'CallSerial'
         db.delete_table('quotaholder_app_callserial')
-
 
     models = {
         'quotaholder_app.callserial': {

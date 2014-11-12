@@ -4,19 +4,18 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Deleting field 'Commission.issue_time'
         db.delete_column('quotaholder_app_commission', 'issue_time')
 
-
     def backwards(self, orm):
-        
+
         # User chose to not deal with backwards NULL issues for 'Commission.issue_time'
         raise RuntimeError("Cannot reverse this migration. 'Commission.issue_time' and its values cannot be restored.")
-
 
     models = {
         'quotaholder_app.commission': {

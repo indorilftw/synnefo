@@ -5,6 +5,7 @@ from south.v2 import DataMigration
 from django.db import models
 from django.db.models import F
 
+
 class Migration(DataMigration):
 
     def forwards(self, orm):
@@ -15,10 +16,10 @@ class Migration(DataMigration):
         # Populate new fields
         holdings = orm.Holding.objects.all().select_related()
         holdings.update(source="system")
-        holdings.update(usage_min=F('imported')-F('exporting')+
-                        F('returned')-F('releasing'))
-        holdings.update(usage_max=F('importing')-F('exported')+
-                        F('returning')-F('released'))
+        holdings.update(usage_min=F('imported') - F('exporting') +
+                        F('returned') - F('releasing'))
+        holdings.update(usage_max=F('importing') - F('exported') +
+                        F('returning') - F('released'))
 
         for holding in holdings:
             holding.holder = holding.entity.entity
@@ -42,17 +43,15 @@ class Migration(DataMigration):
         plogs.update(holder=F('target'))
         plogs.update(source="system")
         plogs.update(limit=F('target_capacity'))
-        plogs.update(usage_min=F('target_imported')-F('target_exported')+
-                    F('target_returned')-F('target_released'))
+        plogs.update(usage_min=F('target_imported') - F('target_exported') +
+                     F('target_returned') - F('target_released'))
         plogs.update(usage_max=F('usage_min'))
 
         pl_pith = orm.ProvisionLog.objects.filter(resource="pithos+.diskspace")
         pl_pith.update(resource="pithos.diskspace")
 
-
     def backwards(self, orm):
         "Write your backwards methods here."
-
 
     models = {
         'quotaholder_app.callserial': {

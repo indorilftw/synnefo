@@ -4,11 +4,12 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
+
 class Migration(DataMigration):
 
     depends_on = (
         ("im", "0062_accept_with_usage.py"),
-        )
+    )
 
     def forwards(self, orm):
         AstakosUser = orm["im.astakosuser"]

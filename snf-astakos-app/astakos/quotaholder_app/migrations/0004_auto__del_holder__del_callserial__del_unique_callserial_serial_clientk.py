@@ -4,10 +4,11 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Removing unique constraint on 'Holding', fields ['resource', 'entity']
         db.delete_unique('quotaholder_app_holding', ['resource', 'entity_id'])
 
@@ -125,9 +126,8 @@ class Migration(SchemaMigration):
         # Deleting field 'Provision.entity'
         db.delete_column('quotaholder_app_provision', 'entity_id')
 
-
     def backwards(self, orm):
-        
+
         # Removing unique constraint on 'Holding', fields ['resource', 'source', 'holder']
         db.delete_unique('quotaholder_app_holding', ['resource', 'source', 'holder'])
 
@@ -266,7 +266,6 @@ class Migration(SchemaMigration):
 
         # User chose to not deal with backwards NULL issues for 'Provision.entity'
         raise RuntimeError("Cannot reverse this migration. 'Provision.entity' and its values cannot be restored.")
-
 
     models = {
         'quotaholder_app.commission': {
