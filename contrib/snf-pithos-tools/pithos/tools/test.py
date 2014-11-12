@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding=utf8
+# coding=utf8
 
 # Copyright (C) 2010-2014 GRNET S.A.
 #
@@ -49,12 +49,13 @@ try:
 except:
     pass
 
+
 class BaseTestCase(unittest.TestCase):
-    #TODO unauthorized request
+    # TODO unauthorized request
     def setUp(self):
         self.client = Pithos_Client(get_url(), get_auth(), get_user())
 
-        #keep track of initial containers
+        # keep track of initial containers
         self.initial_containers = self.client.list_containers()
         if self.initial_containers == '':
             self.initial_containers = []
@@ -62,20 +63,20 @@ class BaseTestCase(unittest.TestCase):
         self._clean_account()
         self.invalid_client = Pithos_Client(get_url(), get_auth(), 'invalid')
 
-        #keep track of initial account groups
+        # keep track of initial account groups
         self.initial_groups = self.client.retrieve_account_groups()
 
-        #keep track of initial account meta
+        # keep track of initial account meta
         self.initial_meta = self.client.retrieve_account_metadata(restricted=True)
 
         self.extended = {
-            'container':(
+            'container': (
                 'name',
                 'count',
                 'bytes',
                 'last_modified',
                 'x_container_policy'),
-            'object':(
+            'object': (
                 'name',
                 'hash',
                 'bytes',
@@ -85,14 +86,14 @@ class BaseTestCase(unittest.TestCase):
         self.return_codes = (400, 401, 403, 404, 503,)
 
     def tearDown(self):
-        #delete additionally created meta
+        # delete additionally created meta
         l = []
         for m in self.client.retrieve_account_metadata(restricted=True):
             if m not in self.initial_meta:
                 l.append(m)
         self.client.delete_account_metadata(l)
 
-        #delete additionally created groups
+        # delete additionally created groups
         l = []
         for g in self.client.retrieve_account_groups():
             if g not in self.initial_groups:
@@ -102,7 +103,7 @@ class BaseTestCase(unittest.TestCase):
 
     def _clean_account(self):
         for c in self.client.list_containers():
-#             if c not in self.initial_containers:
+            # if c not in self.initial_containers:
                 self.client.delete_container(c, delimiter='/')
                 self.client.delete_container(c)
 
@@ -241,6 +242,7 @@ class BaseTestCase(unittest.TestCase):
         except IOError:
             return
 
+
 class AccountHead(BaseTestCase):
     def setUp(self):
         BaseTestCase.setUp(self)
@@ -250,9 +252,9 @@ class AccountHead(BaseTestCase):
         for item in self.containers:
             self.client.create_container(item)
 
-        meta = {'foo':'bar'}
+        meta = {'foo': 'bar'}
         self.client.update_account_metadata(**meta)
-        #self.updated_meta = self.initial_meta.update(meta)
+        # self.updated_meta = self.initial_meta.update(meta)
 
     def test_get_account_meta(self):
         meta = self.client.retrieve_account_metadata()
@@ -280,7 +282,7 @@ class AccountHead(BaseTestCase):
         past = t - datetime.timedelta(minutes=15)
         past = int(_time.mktime(past.timetuple()))
 
-        meta = {'premium':True}
+        meta = {'premium': True}
         self.client.update_account_metadata(**meta)
         meta = self.client.retrieve_account_metadata(restricted=True,
                                                      until=past)
@@ -290,16 +292,17 @@ class AccountHead(BaseTestCase):
         self.assertTrue('premium' in meta)
 
     def test_get_account_meta_until_invalid_date(self):
-        meta = {'premium':True}
+        meta = {'premium': True}
         self.client.update_account_metadata(**meta)
         meta = self.client.retrieve_account_metadata(restricted=True,
                                                      until='kshfksfh')
         self.assertTrue('premium' in meta)
 
+
 class AccountGet(BaseTestCase):
     def setUp(self):
         BaseTestCase.setUp(self)
-        #create some containers
+        # create some containers
         self.containers = list(set(self.initial_containers + ['apples', 'bananas', 'kiwis', 'oranges', 'pears']))
         self.containers.sort()
 
@@ -307,7 +310,7 @@ class AccountGet(BaseTestCase):
             self.client.create_container(item)
 
     def test_list(self):
-        #list containers
+        # list containers
         containers = self.client.list_containers()
         self.assertEquals(self.containers, containers)
 
@@ -325,12 +328,12 @@ class AccountGet(BaseTestCase):
         m = 'bananas'
         containers = self.client.list_containers(limit=l, marker=m)
         i = self.containers.index(m) + 1
-        self.assertEquals(self.containers[i:(i+l)], containers)
+        self.assertEquals(self.containers[i:(i + l)], containers)
 
         m = 'oranges'
         containers = self.client.list_containers(limit=l, marker=m)
         i = self.containers.index(m) + 1
-        self.assertEquals(self.containers[i:(i+l)], containers)
+        self.assertEquals(self.containers[i:(i + l)], containers)
 
     def test_list_json_with_marker(self):
         l = 2
@@ -354,7 +357,7 @@ class AccountGet(BaseTestCase):
         t = datetime.datetime.utcnow()
         t2 = t - datetime.timedelta(minutes=10)
 
-        #add a new container
+        # add a new container
         self.client.create_container('dummy')
 
         for f in DATE_FORMATS:
@@ -363,7 +366,7 @@ class AccountGet(BaseTestCase):
                 c = self.client.list_containers(if_modified_since=past)
                 self.assertEqual(len(c), len(self.containers) + 1)
             except Fault, f:
-                self.failIf(f.status == 304) #fail if not modified
+                self.failIf(f.status == 304)  # fail if not modified
 
     def test_if_modified_since_invalid_date(self):
         c = self.client.list_containers(if_modified_since='')
@@ -374,9 +377,9 @@ class AccountGet(BaseTestCase):
         since = now + datetime.timedelta(1)
 
         for f in DATE_FORMATS:
-            args = {'if_modified_since':'%s' %since.strftime(f)}
+            args = {'if_modified_since': '%s' % since.strftime(f)}
 
-            #assert not modified
+            # assert not modified
             self.assert_raises_fault(304, self.client.list_containers, **args)
 
     def test_if_unmodified_since(self):
@@ -386,23 +389,24 @@ class AccountGet(BaseTestCase):
         for f in DATE_FORMATS:
             c = self.client.list_containers(if_unmodified_since=since.strftime(f))
 
-            #assert success
+            # assert success
             self.assertEqual(self.containers, c)
 
     def test_if_unmodified_since_precondition_failed(self):
         t = datetime.datetime.utcnow()
         t2 = t - datetime.timedelta(minutes=10)
 
-        #add a new container
+        # add a new container
         self.client.create_container('dummy')
 
         for f in DATE_FORMATS:
             past = t2.strftime(f)
 
-            args = {'if_unmodified_since':'%s' %past}
+            args = {'if_unmodified_since': '%s' % past}
 
-            #assert precondition failed
+            # assert precondition failed
             self.assert_raises_fault(412, self.client.list_containers, **args)
+
 
 class AccountPost(BaseTestCase):
     def setUp(self):
@@ -413,39 +417,37 @@ class AccountPost(BaseTestCase):
         for item in self.containers:
             self.client.create_container(item)
 
-        meta = {'foo':'bar'}
+        meta = {'foo': 'bar'}
         self.client.update_account_metadata(**meta)
         self.updated_meta = self.initial_meta.update(meta)
 
     def test_update_meta(self):
         with AssertMappingInvariant(self.client.retrieve_account_groups):
-            meta = {'test':'test', 'tost':'tost'}
+            meta = {'test': 'test', 'tost': 'tost'}
             self.client.update_account_metadata(**meta)
 
             meta.update(self.initial_meta)
-            self.assertEqual(meta,
-                             self.client.retrieve_account_metadata(
-                                restricted=True))
+            self.assertEqual(meta, self.client.retrieve_account_metadata(restricted=True))
 
     def test_invalid_account_update_meta(self):
-        meta = {'test':'test', 'tost':'tost'}
+        meta = {'test': 'test', 'tost': 'tost'}
         self.assert_raises_fault(403,
                                  self.invalid_client.update_account_metadata,
                                  **meta)
 
     def test_reset_meta(self):
         with AssertMappingInvariant(self.client.retrieve_account_groups):
-            meta = {'test':'test', 'tost':'tost'}
+            meta = {'test': 'test', 'tost': 'tost'}
             self.client.update_account_metadata(**meta)
 
-            meta = {'test':'test33'}
+            meta = {'test': 'test33'}
             self.client.reset_account_metadata(**meta)
 
             self.assertEqual(meta, self.client.retrieve_account_metadata(restricted=True))
 
     def test_delete_meta(self):
         with AssertMappingInvariant(self.client.retrieve_account_groups):
-            meta = {'test':'test', 'tost':'tost'}
+            meta = {'test': 'test', 'tost': 'tost'}
             self.client.update_account_metadata(**meta)
 
             self.client.delete_account_metadata(meta.keys())
@@ -456,13 +458,13 @@ class AccountPost(BaseTestCase):
 
     def test_set_account_groups(self):
         with AssertMappingInvariant(self.client.retrieve_account_metadata):
-            groups = {'pithosdev':'verigak,gtsouk,chazapis'}
+            groups = {'pithosdev': 'verigak,gtsouk,chazapis'}
             self.client.set_account_groups(**groups)
 
             self.assertEqual(set(groups['pithosdev']),
                              set(self.client.retrieve_account_groups()['pithosdev']))
 
-            more_groups = {'clientsdev':'pkanavos,mvasilak'}
+            more_groups = {'clientsdev': 'pkanavos,mvasilak'}
             self.client.set_account_groups(**more_groups)
 
             groups.update(more_groups)
@@ -471,8 +473,8 @@ class AccountPost(BaseTestCase):
 
     def test_reset_account_groups(self):
         with AssertMappingInvariant(self.client.retrieve_account_metadata):
-            groups = {'pithosdev':'verigak,gtsouk,chazapis',
-                      'clientsdev':'pkanavos,mvasilak'}
+            groups = {'pithosdev': 'verigak,gtsouk,chazapis',
+                      'clientsdev': 'pkanavos,mvasilak'}
             self.client.set_account_groups(**groups)
 
             self.assertEqual(set(groups['pithosdev'].split(',')),
@@ -480,7 +482,7 @@ class AccountPost(BaseTestCase):
             self.assertEqual(set(groups['clientsdev'].split(',')),
                              set(self.client.retrieve_account_groups()['clientsdev'].split(',')))
 
-            groups = {'pithosdev':'verigak,gtsouk,chazapis,papagian'}
+            groups = {'pithosdev': 'verigak,gtsouk,chazapis,papagian'}
             self.client.reset_account_groups(**groups)
 
             self.assertEqual(set(groups['pithosdev'].split(',')),
@@ -488,13 +490,14 @@ class AccountPost(BaseTestCase):
 
     def test_delete_account_groups(self):
         with AssertMappingInvariant(self.client.retrieve_account_metadata):
-            groups = {'pithosdev':'verigak,gtsouk,chazapis',
-                      'clientsdev':'pkanavos,mvasilak'}
+            groups = {'pithosdev': 'verigak,gtsouk,chazapis',
+                      'clientsdev': 'pkanavos,mvasilak'}
             self.client.set_account_groups(**groups)
 
             self.client.unset_account_groups(groups.keys())
 
             self.assertEqual({}, self.client.retrieve_account_groups())
+
 
 class ContainerHead(BaseTestCase):
     def setUp(self):
@@ -503,7 +506,7 @@ class ContainerHead(BaseTestCase):
         self.client.create_container(self.container)
 
     def test_get_meta(self):
-        meta = {'trash':'true'}
+        meta = {'trash': 'true'}
         t1 = datetime.datetime.utcnow()
         o = self.upload_random_data(self.container, o_names[0], **meta)
         if o:
@@ -516,6 +519,7 @@ class ContainerHead(BaseTestCase):
             self.assertTrue(delta < threashold)
             self.assertTrue(headers['x-container-object-meta'])
             self.assertTrue('Trash' in headers['x-container-object-meta'])
+
 
 class ContainerGet(BaseTestCase):
     def setUp(self):
@@ -585,7 +589,6 @@ class ContainerGet(BaseTestCase):
             403, cl.list_objects, self.container[1], public=True,
             account=get_user()
         )
-
 
     def test_list_shared_public(self):
         token = OTHER_ACCOUNTS.keys()[0]
@@ -665,7 +668,7 @@ class ContainerGet(BaseTestCase):
             end = end if len(l) >= end else len(l)
             self.assertEqual(objects, l[start:end])
 
-    #takes too long
+    # takes too long
     def _test_list_limit_exceeds(self):
         self.client.create_container('pithos')
 
@@ -717,7 +720,7 @@ class ContainerGet(BaseTestCase):
         self.assertEqual(objects[0].childNodes[0].data, 'photos/me.jpg')
 
     def test_list_meta_double_matching(self):
-        meta = {'quality':'aaa', 'stock':'true'}
+        meta = {'quality': 'aaa', 'stock': 'true'}
         self.client.update_object_metadata(self.container[0],
                                            self.obj[0]['name'], **meta)
         obj = self.client.list_objects(self.container[0], meta='Quality,Stock')
@@ -725,11 +728,11 @@ class ContainerGet(BaseTestCase):
         self.assertTrue(obj, self.obj[0]['name'])
 
     def test_list_using_meta(self):
-        meta = {'quality':'aaa'}
+        meta = {'quality': 'aaa'}
         for o in self.obj[:2]:
             self.client.update_object_metadata(self.container[0], o['name'],
                                                **meta)
-        meta = {'stock':'true'}
+        meta = {'stock': 'true'}
         for o in self.obj[3:5]:
             self.client.update_object_metadata(self.container[0], o['name'],
                                                **meta)
@@ -757,21 +760,19 @@ class ContainerGet(BaseTestCase):
         t = datetime.datetime.utcnow()
         t2 = t - datetime.timedelta(minutes=10)
 
-        #add a new object
+        # add a new object
         self.upload_random_data(self.container[0], o_names[0])
 
         for f in DATE_FORMATS:
             past = t2.strftime(f)
             try:
-                o = self.client.list_objects(self.container[0],
-                                            if_modified_since=past)
-                self.assertEqual(o,
-                                 self.client.list_objects(self.container[0]))
+                o = self.client.list_objects(self.container[0], if_modified_since=past)
+                self.assertEqual(o, self.client.list_objects(self.container[0]))
             except Fault, f:
-                self.failIf(f.status == 304) #fail if not modified
+                self.failIf(f.status == 304)  # fail if not modified
 
     def test_if_modified_since_invalid_date(self):
-        headers = {'if-modified-since':''}
+        headers = {'if-modified-since': ''}
         o = self.client.list_objects(self.container[0], if_modified_since='')
         self.assertEqual(o, self.client.list_objects(self.container[0]))
 
@@ -780,9 +781,9 @@ class ContainerGet(BaseTestCase):
         since = now + datetime.timedelta(1)
 
         for f in DATE_FORMATS:
-            args = {'if_modified_since':'%s' %since.strftime(f)}
+            args = {'if_modified_since': '%s' % since.strftime(f)}
 
-            #assert not modified
+            # assert not modified
             self.assert_raises_fault(304, self.client.list_objects,
                                      self.container[0], **args)
 
@@ -794,24 +795,25 @@ class ContainerGet(BaseTestCase):
             obj = self.client.list_objects(self.container[0],
                                            if_unmodified_since=since.strftime(f))
 
-            #assert unmodified
+            # assert unmodified
             self.assertEqual(obj, self.client.list_objects(self.container[0]))
 
     def test_if_unmodified_since_precondition_failed(self):
         t = datetime.datetime.utcnow()
         t2 = t - datetime.timedelta(minutes=10)
 
-        #add a new container
+        # add a new container
         self.client.create_container('dummy')
 
         for f in DATE_FORMATS:
             past = t2.strftime(f)
 
-            args = {'if_unmodified_since':'%s' %past}
+            args = {'if_unmodified_since': '%s' % past}
 
-            #assert precondition failed
+            # assert precondition failed
             self.assert_raises_fault(412, self.client.list_objects,
                                      self.container[0], **args)
+
 
 class ContainerPut(BaseTestCase):
     def setUp(self):
@@ -832,7 +834,7 @@ class ContainerPut(BaseTestCase):
     def test_quota(self):
         self.client.create_container(self.containers[0])
 
-        policy = {'quota':100}
+        policy = {'quota': 100}
         self.client.set_container_policies(self.containers[0], **policy)
 
         meta = self.client.retrieve_container_metadata(self.containers[0])
@@ -840,12 +842,13 @@ class ContainerPut(BaseTestCase):
         self.assertEqual(meta['x-container-policy-quota'], '100')
 
         args = [self.containers[0], 'o1']
-        kwargs = {'length':101}
+        kwargs = {'length': 101}
         self.assert_raises_fault(413, self.upload_random_data, *args, **kwargs)
 
-        #reset quota
-        policy = {'quota':0}
+        # reset quota
+        policy = {'quota': 0}
         self.client.set_container_policies(self.containers[0], **policy)
+
 
 class ContainerPost(BaseTestCase):
     def setUp(self):
@@ -854,14 +857,15 @@ class ContainerPost(BaseTestCase):
         self.client.create_container(self.container)
 
     def test_update_meta(self):
-        meta = {'test':'test33',
-                'tost':'tost22'}
+        meta = {'test': 'test33',
+                'tost': 'tost22'}
         self.client.update_container_metadata(self.container, **meta)
         headers = self.client.retrieve_container_metadata(self.container)
-        for k,v in meta.items():
+        for k, v in meta.items():
             k = 'x-container-meta-%s' % k
             self.assertTrue(headers[k])
             self.assertEqual(headers[k], v)
+
 
 class ContainerDelete(BaseTestCase):
     def setUp(self):
@@ -896,17 +900,18 @@ class ContainerDelete(BaseTestCase):
             self.assert_object_not_exists(self.containers[0], o)
         self.assert_container_exists(self.containers[0])
 
+
 class ObjectGet(BaseTestCase):
     def setUp(self):
         BaseTestCase.setUp(self)
         self.containers = list(set(self.initial_containers + ['c1', 'c2']))
         self.containers.sort()
 
-        #create some containers
+        # create some containers
         for c in self.containers:
             self.client.create_container(c)
 
-        #upload a file
+        # upload a file
         names = ('obj1', 'obj2')
         self.objects = []
         for n in names:
@@ -918,40 +923,40 @@ class ObjectGet(BaseTestCase):
         b = self.client.retrieve_object_versionlist(c, o['name'])['versions']
         self.assert_versionlist_structure(b)
 
-        #update meta
-        meta = {'quality':'AAA', 'stock':True}
+        # update meta
+        meta = {'quality': 'AAA', 'stock': True}
         self.client.update_object_metadata(c, o['name'], **meta)
 
         a = self.client.retrieve_object_versionlist(c, o['name'])['versions']
         self.assert_versionlist_structure(a)
-        self.assertEqual(len(b)+1, len(a))
+        self.assertEqual(len(b) + 1, len(a))
         self.assertEqual(b, a[:-1])
 
-        #get exact previous version metadata
+        # get exact previous version metadata
         v = a[-2][0]
         v_meta = self.client.retrieve_object_metadata(c, o['name'],
                                                       restricted=True,
                                                       version=v)
         (self.assertTrue(k not in v_meta) for k in meta.keys())
 
-        #update obejct
+        # update obejct
         data = get_random_data()
         self.client.update_object(c, o['name'], StringIO(data))
 
         aa = self.client.retrieve_object_versionlist(c, o['name'])['versions']
         self.assert_versionlist_structure(aa)
-        self.assertEqual(len(a)+1, len(aa))
+        self.assertEqual(len(a) + 1, len(aa))
         self.assertEqual(a, aa[:-1])
 
-        #get exact previous version
+        # get exact previous version
         v = aa[-3][0]
         v_data = self.client.retrieve_object_version(c, o['name'], version=v)
         self.assertEqual(o['data'], v_data)
         self.assertEqual(self.client.retrieve_object(c, o['name']),
-                         '%s%s' %(v_data, data))
+                         '%s%s' % (v_data, data))
 
     def test_get(self):
-        #perform get
+        # perform get
         o = self.client.retrieve_object(self.containers[1],
                                         self.objects[0]['name'],
                                         self.objects[0]['meta'])
@@ -959,97 +964,95 @@ class ObjectGet(BaseTestCase):
 
     def test_objects_with_trailing_spaces(self):
         self.client.create_container('test')
-        #create 'a' object
+        # create 'a' object
         self.upload_random_data('test', 'a')
-        #look for 'a ' object
+        # look for 'a ' object
         self.assert_raises_fault(404, self.client.retrieve_object,
                                  'test', 'a ')
 
-        #delete 'a' object
+        # delete 'a' object
         self.client.delete_object('test', 'a')
-        self.assert_raises_fault(404, self.client.retrieve_object,
-                                 'test', 'a')
+        self.assert_raises_fault(404, self.client.retrieve_object, 'test', 'a')
 
-        #create 'a ' object
+        # create 'a ' object
         self.upload_random_data('test', 'a ')
-        #look for 'a' object
-        self.assert_raises_fault(404, self.client.retrieve_object,
-                                 'test', 'a')
+        # look for 'a' object
+        self.assert_raises_fault(404, self.client.retrieve_object, 'test', 'a')
 
     def test_get_invalid(self):
         self.assert_raises_fault(404, self.client.retrieve_object,
                                  self.containers[0], self.objects[0]['name'])
 
     def test_get_partial(self):
-        #perform get with range
+        # perform get with range
         status, headers, data = self.client.request_object(self.containers[1],
-                                                            self.objects[0]['name'],
-                                                            range='bytes=0-499')
+                                                           self.objects[0]['name'],
+                                                           range='bytes=0-499')
 
-        #assert successful partial content
+        # assert successful partial content
         self.assertEqual(status, 206)
 
-        #assert content-type
+        # assert content-type
         self.assertEqual(headers['content-type'],
                          self.objects[0]['meta']['content_type'])
 
-        #assert content length
+        # assert content length
         self.assertEqual(int(headers['content-length']), 500)
 
-        #assert content
+        # assert content
         self.assertEqual(self.objects[0]['data'][:500], data)
 
     def test_get_final_500(self):
-        #perform get with range
-        headers = {'range':'bytes=-500'}
+        # perform get with range
+        headers = {'range': 'bytes=-500'}
         status, headers, data = self.client.request_object(self.containers[1],
-                                                            self.objects[0]['name'],
-                                                            range='bytes=-500')
+                                                           self.objects[0]['name'],
+                                                           range='bytes=-500')
 
-        #assert successful partial content
+        # assert successful partial content
         self.assertEqual(status, 206)
 
-        #assert content-type
+        # assert content-type
         self.assertEqual(headers['content-type'],
                          self.objects[0]['meta']['content_type'])
 
-        #assert content length
+        # assert content length
         self.assertEqual(int(headers['content-length']), 500)
 
-        #assert content
+        # assert content
         self.assertTrue(self.objects[0]['data'][-500:], data)
 
     def test_get_rest(self):
-        #perform get with range
+        # perform get with range
         offset = len(self.objects[0]['data']) - 500
         status, headers, data = self.client.request_object(self.containers[1],
-                                                self.objects[0]['name'],
-                                                range='bytes=%s-' %offset)
+                                                           self.objects[0]['name'],
+                                                           range='bytes=%s-' % offset)
 
-        #assert successful partial content
+        # assert successful partial content
         self.assertEqual(status, 206)
 
-        #assert content-type
+        # assert content-type
         self.assertEqual(headers['content-type'],
                          self.objects[0]['meta']['content_type'])
 
-        #assert content length
+        # assert content length
         self.assertEqual(int(headers['content-length']), 500)
 
-        #assert content
+        # assert content
         self.assertTrue(self.objects[0]['data'][-500:], data)
 
     def test_get_range_not_satisfiable(self):
-        #perform get with range
+        # perform get with range
         offset = len(self.objects[0]['data']) + 1
 
-        #assert range not satisfiable
+        # assert range not satisfiable
         self.assert_raises_fault(416, self.client.retrieve_object,
                                  self.containers[1], self.objects[0]['name'],
-                                 range='bytes=0-%s' %offset)
+                                 range='bytes=0-%s' % offset)
 
     def test_multiple_range(self):
-        #perform get with multiple range
+        # perform get with multiple range
         ranges = ['0-499', '-500', '1000-']
         bytes = 'bytes=%s' % ','.join(ranges)
         status, headers, data = self.client.request_object(self.containers[1],
@@ -1064,7 +1067,7 @@ class ObjectGet(BaseTestCase):
         content_type_parts = headers['content-type'].split()
         self.assertEqual(content_type_parts[0], ('multipart/byteranges;'))
 
-        boundary = '--%s' %content_type_parts[1].split('=')[-1:][0]
+        boundary = '--%s' % content_type_parts[1].split('=')[-1:][0]
         cparts = data.split(boundary)[1:-1]
 
         # assert content parts are exactly 2
@@ -1094,12 +1097,12 @@ class ObjectGet(BaseTestCase):
             sdata = '\r\n'.join(content[4:-1])
             self.assertEqual(len(fdata), len(sdata))
             self.assertEquals(fdata, sdata)
-            i+=1
+            i += 1
 
     def test_multiple_range_not_satisfiable(self):
-        #perform get with multiple range
+        # perform get with multiple range
         out_of_range = len(self.objects[0]['data']) + 1
-        ranges = ['0-499', '-500', '%d-' %out_of_range]
+        ranges = ['0-499', '-500', '%d-' % out_of_range]
         bytes = 'bytes=%s' % ','.join(ranges)
 
         # assert partial content
@@ -1108,86 +1111,86 @@ class ObjectGet(BaseTestCase):
                                  self.objects[0]['name'], range=bytes)
 
     def test_get_with_if_match(self):
-        #perform get with If-Match
+        # perform get with If-Match
         etag = self.objects[0]['hash']
         status, headers, data = self.client.request_object(self.containers[1],
                                                            self.objects[0]['name'],
                                                            if_match=etag)
-        #assert get success
+        # assert get success
         self.assertEqual(status, 200)
 
-        #assert content-type
+        # assert content-type
         self.assertEqual(headers['content-type'],
                          self.objects[0]['meta']['content_type'])
 
-        #assert response content
+        # assert response content
         self.assertEqual(self.objects[0]['data'], data)
 
     def test_get_with_if_match_star(self):
-        #perform get with If-Match *
-        headers = {'if-match':'*'}
+        # perform get with If-Match *
+        headers = {'if-match': '*'}
         status, headers, data = self.client.request_object(self.containers[1],
-                                                self.objects[0]['name'],
-                                                **headers)
-        #assert get success
+                                                           self.objects[0]['name'],
+                                                           **headers)
+        # assert get success
         self.assertEqual(status, 200)
 
-        #assert content-type
+        # assert content-type
         self.assertEqual(headers['content-type'],
                          self.objects[0]['meta']['content_type'])
 
-        #assert response content
+        # assert response content
         self.assertEqual(self.objects[0]['data'], data)
 
     def test_get_with_multiple_if_match(self):
-        #perform get with If-Match
+        # perform get with If-Match
         etags = [i['hash'] for i in self.objects if i]
         etags = ','.join('"%s"' % etag for etag in etags)
         status, headers, data = self.client.request_object(self.containers[1],
                                                            self.objects[0]['name'],
                                                            if_match=etags)
-        #assert get success
+        # assert get success
         self.assertEqual(status, 200)
 
-        #assert content-type
+        # assert content-type
         self.assertEqual(headers['content-type'],
                          self.objects[0]['meta']['content_type'])
 
-        #assert content-type
+        # assert content-type
         self.assertEqual(headers['content-type'],
                          self.objects[0]['meta']['content_type'])
 
-        #assert response content
+        # assert response content
         self.assertEqual(self.objects[0]['data'], data)
 
     def test_if_match_precondition_failed(self):
-        #assert precondition failed
+        # assert precondition failed
         self.assert_raises_fault(412, self.client.retrieve_object,
                                  self.containers[1],
                                  self.objects[0]['name'], if_match='123')
 
     def test_if_none_match(self):
-        #perform get with If-None-Match
+        # perform get with If-None-Match
         status, headers, data = self.client.request_object(self.containers[1],
                                                            self.objects[0]['name'],
                                                            if_none_match='123')
 
-        #assert get success
+        # assert get success
         self.assertEqual(status, 200)
 
-        #assert content-type
+        # assert content-type
         self.assertEqual(headers['content_type'],
                          self.objects[0]['meta']['content_type'])
 
     def test_if_none_match(self):
-        #perform get with If-None-Match * and assert not modified
+        # perform get with If-None-Match * and assert not modified
         self.assert_raises_fault(304, self.client.retrieve_object,
                                  self.containers[1],
                                  self.objects[0]['name'],
                                  if_none_match='*')
 
     def test_if_none_match_not_modified(self):
-        #perform get with If-None-Match and assert not modified
+        # perform get with If-None-Match and assert not modified
         self.assert_raises_fault(304, self.client.retrieve_object,
                                  self.containers[1],
                                  self.objects[0]['name'],
@@ -1201,15 +1204,15 @@ class ObjectGet(BaseTestCase):
         t = datetime.datetime.utcnow()
         t2 = t - datetime.timedelta(minutes=10)
 
-        #modify the object
+        # modify the object
         self.upload_data(self.containers[1],
-                           self.objects[0]['name'],
-                           self.objects[0]['data'][:200])
+                         self.objects[0]['name'],
+                         self.objects[0]['data'][:200])
 
         for f in DATE_FORMATS:
             past = t2.strftime(f)
 
-            headers = {'if-modified-since':'%s' %past}
+            headers = {'if-modified-since': '%s' % past}
             try:
                 o = self.client.retrieve_object(self.containers[1],
                                                 self.objects[0]['name'],
@@ -1232,7 +1235,7 @@ class ObjectGet(BaseTestCase):
         since = now + datetime.timedelta(1)
 
         for f in DATE_FORMATS:
-            #assert not modified
+            # assert not modified
             self.assert_raises_fault(304, self.client.retrieve_object,
                                      self.containers[1], self.objects[0]['name'],
                                      if_modified_since=since.strftime(f))
@@ -1246,11 +1249,11 @@ class ObjectGet(BaseTestCase):
             status, headers, data = self.client.request_object(self.containers[1],
                                                                self.objects[0]['name'],
                                                                if_unmodified_since=t)
-            #assert success
+            # assert success
             self.assertEqual(status, 200)
             self.assertEqual(self.objects[0]['data'], data)
 
-            #assert content-type
+            # assert content-type
             self.assertEqual(headers['content-type'],
                              self.objects[0]['meta']['content_type'])
 
@@ -1258,14 +1261,14 @@ class ObjectGet(BaseTestCase):
         t = datetime.datetime.utcnow()
         t2 = t - datetime.timedelta(minutes=10)
 
-        #modify the object
+        # modify the object
         self.upload_data(self.containers[1],
-                           self.objects[0]['name'],
-                           self.objects[0]['data'][:200])
+                         self.objects[0]['name'],
+                         self.objects[0]['data'][:200])
 
         for f in DATE_FORMATS:
             past = t2.strftime(f)
-            #assert precondition failed
+            # assert precondition failed
             self.assert_raises_fault(412, self.client.retrieve_object,
                                      self.containers[1], self.objects[0]['name'],
                                      if_unmodified_since=past)
@@ -1280,7 +1283,7 @@ class ObjectGet(BaseTestCase):
             hashes = body['hashes']
             block_size = body['block_size']
             block_hash = body['block_hash']
-            block_num = l/block_size if l/block_size == 0 else l/block_size + 1
+            block_num = l / block_size if l / block_size == 0 else l / block_size + 1
             self.assertTrue(len(hashes), block_num)
             i = 0
             for h in hashes:
@@ -1290,6 +1293,7 @@ class ObjectGet(BaseTestCase):
                 self.assertEqual(h, hash)
                 i += 1
 
+
 class ObjectPut(BaseTestCase):
     def setUp(self):
         BaseTestCase.setUp(self)
@@ -1298,7 +1302,7 @@ class ObjectPut(BaseTestCase):
 
     def test_upload(self):
         name = o_names[0]
-        meta = {'test':'test1'}
+        meta = {'test': 'test1'}
         o = self.upload_random_data(self.container, name, **meta)
 
         headers = self.client.retrieve_object_metadata(self.container,
@@ -1307,25 +1311,25 @@ class ObjectPut(BaseTestCase):
         self.assertTrue('test' in headers.keys())
         self.assertEqual(headers['test'], meta['test'])
 
-        #assert uploaded content
+        # assert uploaded content
         status, h, data = self.client.request_object(self.container, name)
         self.assertEqual(len(o['data']), int(h['content-length']))
         self.assertEqual(o['data'], data)
 
-        #assert content-type
+        # assert content-type
         self.assertEqual(h['content-type'], o['meta']['content_type'])
 
     def _test_maximum_upload_size_exceeds(self):
         name = o_names[0]
-        meta = {'test':'test1'}
-        #upload 5GB
-        length= 5 * (1024 * 1024 * 1024) + 1
+        meta = {'test': 'test1'}
+        # upload 5GB
+        length = 5 * (1024 * 1024 * 1024) + 1
         self.assert_raises_fault(400, self.upload_random_data, self.container,
                                  name, length, **meta)
 
     def test_upload_with_name_containing_slash(self):
         name = '/%s' % o_names[0]
-        meta = {'test':'test1'}
+        meta = {'test': 'test1'}
         o = self.upload_random_data(self.container, name, **meta)
 
         self.assertEqual(o['data'],
@@ -1340,9 +1344,9 @@ class ObjectPut(BaseTestCase):
         self.assertEqual(meta['content-type'], 'application/directory')
 
     def test_upload_unprocessable_entity(self):
-        meta={'etag':'123', 'test':'test1'}
+        meta = {'etag': '123', 'test': 'test1'}
 
-        #assert unprocessable entity
+        # assert unprocessable entity
         self.assert_raises_fault(422, self.upload_random_data, self.container,
                                  o_names[0], **meta)
 
@@ -1359,26 +1363,26 @@ class ObjectPut(BaseTestCase):
         prefix = 'myobject/'
         data = ''
         for i in range(5):
-            part = '%s%d' %(prefix, i)
+            part = '%s%d' % (prefix, i)
             o = self.upload_random_data(self.container, part)
             data += o['data']
 
-        manifest = '%s/%s' %(self.container, prefix)
+        manifest = '%s/%s' % (self.container, prefix)
         self.client.create_manifestation(self.container, 'large-object', manifest)
 
         self.assert_object_exists(self.container, 'large-object')
         self.assertEqual(data, self.client.retrieve_object(self.container,
                                                            'large-object'))
 
-        r = self.client.retrieve_object_hashmap(self.container,'large-object')
+        r = self.client.retrieve_object_hashmap(self.container, 'large-object')
         hashes = r['hashes']
         block_size = int(r['block_size'])
         block_hash = r['block_hash']
         l = len(data)
-        block_num = l/block_size if l/block_size != 0 else l/block_size + 1
+        block_num = l / block_size if l / block_size != 0 else l / block_size + 1
         self.assertEqual(block_num, len(hashes))
 
-        #wrong manifestation
+        # wrong manifestation
         self.client.create_manifestation(self.container, 'large-object',
                                          '%s/invalid' % self.container)
         self.assertEqual('', self.client.retrieve_object(self.container,
@@ -1409,6 +1413,7 @@ class ObjectPut(BaseTestCase):
         self.assertEqual(self.client.retrieve_object(c, o),
                          self.client.retrieve_object(c, o))
 
+
 class ObjectCopy(BaseTestCase):
     def setUp(self):
         BaseTestCase.setUp(self)
@@ -1421,34 +1426,34 @@ class ObjectCopy(BaseTestCase):
 
     def test_copy(self):
         with AssertMappingInvariant(self.client.retrieve_object_metadata,
-                             self.containers[0], self.obj['name']):
-            #perform copy
-            meta = {'test':'testcopy'}
+                                    self.containers[0], self.obj['name']):
+            # perform copy
+            meta = {'test': 'testcopy'}
             status = self.client.copy_object(self.containers[0],
-                                              self.obj['name'],
-                                              self.containers[0],
-                                              'testcopy',
-                                              meta)[0]
+                                             self.obj['name'],
+                                             self.containers[0],
+                                             'testcopy',
+                                             meta)[0]
 
-            #assert copy success
+            # assert copy success
             self.assertEqual(status, 201)
 
-            #assert access the new object
+            # assert access the new object
             headers = self.client.retrieve_object_metadata(self.containers[0],
                                                            'testcopy')
             self.assertTrue('x-object-meta-test' in headers.keys())
             self.assertTrue(headers['x-object-meta-test'], 'testcopy')
 
-            #assert etag is the same
+            # assert etag is the same
             self.assertEqual(headers['etag'], self.obj['hash'])
 
-            #assert src object still exists
+            # assert src object still exists
             self.assert_object_exists(self.containers[0], self.obj['name'])
 
     def test_copy_from_different_container(self):
         with AssertMappingInvariant(self.client.retrieve_object_metadata,
-                             self.containers[0], self.obj['name']):
-            meta = {'test':'testcopy'}
+                                    self.containers[0], self.obj['name']):
+            meta = {'test': 'testcopy'}
             status = self.client.copy_object(self.containers[0],
                                              self.obj['name'],
                                              self.containers[1],
@@ -1458,22 +1463,22 @@ class ObjectCopy(BaseTestCase):
 
             # assert updated metadata
             meta = self.client.retrieve_object_metadata(self.containers[1],
-                                                           'testcopy',
-                                                           restricted=True)
+                                                        'testcopy',
+                                                        restricted=True)
             self.assertTrue('test' in meta.keys())
             self.assertTrue(meta['test'], 'testcopy')
 
-            #assert src object still exists
+            # assert src object still exists
             self.assert_object_exists(self.containers[0], self.obj['name'])
 
     def test_copy_invalid(self):
-        #copy from invalid object
-        meta = {'test':'testcopy'}
+        # copy from invalid object
+        meta = {'test': 'testcopy'}
         self.assert_raises_fault(404, self.client.copy_object, self.containers[0],
                                  'test.py', self.containers[1], 'testcopy', meta)
 
-        #copy from invalid container
-        meta = {'test':'testcopy'}
+        # copy from invalid container
+        meta = {'test': 'testcopy'}
         self.assert_raises_fault(404, self.client.copy_object, self.containers[1],
                                  self.obj['name'], self.containers[1],
                                  'testcopy', meta)
@@ -1482,7 +1487,7 @@ class ObjectCopy(BaseTestCase):
         self.client.create_folder(self.containers[0], 'dir')
         self.client.create_folder(self.containers[0], 'dir/subdir')
         self.upload_random_data(self.containers[0], 'dir/object1.jpg', length=1024)
-        self.upload_random_data(self.containers[0], 'dir/subdir/object2.pdf', length=2*1024)
+        self.upload_random_data(self.containers[0], 'dir/subdir/object2.pdf', length=2 * 1024)
         self.client.create_folder(self.containers[0], 'dirs')
 
         objects = self.client.list_objects(self.containers[0], prefix='dir')
@@ -1495,6 +1500,7 @@ class ObjectCopy(BaseTestCase):
             t = ('content-length', 'x-object-hash', 'content-type')
             (self.assertEqual(meta0[elem], meta1[elem]) for elem in t)
         self.assert_object_not_exists(self.containers[1], objects[-1])
+
 
 class ObjectMove(BaseTestCase):
     def setUp(self):
@@ -1512,28 +1518,27 @@ class ObjectMove(BaseTestCase):
         self.assertTrue('x-object-uuid' in meta)
         uuid = meta['x-object-uuid']
 
-        #perform move
-        meta = {'test':'testcopy'}
+        # perform move
+        meta = {'test': 'testcopy'}
         src_path = '/'.join(('/', self.containers[0], self.obj['name']))
         status = self.client.move_object(self.containers[0], self.obj['name'],
                                          self.containers[0], 'testcopy',
                                          meta)[0]
 
-        #assert successful move
+        # assert successful move
         self.assertEqual(status, 201)
 
-        #assert updated metadata
+        # assert updated metadata
         meta = self.client.retrieve_object_metadata(self.containers[0],
                                                     'testcopy')
         self.assertTrue('x-object-meta-test' in meta.keys())
         self.assertTrue(meta['x-object-meta-test'], 'testcopy')
 
-        #assert same uuid
+        # assert same uuid
         self.assertTrue(meta['x-object-uuid'], uuid)
 
-        #assert src object no more exists
+        # assert src object no more exists
         self.assert_object_not_exists(self.containers[0], self.obj['name'])
-
 
     def test_move_dir(self):
         meta = {}
@@ -1543,7 +1548,7 @@ class ObjectMove(BaseTestCase):
         meta['dir/subdir'] = self.client.retrieve_object_metadata(self.containers[0], 'dir/subdir')
         self.upload_random_data(self.containers[0], 'dir/object1.jpg', length=1024)
         meta['dir/object1.jpg'] = self.client.retrieve_object_metadata(self.containers[0], 'dir/object1.jpg')
-        self.upload_random_data(self.containers[0], 'dir/subdir/object2.pdf', length=2*1024)
+        self.upload_random_data(self.containers[0], 'dir/subdir/object2.pdf', length=2 * 1024)
         meta['dir/subdir/object2.pdf'] = self.client.retrieve_object_metadata(self.containers[0], 'dir/subdir/object2.pdf')
         self.client.create_folder(self.containers[0], 'dirs')
         meta['dirs'] = self.client.retrieve_object_metadata(self.containers[0], 'dirs')
@@ -1558,6 +1563,7 @@ class ObjectMove(BaseTestCase):
             (self.assertEqual(meta0[elem], meta1[elem]) for elem in t)
         self.assert_object_exists(self.containers[0], objects[-1])
         self.assert_object_not_exists(self.containers[1], objects[-1])
+
 
 class ObjectPost(BaseTestCase):
     def setUp(self):
@@ -1575,88 +1581,86 @@ class ObjectPost(BaseTestCase):
         with AssertUUidInvariant(self.client.retrieve_object_metadata,
                                  self.containers[0],
                                  self.obj[0]['name']):
-            #perform update metadata
+            # perform update metadata
             more = {'foo': 'foo', 'bar': 'bar', 'f' * 114: 'b' * 256}
             status = self.client.update_object_metadata(self.containers[0],
                                                         self.obj[0]['name'],
                                                         **more)[0]
-            #assert request accepted
+            # assert request accepted
             self.assertEqual(status, 202)
 
-            #assert old metadata are still there
+            # assert old metadata are still there
             headers = self.client.retrieve_object_metadata(self.containers[0],
                                                            self.obj[0]['name'],
                                                            restricted=True)
-            #assert new metadata have been updated
-            for k,v in more.items():
+            # assert new metadata have been updated
+            for k, v in more.items():
                 self.assertTrue(k in headers.keys())
                 self.assertTrue(headers[k], v)
 
-            #out of limits
+            # out of limits
             more = {'f' * 114: 'b' * 257}
             self.assert_raises_fault(400, self.client.update_object_metadata,
-                                                        self.containers[0],
-                                                        self.obj[0]['name'],
-                                                        **more)
+                                     self.containers[0], self.obj[0]['name'],
+                                     **more)
 
-            #perform update metadata
+            # perform update metadata
             more = {'α': 'β' * 256}
             status = self.client.update_object_metadata(self.containers[0],
                                                         self.obj[0]['name'],
                                                         **more)[0]
-            #assert request accepted
+            # assert request accepted
             self.assertEqual(status, 202)
 
-            #assert old metadata are still there
+            # assert old metadata are still there
             headers = self.client.retrieve_object_metadata(self.containers[0],
                                                            self.obj[0]['name'],
                                                            restricted=True)
-            #assert new metadata have been updated
-            for k,v in more.items():
+            # assert new metadata have been updated
+            for k, v in more.items():
                 self.assertTrue(k in headers.keys())
                 self.assertTrue(headers[k], v)
 
-            #out of limits
+            # out of limits
             more = {'α': 'β' * 257}
             self.assert_raises_fault(400, self.client.update_object_metadata,
-                                                        self.containers[0],
-                                                        self.obj[0]['name'],
-                                                        **more)
+                                     self.containers[0], self.obj[0]['name'],
+                                     **more)
 
     def test_update_object(self,
                            first_byte_pos=0,
                            last_byte_pos=499,
-                           instance_length = True,
-                           content_length = 500):
+                           instance_length=True,
+                           content_length=500):
         with AssertUUidInvariant(self.client.retrieve_object_metadata,
                                  self.containers[0],
                                  self.obj[0]['name']):
             l = len(self.obj[0]['data'])
-            range = 'bytes %d-%d/%s' %(first_byte_pos,
-                                           last_byte_pos,
-                                            l if instance_length else '*')
+            range = 'bytes %d-%d/%s' % (first_byte_pos,
+                                        last_byte_pos,
+                                        l if instance_length else '*')
             partial = last_byte_pos - first_byte_pos + 1
             length = first_byte_pos + partial
             data = get_random_data(partial)
-            args = {'content_type':'application/octet-stream',
-                    'content_range':'%s' %range}
+            args = {'content_type': 'application/octet-stream',
+                    'content_range': '%s' % range}
             if content_length:
                 args['content_length'] = content_length
 
             r = self.client.update_object(self.containers[0], self.obj[0]['name'],
-                                      StringIO(data), **args)
+                                          StringIO(data), **args)
             status = r[0]
             etag = r[1]['etag']
             if partial < 0 or (instance_length and l <= last_byte_pos):
                 self.assertEqual(status, 202)
             else:
                 self.assertEqual(status, 204)
-                #check modified object
+                # check modified object
                 content = self.client.retrieve_object(self.containers[0],
-                                                  self.obj[0]['name'])
+                                                      self.obj[0]['name'])
                 self.assertEqual(content[:first_byte_pos], self.obj[0]['data'][:first_byte_pos])
-                self.assertEqual(content[first_byte_pos:last_byte_pos+1], data)
-                self.assertEqual(content[last_byte_pos+1:], self.obj[0]['data'][last_byte_pos+1:])
+                self.assertEqual(content[first_byte_pos:last_byte_pos + 1], data)
+                self.assertEqual(content[last_byte_pos + 1:], self.obj[0]['data'][last_byte_pos + 1:])
                 self.assertEqual(etag, compute_md5_hash(content))
 
     def test_update_object_lt_blocksize(self):
@@ -1664,46 +1668,46 @@ class ObjectPost(BaseTestCase):
 
     def test_update_object_gt_blocksize(self):
         o = self.upload_random_data(self.containers[0], o_names[1],
-                                length=4*1024*1024+5)
+                                    length=4*1024*1024+5)
         c = self.containers[0]
         o_name = o['name']
         o_data = o['data']
-        first_byte_pos = 4*1024*1024+1
-        last_byte_pos = 4*1024*1024+4
+        first_byte_pos = 4 * 1024 * 1024 + 1
+        last_byte_pos = 4 * 1024 * 1024 + 4
         l = last_byte_pos - first_byte_pos + 1
         data = get_random_data(l)
-        range = 'bytes %d-%d/*' %(first_byte_pos, last_byte_pos)
+        range = 'bytes %d-%d/*' % (first_byte_pos, last_byte_pos)
         self.client.update_object(c, o_name, StringIO(data), content_range=range)
         content = self.client.retrieve_object(c, o_name)
         self.assertEqual(content[:first_byte_pos], o_data[:first_byte_pos])
-        self.assertEqual(content[first_byte_pos:last_byte_pos+1], data)
-        self.assertEqual(content[last_byte_pos+1:], o_data[last_byte_pos+1:])
+        self.assertEqual(content[first_byte_pos:last_byte_pos + 1], data)
+        self.assertEqual(content[last_byte_pos + 1:], o_data[last_byte_pos + 1:])
 
     def test_update_object_divided_by_blocksize(self):
         o = self.upload_random_data(self.containers[0], o_names[1],
-                                length=4*1024*1024+5)
+                                    length=4*1024*1024+5)
         c = self.containers[0]
         o_name = o['name']
         o_data = o['data']
-        first_byte_pos = 4*1024*1024
-        last_byte_pos = 5*1024*1024
+        first_byte_pos = 4 * 1024 * 1024
+        last_byte_pos = 5 * 1024 * 1024
         l = last_byte_pos - first_byte_pos + 1
         data = get_random_data(l)
-        range = 'bytes %d-%d/*' %(first_byte_pos, last_byte_pos)
+        range = 'bytes %d-%d/*' % (first_byte_pos, last_byte_pos)
         self.client.update_object(c, o_name, StringIO(data), content_range=range)
         content = self.client.retrieve_object(c, o_name)
         self.assertEqual(content[:first_byte_pos], o_data[:first_byte_pos])
-        self.assertEqual(content[first_byte_pos:last_byte_pos+1], data)
-        self.assertEqual(content[last_byte_pos+1:], o_data[last_byte_pos+1:])
+        self.assertEqual(content[first_byte_pos:last_byte_pos + 1], data)
+        self.assertEqual(content[last_byte_pos + 1:], o_data[last_byte_pos + 1:])
 
     def test_update_object_no_content_length(self):
-        self.test_update_object(content_length = None)
+        self.test_update_object(content_length=None)
 
     def test_update_object_invalid_content_length(self):
         with AssertContentInvariant(self.client.retrieve_object,
                                     self.containers[0], self.obj[0]['name']):
             self.assert_raises_fault(400, self.test_update_object,
-                                     content_length = 1000)
+                                     content_length=1000)
 
     def test_update_object_invalid_range(self):
         with AssertContentInvariant(self.client.retrieve_object,
@@ -1720,13 +1724,13 @@ class ObjectPost(BaseTestCase):
         with AssertContentInvariant(self.client.retrieve_object,
                                     self.containers[0], self.obj[0]['name']):
             self.assert_raises_fault(416, self.test_update_object, 499, 0, True,
-                                     content_length = None)
+                                     content_length=None)
 
     def test_update_object_out_of_limits(self):
         with AssertContentInvariant(self.client.retrieve_object,
                                     self.containers[0], self.obj[0]['name']):
             l = len(self.obj[0]['data'])
-            self.assert_raises_fault(416, self.test_update_object, 0, l+1, True)
+            self.assert_raises_fault(416, self.test_update_object, 0, l + 1, True)
 
     def test_append(self):
         data = get_random_data(500)
@@ -1751,7 +1755,7 @@ class ObjectPost(BaseTestCase):
                                                offset=0,
                                                content_type='application/octet-stream')
 
-        #check modified object
+        # check modified object
         content = self.client.retrieve_object(self.containers[0],
                                               self.obj[0]['name'])
         self.assertEqual(content[0:dl], data)
@@ -1766,7 +1770,7 @@ class ObjectPost(BaseTestCase):
         source_meta = self.client.retrieve_object_metadata(c, src)
         source_hash = self.client.retrieve_object_hashmap(c, src)["hashes"]
 
-        #update zero length object
+        # update zero length object
         self.client.create_zero_length_object(c, dest)
         source_object = '/%s/%s' % (c, src)
         self.client.update_from_other_source(c, dest, source_object)
@@ -1776,7 +1780,7 @@ class ObjectPost(BaseTestCase):
         self.assertEqual(source_data, dest_data)
         self.assertEqual(source_hash, dest_hash)
 
-        #test append
+        # test append
         self.client.update_from_other_source(c, dest, source_object)
         content = self.client.retrieve_object(c, dest)
         self.assertEqual(source_data * 2, content)
@@ -1785,43 +1789,42 @@ class ObjectPost(BaseTestCase):
         c = self.containers[0]
         dest = 'object'
 
-        #test update range
+        # test update range
         src = self.obj[1]['name']
         src_data = self.client.retrieve_object(c, src)
 
-        #update zero length object
+        # update zero length object
         prev_data = self.upload_random_data(c, dest, length=4*1024*1024+10)['data']
         source_object = '/%s/%s' % (c, src)
-        first_byte_pos = 4*1024*1024+1
-        last_byte_pos = 4*1024*1024+4
-        range = 'bytes %d-%d/*' %(first_byte_pos, last_byte_pos)
+        first_byte_pos = 4 * 1024 * 1024 + 1
+        last_byte_pos = 4 * 1024 * 1024 + 4
+        range = 'bytes %d-%d/*' % (first_byte_pos, last_byte_pos)
         self.client.update_from_other_source(c, dest, source_object,
                                              content_range=range)
         content = self.client.retrieve_object(c, dest)
         self.assertEqual(content[:first_byte_pos], prev_data[:first_byte_pos])
-        self.assertEqual(content[first_byte_pos:last_byte_pos+1], src_data[:last_byte_pos - first_byte_pos + 1])
-        self.assertEqual(content[last_byte_pos+1:], prev_data[last_byte_pos+1:])
+        self.assertEqual(content[first_byte_pos:last_byte_pos + 1], src_data[:last_byte_pos - first_byte_pos + 1])
+        self.assertEqual(content[last_byte_pos + 1:], prev_data[last_byte_pos + 1:])
 
     def test_update_hashes_from_other_object(self):
         c = self.containers[0]
         dest = 'object'
 
-        #test update range
+        # test update range
         src_data = self.upload_random_data(c, o_names[0], length=1024*1024+10)['data']
 
-        #update zero length object
+        # update zero length object
         prev_data = self.upload_random_data(c, dest, length=5*1024*1024+10)['data']
         source_object = '/%s/%s' % (c, o_names[0])
-        first_byte_pos = 4*1024*1024
-        last_byte_pos = 5*1024*1024
-        range = 'bytes %d-%d/*' %(first_byte_pos, last_byte_pos)
+        first_byte_pos = 4 * 1024 * 1024
+        last_byte_pos = 5 * 1024 * 1024
+        range = 'bytes %d-%d/*' % (first_byte_pos, last_byte_pos)
         self.client.update_from_other_source(c, dest, source_object,
                                              content_range=range)
         content = self.client.retrieve_object(c, dest)
         self.assertEqual(content[:first_byte_pos], prev_data[:first_byte_pos])
-        self.assertEqual(content[first_byte_pos:last_byte_pos+1], src_data[:last_byte_pos - first_byte_pos + 1])
-        self.assertEqual(content[last_byte_pos+1:], prev_data[last_byte_pos+1:])
-
+        self.assertEqual(content[first_byte_pos:last_byte_pos + 1], src_data[:last_byte_pos - first_byte_pos + 1])
+        self.assertEqual(content[last_byte_pos + 1:], prev_data[last_byte_pos + 1:])
 
     def test_update_zero_length_object(self):
         c = self.containers[0]
@@ -1839,6 +1842,7 @@ class ObjectPost(BaseTestCase):
         self.assertEqual(self.client.retrieve_object_hashmap(c, o)["hashes"],
                          self.client.retrieve_object_hashmap(c, other)["hashes"])
 
+
 class ObjectDelete(BaseTestCase):
     def setUp(self):
         BaseTestCase.setUp(self)
@@ -1850,11 +1854,11 @@ class ObjectDelete(BaseTestCase):
         self.obj = self.upload_random_data(self.containers[0], o_names[0])
 
     def test_delete(self):
-        #perform delete object
+        # perform delete object
         self.client.delete_object(self.containers[0], self.obj['name'])[0]
 
     def test_delete_invalid(self):
-        #assert item not found
+        # assert item not found
         self.assert_raises_fault(404, self.client.delete_object, self.containers[1],
                                  self.obj['name'])
 
@@ -1871,14 +1875,15 @@ class ObjectDelete(BaseTestCase):
             self.assert_object_not_exists(self.containers[0], object)
         self.assert_object_exists(self.containers[0], objects[-1])
 
+
 class ListSharing(BaseTestCase):
     def setUp(self):
         BaseTestCase.setUp(self)
         for i in range(2):
-            self.client.create_container('c%s' %i)
+            self.client.create_container('c%s' % i)
         self.client.create_container('c')
         for i in range(2):
-            self.upload_random_data('c1', 'o%s' %i)
+            self.upload_random_data('c1', 'o%s' % i)
         if not OTHER_ACCOUNTS:
             raise Warning('No other accounts avalaible for running this test.')
         for token, account in OTHER_ACCOUNTS.items():
@@ -1888,8 +1893,8 @@ class ListSharing(BaseTestCase):
 
     def test_list_other_shared(self):
         self.other = Pithos_Client(get_url(),
-                              self.o1_sharing[0],
-                              self.o1_sharing[1])
+                                   self.o1_sharing[0],
+                                   self.o1_sharing[1])
         self.assertTrue(get_user() in self.other.list_shared_with_me())
 
     def test_list_my_shared(self):
@@ -1900,6 +1905,7 @@ class ListSharing(BaseTestCase):
         my_shared_objects = self.client.list_objects('c1', shared=True)
         self.assertTrue('o1' in my_shared_objects)
         self.assertTrue('o2' not in my_shared_objects)
+
 
 class List(BaseTestCase):
     def setUp(self):
@@ -1912,86 +1918,87 @@ class List(BaseTestCase):
                 self.upload_random_data(c, o)
             if i < 3:
                 self.client.share_object(c, 'o1', ['papagian'], read=True)
-            if i%2 != 0:
+            if i % 2 != 0:
                 self.client.publish_object(c, 'o2')
 
     def test_shared_public(self):
         diff = lambda l: set(l) - set(self.initial_containers)
 
-        func, kwargs = self.client.list_containers, {'shared':True}
+        func, kwargs = self.client.list_containers, {'shared': True}
         l = func(**kwargs)
         self.assertEqual(set(['c1', 'c2']), diff(l))
         self.assertEqual(l, [e['name'] for e in func(format='json', **kwargs)])
 
-        func, kwargs = self.client.list_containers, {'public':True}
+        func, kwargs = self.client.list_containers, {'public': True}
         l = func(**kwargs)
         self.assertEqual(set(['c1', 'c3']), diff(l))
         self.assertEqual(l, [e['name'] for e in func(format='json', **kwargs)])
 
-        func, kwargs = self.client.list_containers, {'shared':True, 'public':True}
+        func, kwargs = self.client.list_containers, {'shared': True, 'public': True}
         l = func(**kwargs)
         self.assertEqual(set(['c1', 'c2', 'c3']), diff(l))
         self.assertEqual(l, [e['name'] for e in func(format='json', **kwargs)])
 
-        func, args, kwargs = self.client.list_objects, ['c1'], {'shared':True}
+        func, args, kwargs = self.client.list_objects, ['c1'], {'shared': True}
         l = func(*args, **kwargs)
         self.assertEqual(l, ['o1'])
         self.assertEqual(l, [e['name'] for e in func(*args, format='json', **kwargs)])
 
-        func, args, kwargs = self.client.list_objects, ['c1'], {'public':True}
+        func, args, kwargs = self.client.list_objects, ['c1'], {'public': True}
         l = func(*args, **kwargs)
         self.assertEqual(l, ['o2'])
         self.assertEqual(l, [e['name'] for e in func(*args, format='json', **kwargs)])
 
-        func, args, kwargs = self.client.list_objects, ['c1'], {'shared':True, 'public':True}
+        func, args, kwargs = self.client.list_objects, ['c1'], {'shared': True, 'public': True}
         l = func(*args, **kwargs)
         self.assertEqual(l, ['o1', 'o2'])
         self.assertEqual(l, [e['name'] for e in func(*args, format='json', **kwargs)])
 
-        func, args, kwargs = self.client.list_objects, ['c2'], {'shared':True}
+        func, args, kwargs = self.client.list_objects, ['c2'], {'shared': True}
         l = func(*args, **kwargs)
         self.assertEqual(l, ['o1'])
         self.assertEqual(l, [e['name'] for e in func(*args, format='json', **kwargs)])
 
-        func, args, kwargs = self.client.list_objects, ['c2'], {'public':True}
+        func, args, kwargs = self.client.list_objects, ['c2'], {'public': True}
         l = func(*args, **kwargs)
         self.assertEqual(l, '')
         self.assertEqual([], func(*args, format='json', **kwargs))
 
-        func, args, kwargs = self.client.list_objects, ['c2'], {'shared':True, 'public':True}
+        func, args, kwargs = self.client.list_objects, ['c2'], {'shared': True, 'public': True}
         l = func(*args, **kwargs)
         self.assertEqual(l, ['o1'])
         self.assertEqual(l, [e['name'] for e in func(*args, format='json', **kwargs)])
 
-        func, args, kwargs = self.client.list_objects, ['c3'], {'shared':True}
+        func, args, kwargs = self.client.list_objects, ['c3'], {'shared': True}
         l = func(*args, **kwargs)
         self.assertEqual(l, '')
         self.assertEqual([], func(*args, format='json', **kwargs))
 
-        func, args, kwargs = self.client.list_objects, ['c3'], {'public':True}
+        func, args, kwargs = self.client.list_objects, ['c3'], {'public': True}
         l = func(*args, **kwargs)
         self.assertEqual(l, ['o2'])
         self.assertEqual(l, [e['name'] for e in func(*args, format='json', **kwargs)])
 
-        func, args, kwargs = self.client.list_objects, ['c3'], {'shared':True, 'public':True}
+        func, args, kwargs = self.client.list_objects, ['c3'], {'shared': True, 'public': True}
         l = func(*args, **kwargs)
         self.assertEqual(l, ['o2'])
         self.assertEqual(l, [e['name'] for e in func(*args, format='json', **kwargs)])
 
-        func, args, kwargs = self.client.list_objects, ['c4'], {'shared':True}
+        func, args, kwargs = self.client.list_objects, ['c4'], {'shared': True}
         l = func(*args, **kwargs)
         self.assertEqual(l, '')
         self.assertEqual([], func(*args, format='json', **kwargs))
 
-        func, args, kwargs = self.client.list_objects, ['c4'], {'public':True}
+        func, args, kwargs = self.client.list_objects, ['c4'], {'public': True}
         l = func(*args, **kwargs)
         self.assertEqual(l, '')
         self.assertEqual([], func(*args, format='json', **kwargs))
 
-        func, args, kwargs = self.client.list_objects, ['c4'], {'shared':True, 'public':True}
+        func, args, kwargs = self.client.list_objects, ['c4'], {'shared': True, 'public': True}
         l = func(*args, **kwargs)
         self.assertEqual(l, '')
         self.assertEqual([], func(*args, format='json', **kwargs))
+
 
 class TestUTF8(BaseTestCase):
     def test_create_container(self):
@@ -2059,14 +2066,14 @@ class TestUTF8(BaseTestCase):
         self.assertTrue('φάκελος' not in self.client.list_containers())
 
     def test_account_meta(self):
-        meta = {'ποιότητα':'ΑΑΑ'}
+        meta = {'ποιότητα': 'ΑΑΑ'}
         self.client.update_account_metadata(**meta)
         meta = self.client.retrieve_account_metadata(restricted=True)
         self.assertTrue('ποιότητα' in meta.keys())
         self.assertEqual(meta['ποιότητα'], 'ΑΑΑ')
 
     def test_container_meta(self):
-        meta = {'ποιότητα':'ΑΑΑ'}
+        meta = {'ποιότητα': 'ΑΑΑ'}
         self.client.create_container('φάκελος', meta=meta)
 
         meta = self.client.retrieve_container_metadata('φάκελος', restricted=True)
@@ -2075,7 +2082,7 @@ class TestUTF8(BaseTestCase):
 
     def test_object_meta(self):
         self.client.create_container('φάκελος')
-        meta = {'ποιότητα':'ΑΑΑ'}
+        meta = {'ποιότητα': 'ΑΑΑ'}
         self.upload_random_data('φάκελος', 'αντικείμενο', **meta)
 
         meta = self.client.retrieve_object_metadata('φάκελος', 'αντικείμενο',
@@ -2085,12 +2092,12 @@ class TestUTF8(BaseTestCase):
 
     def test_list_meta_filtering(self):
         self.client.create_container('φάκελος')
-        meta = {'ποιότητα':'ΑΑΑ'}
+        meta = {'ποιότητα': 'ΑΑΑ'}
         self.upload_random_data('φάκελος', 'ο1', **meta)
         self.upload_random_data('φάκελος', 'ο2')
         self.upload_random_data('φάκελος', 'ο3')
 
-        meta = {'ποσότητα':'μεγάλη'}
+        meta = {'ποσότητα': 'μεγάλη'}
         self.client.update_object_metadata('φάκελος', 'ο2', **meta)
         objects = self.client.list_objects('φάκελος', meta='ποιότητα, ποσότητα')
         self.assertEquals(objects, ['ο1', 'ο2'])
@@ -2101,16 +2108,16 @@ class TestUTF8(BaseTestCase):
         objects = self.client.list_objects('φάκελος', meta='!ποιότητα, !ποσότητα')
         self.assertEquals(objects, ['ο3'])
 
-        meta = {'ποιότητα':'ΑΒ'}
+        meta = {'ποιότητα': 'ΑΒ'}
         self.client.update_object_metadata('φάκελος', 'ο2', **meta)
         objects = self.client.list_objects('φάκελος', meta='ποιότητα=ΑΑΑ')
         self.assertEquals(objects, ['ο1'])
         objects = self.client.list_objects('φάκελος', meta='ποιότητα!=ΑΑΑ')
         self.assertEquals(objects, ['ο2'])
 
-        meta = {'έτος':'2011'}
+        meta = {'έτος': '2011'}
         self.client.update_object_metadata('φάκελος', 'ο3', **meta)
-        meta = {'έτος':'2012'}
+        meta = {'έτος': '2012'}
         self.client.update_object_metadata('φάκελος', 'ο2', **meta)
         objects = self.client.list_objects('φάκελος', meta='έτος<2012')
         self.assertEquals(objects, ['ο3'])
@@ -2120,26 +2127,26 @@ class TestUTF8(BaseTestCase):
         self.assertEquals(objects, '')
 
     def test_groups(self):
-        #create a group
-        groups = {'γκρουπ':'chazapis,διογένης'}
+        # create a group
+        groups = {'γκρουπ': 'chazapis,διογένης'}
         self.client.set_account_groups(**groups)
         groups.update(self.initial_groups)
         self.assertEqual(groups['γκρουπ'],
                          self.client.retrieve_account_groups()['γκρουπ'])
 
-        #check read access
+        # check read access
         self.client.create_container('φάκελος')
         o = self.upload_random_data('φάκελος', 'ο1')
         self.client.share_object('φάκελος', 'ο1', ['%s:γκρουπ' % get_user()])
         if 'διογένης' not in OTHER_ACCOUNTS.values():
             raise Warning('No such an account exists for running this test.')
         chef = Pithos_Client(get_url(),
-                            '0009',
-                            'διογένης')
+                             '0009',
+                             'διογένης')
         self.assert_not_raises_fault(403, chef.retrieve_object_metadata,
                                      'φάκελος', 'ο1', account=get_user())
 
-        #check write access
+        # check write access
         self.client.share_object('φάκελος', 'ο1', ['διογένης'], read=False)
         new_data = get_random_data()
         self.assert_not_raises_fault(403, chef.update_object,
@@ -2155,19 +2162,19 @@ class TestUTF8(BaseTestCase):
         prefix = 'μέρη/'
         data = ''
         for i in range(5):
-            part = '%s%d' %(prefix, i)
+            part = '%s%d' % (prefix, i)
             o = self.upload_random_data('κουβάς', part)
             data += o['data']
 
         self.client.create_container('φάκελος')
-        manifest = '%s/%s' %('κουβάς', prefix)
+        manifest = '%s/%s' % ('κουβάς', prefix)
         self.client.create_manifestation('φάκελος', 'άπαντα', manifest)
 
         self.assert_object_exists('φάκελος', 'άπαντα')
         self.assertEqual(data, self.client.retrieve_object('φάκελος',
                                                            'άπαντα'))
 
-        #wrong manifestation
+        # wrong manifestation
         self.client.create_manifestation('φάκελος', 'άπαντα', 'κουβάς/άκυρο')
         self.assertEqual('', self.client.retrieve_object('φάκελος', 'άπαντα'))
 
@@ -2182,6 +2189,7 @@ class TestUTF8(BaseTestCase):
             self.client.retrieve_object('κουβάς', 'νέο'),
             '%s%s' % (initial_data, self.client.retrieve_object('κουβάς', 'πηγή')))
 
+
 class TestPermissions(BaseTestCase):
     def setUp(self):
         BaseTestCase.setUp(self)
@@ -2189,19 +2197,19 @@ class TestPermissions(BaseTestCase):
         if not OTHER_ACCOUNTS:
             raise Warning('No other accounts avalaible for running this test.')
 
-        #create a group
+        # create a group
         self.authorized = ['chazapis', 'verigak', 'gtsouk']
-        groups = {'pithosdev':','.join(self.authorized)}
+        groups = {'pithosdev': ','.join(self.authorized)}
         self.client.set_account_groups(**groups)
 
         self.container = 'c'
         self.object = 'o'
         self.client.create_container(self.container)
         self.upload_random_data(self.container, self.object)
-        self.upload_random_data(self.container, self.object+'/')
-        self.upload_random_data(self.container, self.object+'/a')
-        self.upload_random_data(self.container, self.object+'a')
-        self.upload_random_data(self.container, self.object+'a/')
+        self.upload_random_data(self.container, self.object + '/')
+        self.upload_random_data(self.container, self.object + '/a')
+        self.upload_random_data(self.container, self.object + 'a')
+        self.upload_random_data(self.container, self.object + 'a/')
         self.dir_content_types = ('application/directory', 'application/folder')
 
     def assert_read(self, authorized=None, any=False, depth=0):
@@ -2217,24 +2225,24 @@ class TestPermissions(BaseTestCase):
                                          self.container, self.object,
                                          account=get_user())
 
-        #check inheritance
+        # check inheritance
         meta = self.client.retrieve_object_metadata(self.container, self.object)
         type = meta['content-type']
         derivatives = self.client.list_objects(self.container, prefix=self.object)
-        #exclude the self.object
+        # exclude the self.object
         del derivatives[derivatives.index(self.object)]
         for o in derivatives:
             for token, account in OTHER_ACCOUNTS.items():
                 cl = Pithos_Client(get_url(), token, account)
-                prefix = self.object if self.object.endswith('/') else self.object+'/'
+                prefix = self.object if self.object.endswith('/') else self.object + '/'
                 if (account in authorized or any) and \
-                (type in self.dir_content_types) and \
-                o.startswith(prefix):
+                   (type in self.dir_content_types) and \
+                   o.startswith(prefix):
                     self.assert_not_raises_fault(403, cl.retrieve_object_metadata,
-                                             self.container, o, account=get_user())
+                                                 self.container, o, account=get_user())
                 else:
                     self.assert_raises_fault(403, cl.retrieve_object_metadata,
-                                         self.container, o, account=get_user())
+                                             self.container, o, account=get_user())
 
     def assert_write(self, authorized=None, any=False):
         authorized = authorized or []
@@ -2257,22 +2265,22 @@ class TestPermissions(BaseTestCase):
                     self.failIf(f.status == 403)
             else:
                 self.assert_raises_fault(403, cl.update_object,
-                                             self.container, self.object, StringIO(new_data),
-                                             account=get_user())
-        #check inheritance
+                                         self.container, self.object, StringIO(new_data),
+                                         account=get_user())
+        # check inheritance
         meta = self.client.retrieve_object_metadata(self.container, self.object)
         type = meta['content-type']
         derivatives = self.client.list_objects(self.container, prefix=self.object)
-        #exclude the object
+        # exclude the object
         del derivatives[derivatives.index(self.object)]
         for o in derivatives:
             for token, account in OTHER_ACCOUNTS.items():
-                prefix = self.object if self.object.endswith('/') else self.object+'/'
+                prefix = self.object if self.object.endswith('/') else self.object + '/'
                 cl = Pithos_Client(get_url(), token, account)
                 new_data = get_random_data()
                 if (account in authorized or any) and \
-                (type in self.dir_content_types) and \
-                o.startswith(prefix):
+                   (type in self.dir_content_types) and \
+                   o.startswith(prefix):
                     # test write access
                     self.assert_not_raises_fault(403, cl.update_object,
                                                  self.container, o,
@@ -2285,9 +2293,9 @@ class TestPermissions(BaseTestCase):
                         self.failIf(f.status == 403)
                 else:
                     self.assert_raises_fault(403, cl.update_object,
-                                                 self.container, o,
-                                                 StringIO(new_data),
-                                                 account=get_user())
+                                             self.container, o,
+                                             StringIO(new_data),
+                                             account=get_user())
 
     def test_group_read(self):
         self.client.share_object(self.container, self.object, ['%s:pithosdev' % get_user()])
@@ -2303,7 +2311,7 @@ class TestPermissions(BaseTestCase):
 
     def test_read_directory(self):
         for type in self.dir_content_types:
-            #change content type
+            # change content type
             self.client.move_object(self.container, self.object, self.container, self.object, content_type=type)
             self.client.share_object(self.container, self.object, ['*'])
             self.assert_read(any=True)
@@ -2327,8 +2335,9 @@ class TestPermissions(BaseTestCase):
     def test_write_directory(self):
         dir_content_types = ('application/directory', 'application/foler')
         for type in dir_content_types:
-            #change content type
-            self.client.move_object(self.container, self.object, self.container, self.object, content_type='application/folder')
+            # change content type
+            self.client.move_object(self.container, self.object, self.container, self.object,
+                                    content_type='application/folder')
             self.client.share_object(self.container, self.object, ['*'], read=False)
             self.assert_write(any=True)
             self.client.share_object(self.container, self.object, self.authorized, read=False)
@@ -2346,8 +2355,9 @@ class TestPermissions(BaseTestCase):
 
         dir_content_types = ('application/directory', 'application/foler')
         for type in dir_content_types:
-            #change content type
-            self.client.move_object(self.container, self.object, self.container, self.object, content_type='application/folder')
+            # change content type
+            self.client.move_object(self.container, self.object, self.container, self.object,
+                                    content_type='application/folder')
             my_shared_objects = self.client.list_objects('c', shared=True)
             self.assertEqual(['o', 'o/', 'o/a'], my_shared_objects)
 
@@ -2355,6 +2365,7 @@ class TestPermissions(BaseTestCase):
             if account in self.authorized:
                 self.other = Pithos_Client(get_url(), token, account)
                 self.assertTrue(get_user() in self.other.list_shared_with_me())
+
 
 class TestPublish(BaseTestCase):
     def test_publish(self):
@@ -2387,9 +2398,10 @@ class TestPublish(BaseTestCase):
         meta = cl.retrieve_object_metadata('c', 'o', account=get_user())
         self.assertTrue('x-object-public' not in meta)
 
+
 class TestPolicies(BaseTestCase):
     def test_none_versioning(self):
-        self.client.create_container('c', policies={'versioning':'none'})
+        self.client.create_container('c', policies={'versioning': 'none'})
         o = self.upload_random_data('c', 'o')
         meta = self.client.retrieve_object_metadata('c', 'o')
         v = meta['x-object-version']
@@ -2404,18 +2416,19 @@ class TestPolicies(BaseTestCase):
         self.assertEqual(data[end:], more_data)
 
     def test_quota(self):
-        self.client.create_container('c', policies={'quota':'1'})
+        self.client.create_container('c', policies={'quota': '1'})
         meta = self.client.retrieve_container_metadata('c')
         self.assertEqual(meta['x-container-policy-quota'], '1')
         self.assert_raises_fault(413, self.upload_random_data, 'c', 'o',
                                  length=1024*1024+1)
 
     def test_quota_none(self):
-        self.client.create_container('c', policies={'quota':'0'})
+        self.client.create_container('c', policies={'quota': '0'})
         meta = self.client.retrieve_container_metadata('c')
         self.assertEqual(meta['x-container-policy-quota'], '0')
         self.assert_not_raises_fault(413, self.upload_random_data, 'c', 'o',
-                                 length=1024*1024+1)
+                                     length=1024*1024+1)
+
 
 class TestUsageFreeVersioningAutoContainerPolicy(BaseTestCase):
     """ Challenge free version accounting
@@ -2448,8 +2461,8 @@ class TestUsageFreeVersioningAutoContainerPolicy(BaseTestCase):
         print 'Current account usage: %d' % self.initial_usage
 
         self.usage = self.initial_usage
-        #self.mtime = {}
-        l =  (50, 100, 150, 70, 80)
+        # self.mtime = {}
+        l = (50, 100, 150, 70, 80)
         self.curr_acc_usage = self.initial_usage
         for i, length in list(enumerate(l)):
             self.upload_random_data('container', 'object', length=length)
@@ -2459,8 +2472,8 @@ class TestUsageFreeVersioningAutoContainerPolicy(BaseTestCase):
             self.curr_acc_usage = self.initial_usage + length
             self.assertEqual(self.usage, self.curr_acc_usage)
 
-            #t = datetime.datetime.utcnow()
-            #self.mtime[i] = int(_time.mktime(t.timetuple()))
+            # t = datetime.datetime.utcnow()
+            # self.mtime[i] = int(_time.mktime(t.timetuple()))
             _time.sleep(1)
 
         versions = self.client.retrieve_object_versionlist(
@@ -2597,7 +2610,7 @@ class TestUsageFreeVersioningAutoContainerPolicy(BaseTestCase):
         meta = self.client.retrieve_account_metadata()
         self.usage = int(meta['x-account-bytes-used'])
         print 'Current account usage: %d' % self.usage
-        self.assertEqual( self.usage, self.curr_acc_usage)
+        self.assertEqual(self.usage, self.curr_acc_usage)
 
         self.client.delete_object('container', 'object')
         meta = self.client.retrieve_account_metadata()
@@ -2754,8 +2767,8 @@ class TestUsageFreeVersioningNoneContainerPolicy(
        enforce all test cases to return immediately
     """
     def create_container(self, cname):
-        self.client.create_container(cname,
-                                     policies={'versioning':'none'})
+        self.client.create_container(cname, policies={'versioning': 'none'})
+
 
 class TestUsageDebitVersioningAutoContainerPolicy(BaseTestCase):
     """ Challenge debit version accounting
@@ -2945,7 +2958,6 @@ class TestUsageDebitVersioningAutoContainerPolicy(BaseTestCase):
         print 'Current account usage: %d' % self.usage
         self.assertEqual(self.usage, self.curr_acc_usage - sum(self.l[:i]))
 
-
         self.client.delete_container('container')
         meta = self.client.retrieve_account_metadata()
         self.usage = int(meta['x-account-bytes-used'])
@@ -3095,6 +3107,7 @@ class TestUsageDebitVersioningAutoContainerPolicy(BaseTestCase):
         print 'Current account usage: %d' % self.usage
         self.assertEqual(self.usage, self.initial_usage)
 
+
 class TestUsageDebitVersioningNoneContainerPolicy(BaseTestCase):
     """ Challenge debit version accounting
        in a container with none versioning policy
@@ -3124,7 +3137,7 @@ class TestUsageDebitVersioningNoneContainerPolicy(BaseTestCase):
         self.initial_usage = int(meta['x-account-bytes-used'])
         print 'Current account usage: %d' % self.initial_usage
 
-        l =  (50, 100, 150, 70, 80)
+        l = (50, 100, 150, 70, 80)
         self.curr_acc_usage = self.initial_usage
         for i, length in list(enumerate(l)):
             self.upload_random_data('container', 'object', length=length)
@@ -3141,8 +3154,7 @@ class TestUsageDebitVersioningNoneContainerPolicy(BaseTestCase):
         self.mtime = [int(i[1]) for i in versions]
 
     def create_container(self, cname):
-        self.client.create_container(cname,
-                                     policies={'versioning':'none'})
+        self.client.create_container(cname, policies={'versioning': 'none'})
 
     def _test_delete_object_container(self):
         """
@@ -3395,6 +3407,7 @@ class TestUsageDebitVersioningNoneContainerPolicy(BaseTestCase):
         print 'Current account usage: %d' % self.usage
         self.assertEqual(self.usage, self.initial_usage)
 
+
 class AssertUUidInvariant(object):
     def __init__(self, callable, *args, **kwargs):
         self.callable = callable
@@ -3412,6 +3425,7 @@ class AssertUUidInvariant(object):
         assert('x-object-uuid' in self.map)
         uuid = map['x-object-uuid']
         assert(uuid == self.uuid)
+
 
 class AssertMappingInvariant(object):
     def __init__(self, callable, *args, **kwargs):
@@ -3431,6 +3445,7 @@ class AssertMappingInvariant(object):
             assert(k in map)
             assert v == map[k]
 
+
 class AssertContentInvariant(object):
     def __init__(self, callable, *args, **kwargs):
         self.callable = callable
@@ -3445,9 +3460,11 @@ class AssertContentInvariant(object):
         content = self.callable(*self.args, **self.kwargs)[2]
         assert self.content == content
 
+
 def get_content_splitted(response):
     if response:
         return response.content.split('\n')
+
 
 def compute_md5_hash(data):
     md5 = hashlib.md5()
@@ -3455,14 +3472,17 @@ def compute_md5_hash(data):
     md5.update(data)
     return md5.hexdigest().lower()
 
+
 def compute_block_hash(data, algorithm):
     h = hashlib.new(algorithm)
     h.update(data.rstrip('\x00'))
     return h.hexdigest()
 
+
 def get_random_data(length=500):
     char_set = string.ascii_uppercase + string.digits
     return ''.join(random.choice(char_set) for x in xrange(length))
+
 
 def is_date(date):
     MONTHS = 'jan feb mar apr may jun jul aug sep oct nov dec'.split()
@@ -3481,24 +3501,25 @@ def is_date(date):
             return True
     return False
 
+
 def strnextling(prefix):
     """Return the first unicode string
        greater than but not starting with given prefix.
        strnextling('hello') -> 'hellp'
     """
     if not prefix:
-        ## all strings start with the null string,
-        ## therefore we have to approximate strnextling('')
-        ## with the last unicode character supported by python
-        ## 0x10ffff for wide (32-bit unicode) python builds
-        ## 0x00ffff for narrow (16-bit unicode) python builds
-        ## We will not autodetect. 0xffff is safe enough.
+        # all strings start with the null string,
+        # therefore we have to approximate strnextling('')
+        # with the last unicode character supported by python
+        # 0x10ffff for wide (32-bit unicode) python builds
+        # 0x00ffff for narrow (16-bit unicode) python builds
+        # We will not autodetect. 0xffff is safe enough.
         return unichr(0xffff)
     s = prefix[:-1]
     c = ord(prefix[-1])
     if c >= 0xffff:
         raise RuntimeError
-    s += unichr(c+1)
+    s += unichr(c + 1)
     return s
 
 o_names = ['kate.jpg',
@@ -3527,4 +3548,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

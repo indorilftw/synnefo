@@ -36,6 +36,7 @@ import os
 
 _cli_commands = {}
 
+
 def cli_command(*args):
     def decorator(cls):
         cls.commands = args
@@ -163,7 +164,7 @@ class List(Command):
         print_list(l)
 
     def list_objects(self, container):
-        #prepate params
+        # prepate params
         params = {}
         attrs = ['limit', 'marker', 'prefix', 'delimiter', 'path',
                  'meta', 'if_modified_since', 'if_unmodified_since',
@@ -180,7 +181,7 @@ class List(Command):
             return
 
         detail = 'json'
-        #if request with meta quering disable trash filtering
+        # if request with meta quering disable trash filtering
         show_trashed = True if self.meta else False
         l = self.client.list_objects(container, **args)
         print_list(l, detail=self.detail)
@@ -395,7 +396,7 @@ class PutObject(Command):
         parser.add_option('--content-disposition', action='store', type='str',
                           dest='content_disposition', default=None,
                           help='provide the presentation style of the object')
-        #parser.add_option('-S', action='store',
+        # parser.add_option('-S', action='store',
         #                  dest='segment_size', default=False,
         #                  help='use for large file support')
         parser.add_option('--manifest', action='store',
@@ -418,7 +419,7 @@ class PutObject(Command):
         if path.find('=') != -1:
             raise Fault('Missing path argument')
 
-        #prepare user defined meta
+        # prepare user defined meta
         meta = {}
         for arg in args:
             key, sep, val = arg.partition('=')
@@ -483,7 +484,7 @@ class CopyObject(Command):
         src_container, sep, src_object = src.partition('/')
         dst_container, sep, dst_object = dst.partition('/')
 
-        #prepare user defined meta
+        # prepare user defined meta
         meta = {}
         for arg in args:
             key, sep, val = arg.partition('=')
@@ -509,7 +510,7 @@ class SetMeta(Command):
     description = 'set account/container/object metadata'
 
     def execute(self, path, *args):
-        #in case of account fix the args
+        # in case of account fix the args
         if path.find('=') != -1:
             args = list(args)
             args.append(path)
@@ -572,7 +573,7 @@ class UpdateObject(Command):
         if path.find('=') != -1:
             raise Fault('Missing path argument')
 
-        #prepare user defined meta
+        # prepare user defined meta
         meta = {}
         for arg in args:
             key, sep, val = arg.partition('=')
@@ -627,7 +628,7 @@ class MoveObject(Command):
             dst_container = src_container
             dst_object = dst
 
-        #prepare user defined meta
+        # prepare user defined meta
         meta = {}
         for arg in args:
             key, sep, val = arg.partition('=')
@@ -648,7 +649,7 @@ class UnsetObject(Command):
     description = 'delete metadata info'
 
     def execute(self, path, *args):
-        #in case of account fix the args
+        # in case of account fix the args
         if len(args) == 0:
             args = list(args)
             args.append(path)
@@ -805,7 +806,7 @@ def print_dict(d, header='name', f=stdout, detail=True):
 
 def print_list(l, verbose=False, f=stdout, detail=True):
     for elem in l:
-        #if it's empty string continue
+        # if it's empty string continue
         if not elem:
             continue
         if isinstance(elem, types.DictionaryType):

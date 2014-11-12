@@ -210,9 +210,8 @@ class fuse_operations(Structure):
         ('open', CFUNCTYPE(c_int, c_char_p, POINTER(fuse_file_info))),
         ('read', CFUNCTYPE(c_int, c_char_p, POINTER(c_byte), c_size_t, c_off_t,
                            POINTER(fuse_file_info))),
-        (
-            'write', CFUNCTYPE(c_int, c_char_p, POINTER(c_byte), c_size_t, c_off_t,
-            POINTER(fuse_file_info))),
+        ('write', CFUNCTYPE(c_int, c_char_p, POINTER(c_byte), c_size_t, c_off_t,
+                            POINTER(fuse_file_info))),
         ('statfs', CFUNCTYPE(c_int, c_char_p, POINTER(c_statvfs))),
         ('flush', CFUNCTYPE(c_int, c_char_p, POINTER(fuse_file_info))),
         ('release', CFUNCTYPE(c_int, c_char_p, POINTER(fuse_file_info))),
@@ -222,10 +221,9 @@ class fuse_operations(Structure):
         ('listxattr', CFUNCTYPE(c_int, c_char_p, POINTER(c_byte), c_size_t)),
         ('removexattr', CFUNCTYPE(c_int, c_char_p, c_char_p)),
         ('opendir', CFUNCTYPE(c_int, c_char_p, POINTER(fuse_file_info))),
-        (
-            'readdir', CFUNCTYPE(c_int, c_char_p, c_voidp, CFUNCTYPE(c_int, c_voidp,
-            c_char_p, POINTER(
-                c_stat), c_off_t), c_off_t, POINTER(fuse_file_info))),
+        ('readdir', CFUNCTYPE(c_int, c_char_p, c_voidp, CFUNCTYPE(c_int, c_voidp,
+                              c_char_p, POINTER(c_stat), c_off_t), c_off_t,
+                              POINTER(fuse_file_info))),
         ('releasedir', CFUNCTYPE(c_int, c_char_p, POINTER(fuse_file_info))),
         ('fsyncdir', CFUNCTYPE(c_int, c_char_p, c_int, POINTER(
             fuse_file_info))),
@@ -298,7 +296,7 @@ class FUSE(object):
             args.append('-s')
         kwargs.setdefault('fsname', operations.__class__.__name__)
         args.append('-o')
-        args.append(','.join(key if val == True else '%s=%s' % (key, val)
+        args.append(','.join(key if val else '%s=%s' % (key, val)
                              for key, val in kwargs.items()))
         args.append(mountpoint)
         argv = (c_char_p * len(args))(*args)

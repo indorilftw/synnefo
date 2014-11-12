@@ -76,11 +76,11 @@ def main():
         level=logging.DEBUG if DEBUG else logging.INFO)
     logger = logging.getLogger('dispatcher')
 
-    host =  'amqp://%s:%s@%s:%s' % (opts.user, opts.password, opts.host, opts.port)
+    host = 'amqp://%s:%s@%s:%s' % (opts.user, opts.password, opts.host, opts.port)
     queue = opts.queue
     key = opts.key
     exchange = opts.exchange
-    
+
     client = AMQPClient(hosts=[host])
     client.connect()
 
@@ -89,7 +89,7 @@ def main():
                                 type='topic')
         client.basic_publish(exchange=exchange,
                              routing_key=key,
-                             body= json.dumps({"test": "0123456789"}))
+                             body=json.dumps({"test": "0123456789"}))
         client.close()
         sys.exit()
 

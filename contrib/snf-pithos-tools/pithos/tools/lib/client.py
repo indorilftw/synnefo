@@ -85,13 +85,13 @@ class Client(object):
         kwargs['headers'].setdefault('content-length', len(body)
                                      if body else 0)
 
-        #print '#', method, full_path, kwargs
-        #t1 = datetime.datetime.utcnow()
+        # print '#', method, full_path, kwargs
+        # t1 = datetime.datetime.utcnow()
         conn.request(method, full_path, **kwargs)
 
         resp = conn.getresponse()
-        #t2 = datetime.datetime.utcnow()
-        #print 'response time:', str(t2-t1)
+        # t2 = datetime.datetime.utcnow()
+        # print 'response time:', str(t2-t1)
         return _handle_response(resp, self.verbose, self.debug)
 
     def _chunked_transfer(self, path, method='PUT', f=stdin, headers=None,
@@ -129,13 +129,13 @@ class Client(object):
             try:
                 conn.send(data)
             except:
-                #retry
+                # retry
                 conn.send(data)
         data = '0\r\n\r\n'
         try:
             conn.send(data)
         except:
-            #retry
+            # retry
             conn.send(data)
 
         resp = conn.getresponse()
@@ -294,7 +294,7 @@ class OOS_Client(Client):
                        'delimiter': delimiter, 'path': path})
         l = self._list('/%s/%s' % (account, container), format, params,
                        **headers)
-        #TODO support filter trashed with xml also
+        # TODO support filter trashed with xml also
         if format != 'xml' and not include_trashed:
             l = self._filter_trashed(l)
         return l
@@ -995,7 +995,7 @@ class Pithos_Client(OOS_Client):
                                       **headers)
 
     def list_shared_with_me(self, limit=None, marker=None, format='text',
-            translate=None):
+                            translate=None):
         """lists other accounts that share objects to the user"""
         l = ['limit', 'marker']
         params = {}
@@ -1050,5 +1050,5 @@ def _handle_response(response, verbose=False, debug=False):
     if int(response.status) in ERROR_CODES.keys():
         raise Fault(data, int(response.status))
 
-    #print '**',  response.status, headers, data, '\n'
+    # print '**',  response.status, headers, data, '\n'
     return response.status, headers, data
