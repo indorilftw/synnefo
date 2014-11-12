@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding=utf8
+# coding=utf8
 
 # Copyright (C) 2010-2014 GRNET S.A.
 #
@@ -139,7 +139,7 @@ class AccountGet(PithosAPITest):
             uploaded_bytes += len(data)
 
     def test_list(self):
-        #list containers: row format
+        # list containers: row format
         containers = self.list_containers(format=None)
         self.assertEquals(containers,
                           ['apples', 'bananas', 'kiwis', 'oranges', 'pears'])

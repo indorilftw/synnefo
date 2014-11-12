@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding=utf8
+# coding=utf8
 # Copyright (C) 2010-2014 GRNET S.A.
 #
 # This program is free software: you can redistribute it and/or modify
@@ -57,23 +57,23 @@ class TestPublic(PithosAPITest):
 
         r = self.delete(public)
         self.assertEqual(r.status_code, 405)
-        self.assertEqual(sorted(r['Allow'].split(',')),  ['GET', 'HEAD'])
+        self.assertEqual(sorted(r['Allow'].split(',')), ['GET', 'HEAD'])
 
         r = self.post(public)
         self.assertEqual(r.status_code, 405)
-        self.assertEqual(sorted(r['Allow'].split(',')),  ['GET', 'HEAD'])
+        self.assertEqual(sorted(r['Allow'].split(',')), ['GET', 'HEAD'])
 
         r = self.put(public)
         self.assertEqual(r.status_code, 405)
-        self.assertEqual(sorted(r['Allow'].split(',')),  ['GET', 'HEAD'])
+        self.assertEqual(sorted(r['Allow'].split(',')), ['GET', 'HEAD'])
 
         r = self.copy(public)
         self.assertEqual(r.status_code, 405)
-        self.assertEqual(sorted(r['Allow'].split(',')),  ['GET', 'HEAD'])
+        self.assertEqual(sorted(r['Allow'].split(',')), ['GET', 'HEAD'])
 
         r = self.move(public)
         self.assertEqual(r.status_code, 405)
-        self.assertEqual(sorted(r['Allow'].split(',')),  ['GET', 'HEAD'])
+        self.assertEqual(sorted(r['Allow'].split(',')), ['GET', 'HEAD'])
 
         r = self.get(public, user='user2', token=None)
         self.assertEqual(r.status_code, 200)
@@ -351,8 +351,8 @@ class TestPublic(PithosAPITest):
 
         r = self.get(public)
         self.assertTrue(r.content, data)
-        #self.assertTrue('X-Object-Manifest' in r)
-        #self.assertEqual(r['X-Object-Manifest'], manifest)
+        # self.assertTrue('X-Object-Manifest' in r)
+        # self.assertEqual(r['X-Object-Manifest'], manifest)
 
     def test_public_get_partial(self):
         cname = self.create_container()[0]

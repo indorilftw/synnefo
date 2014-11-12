@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding=utf8
+# coding=utf8
 
 # Copyright (C) 2010-2014 GRNET S.A.
 #
@@ -20,6 +20,7 @@ from pithos.api.test import PithosAPITest
 
 from synnefo.lib import join_urls
 
+
 class TopLevel(PithosAPITest):
     def test_not_allowed_method(self):
         url = join_urls(self.pithos_path, '/')
@@ -39,7 +40,6 @@ class TopLevel(PithosAPITest):
         self.assertEqual(r.status_code, 405)
         self.assertTrue('Allow' in r)
         self.assertEqual(r['Allow'], 'GET')
-
 
     def test_authenticate(self):
         url = join_urls(self.pithos_path, '/')

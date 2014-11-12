@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding=utf8
+# coding=utf8
 
 # Copyright (C) 2010-2014 GRNET S.A.
 #
@@ -27,7 +27,7 @@ import random
 
 
 class TestUnicode(PithosAPITest):
-    #def setUp(self):
+    # def setUp(self):
     #    super(TestUnicode, self).setUp()
     #    self.user = 'χρήστης'
 
@@ -376,7 +376,7 @@ class TestUnicode(PithosAPITest):
 
         # check write access
         appended_data = get_random_data()
-        r = self.post(url, user='διογένης',  data=appended_data,
+        r = self.post(url, user='διογένης', data=appended_data,
                       content_type='application/octet-stream',
                       HTTP_CONTENT_LENGTH=str(len(appended_data)),
                       HTTP_CONTENT_RANGE='bytes */*')

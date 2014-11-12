@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding=utf8
+# coding=utf8
 
 # Copyright (C) 2010-2014 GRNET S.A.
 #
@@ -24,7 +24,7 @@ from pithos.api.test.objects import merkle
 from synnefo.lib.services import get_service_path
 from synnefo.lib import join_urls
 
-#from mock import patch
+# from mock import patch
 from urllib import quote, unquote
 
 import django.utils.simplejson as json
@@ -57,27 +57,27 @@ class NotAllowedView(PithosAPITest):
         r = self.delete(self.view_url)
         self.assertEqual(r.status_code, 405)
         self.assertTrue('Allow' in r)
-        self.assertEqual(sorted(r['Allow'].split(', ')),  ['GET', 'HEAD'])
+        self.assertEqual(sorted(r['Allow'].split(', ')), ['GET', 'HEAD'])
 
         r = self.post(self.view_url)
         self.assertEqual(r.status_code, 405)
         self.assertTrue('Allow' in r)
-        self.assertEqual(sorted(r['Allow'].split(', ')),  ['GET', 'HEAD'])
+        self.assertEqual(sorted(r['Allow'].split(', ')), ['GET', 'HEAD'])
 
         r = self.put(self.view_url)
         self.assertEqual(r.status_code, 405)
         self.assertTrue('Allow' in r)
-        self.assertEqual(sorted(r['Allow'].split(', ')),  ['GET', 'HEAD'])
+        self.assertEqual(sorted(r['Allow'].split(', ')), ['GET', 'HEAD'])
 
         r = self.copy(self.view_url)
         self.assertEqual(r.status_code, 405)
         self.assertTrue('Allow' in r)
-        self.assertEqual(sorted(r['Allow'].split(', ')),  ['GET', 'HEAD'])
+        self.assertEqual(sorted(r['Allow'].split(', ')), ['GET', 'HEAD'])
 
         r = self.move(self.view_url)
         self.assertEqual(r.status_code, 405)
         self.assertTrue('Allow' in r)
-        self.assertEqual(sorted(r['Allow'].split(', ')),  ['GET', 'HEAD'])
+        self.assertEqual(sorted(r['Allow'].split(', ')), ['GET', 'HEAD'])
 
 
 class ObjectGetView(PithosAPITest):
@@ -325,8 +325,8 @@ class ObjectGetView(PithosAPITest):
 
     def test_get_range_not_satisfiable(self):
         # TODO
-        #r = self.view(self.view_url, HTTP_RANGE='bytes=50-10')
-        #self.assertEqual(r.status_code, 416)
+        # r = self.view(self.view_url, HTTP_RANGE='bytes=50-10')
+        # self.assertEqual(r.status_code, 416)
 
         offset = len(self.odata) + 1
         r = self.view(self.view_url, HTTP_RANGE='bytes=0-%s' % offset)

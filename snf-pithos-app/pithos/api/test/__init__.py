@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding=utf8
+# coding=utf8
 # Copyright (C) 2010-2014 GRNET S.A.
 #
 # This program is free software: you can redistribute it and/or modify
@@ -242,11 +242,11 @@ class PithosAPITest(TestCase):
                         "pending": 0}}}}
 
     def tearDown(self):
-        #delete additionally created metadata
+        # delete additionally created metadata
         meta = self.get_account_meta()
         self.delete_account_meta(meta)
 
-        #delete additionally created groups
+        # delete additionally created groups
         groups = self.get_account_groups()
         self.delete_account_groups(groups)
 

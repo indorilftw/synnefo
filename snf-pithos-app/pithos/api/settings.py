@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#coding=utf8
+# coding=utf8
 import logging
 
 from django.conf import settings

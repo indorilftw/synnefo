@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding=utf8
+# coding=utf8
 
 # Copyright (C) 2010-2014 GRNET S.A.
 #
@@ -53,12 +53,12 @@ def strnextling(prefix):
        strnextling('hello') -> 'hellp'
     """
     if not prefix:
-        ## all strings start with the null string,
-        ## therefore we have to approximate strnextling('')
-        ## with the last unicode character supported by python
-        ## 0x10ffff for wide (32-bit unicode) python builds
-        ## 0x00ffff for narrow (16-bit unicode) python builds
-        ## We will not autodetect. 0xffff is safe enough.
+        # all strings start with the null string,
+        # therefore we have to approximate strnextling('')
+        # with the last unicode character supported by python
+        # 0x10ffff for wide (32-bit unicode) python builds
+        # 0x00ffff for narrow (16-bit unicode) python builds
+        # We will not autodetect. 0xffff is safe enough.
         return unichr(0xffff)
     s = prefix[:-1]
     c = ord(prefix[-1])
