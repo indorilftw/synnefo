@@ -28,7 +28,7 @@ class Migration(object):
     def __init__(self, db):
         self.engine = create_engine(db)
         self.metadata = MetaData(self.engine)
-        #self.engine.echo = True
+        # self.engine.echo = True
         self.conn = self.engine.connect()
 
         options = getattr(settings, 'BACKEND', None)[1]
