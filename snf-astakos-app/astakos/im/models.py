@@ -722,7 +722,7 @@ class AstakosUser(User):
         modules = astakos_settings.IM_MODULES
 
         def key(p):
-            if not p.module in modules:
+            if p.module not in modules:
                 return 100
             return modules.index(p.module)
 

@@ -87,7 +87,7 @@ class ShibbolethClient(AstakosTestClient):
     def set_tokens(self, **kwargs):
         for key, value in kwargs.iteritems():
             key = 'SHIB_%s' % key.upper()
-            if not key in self.VALID_TOKENS:
+            if key not in self.VALID_TOKENS:
                 raise Exception('Invalid shibboleth token')
 
             self.tokens[key] = value

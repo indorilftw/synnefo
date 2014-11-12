@@ -820,7 +820,7 @@ class ProjectApplicationForm(forms.ModelForm):
                 append_groups.add(group)
 
             for key, value in existing_data.iteritems():
-                if not key in data or data.get(key, '') == '':
+                if key not in data or data.get(key, '') == '':
                     data[key] = value
             for group in append_groups:
                 data["is_selected_%s" % group] = "1"
@@ -987,7 +987,7 @@ class ProjectApplicationForm(forms.ModelForm):
         if not is_new:
             instance = Project.objects.get(pk=self.instance.pk)
 
-        for key in [dkey for dkey in data.keys() if not dkey in exclude_keys]:
+        for key in [dkey for dkey in data.keys() if dkey not in exclude_keys]:
             if not is_new and (getattr(instance, key) == data.get(key)):
                 del data[key]
 

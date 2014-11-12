@@ -62,7 +62,7 @@ class EmailValidator(object):
         if not self.user_regex.match(user_part):
             raise forms.ValidationError(self.message, code=self.code)
 
-        if (not domain_part in self.domain_whitelist and
+        if (domain_part not in self.domain_whitelist and
                 not self.domain_regex.match(domain_part)):
             # Try for possible IDN domain-part
             try:

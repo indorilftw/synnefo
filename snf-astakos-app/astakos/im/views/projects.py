@@ -573,7 +573,7 @@ def project_members_action(request, project_uuid, action=None, redirect_to='',
         }
     }
 
-    if not action in actions_map.keys():
+    if action not in actions_map.keys():
         raise PermissionDenied
 
     if memb_id:

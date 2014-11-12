@@ -219,13 +219,13 @@ def _resources_catalog(as_dict=False):
     # order groups, also include unknown groups
     groups_order = resources_meta.get('groups_order')
     for g in resource_groups.keys():
-        if not g in groups_order:
+        if g not in groups_order:
             groups_order.append(g)
 
     # order resources, also include unknown resources
     resources_order = resources_meta.get('resources_order')
     for r in resource_keys:
-        if not r in resources_order:
+        if r not in resources_order:
             resources_order.append(r)
 
     # sort catalog groups

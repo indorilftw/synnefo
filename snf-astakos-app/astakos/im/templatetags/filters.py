@@ -346,7 +346,7 @@ def display_modification_param(form_or_app, param, formatter=None):
         project = form_or_app.chain
         app_value = getattr(form_or_app, project_attr)
         project_value = getattr(project, project_attr)
-        if app_value == None:
+        if app_value is None:
             app_value = project_value
 
     formatter_params = {}

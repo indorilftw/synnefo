@@ -73,7 +73,7 @@ class Migration(DataMigration):
         objs = orm.ProjectMembershipHistory.objects.all().order_by("-date")
         for mh in objs.exclude(reason=H_ACCEPT):
             key = (mh.project, mh.person)
-            if not key in membs and not key in new_membs:
+            if key not in membs and key not in new_membs:
                 new_membs[key] = orm.ProjectMembership(
                     person_id=mh.person, project_id=mh.project,
                     state=H2S[mh.reason])

@@ -16,7 +16,7 @@ class Migration(DataMigration):
         for project in projects:
             while True:
                 u = str(uuid.uuid4())
-                if not u in current_uuids:
+                if u not in current_uuids:
                     current_uuids.add(u)
                     project.uuid = u
                     project.save()

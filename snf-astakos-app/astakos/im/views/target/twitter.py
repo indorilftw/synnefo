@@ -106,7 +106,7 @@ def authenticated(request,
     if request.GET.get('denied'):
         return HttpResponseRedirect(reverse('edit_profile'))
 
-    if not 'request_token' in request.session:
+    if 'request_token' not in request.session:
         messages.error(request, 'Twitter handshake failed')
         return HttpResponseRedirect(reverse('edit_profile'))
 
