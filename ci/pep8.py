@@ -39,7 +39,7 @@ def filter_files(files):
         # Check if file is a python file
         if not f.endswith(".py"):
             continue
-        #Check if file is to be excluded
+        # Check if file is to be excluded
         if os.path.basename(f) in EXCLUDE:
             continue
         # Check if file existsw
