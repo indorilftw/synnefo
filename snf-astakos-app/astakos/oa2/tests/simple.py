@@ -50,11 +50,11 @@ class OA2TestCase(unittest.TestCase):
             post = extra.get('post', {})
 
         params.update({'response_type': type, 'client_id': client_id})
-        if not state is None:
+        if state is not None:
             params['state'] = state
-        if not scope is None:
+        if scope is not None:
             params['scope'] = scope
-        if not uri is None:
+        if uri is not None:
             params['redirect_uri'] = uri
 
         params.update(extra_params)
@@ -95,14 +95,14 @@ class OA2TestCase(unittest.TestCase):
     def assertResponseRedirect(self, response, url=None):
         self.assertResponseStatus(response, status=302)
         self.assertResponseContains(response, 'Location')
-        if not url is None:
+        if url is not None:
             self.assertEqual(response.headers.get('Location'), url)
 
     def assertResponseStatus(self, response, status=200):
         self.assertEqual(response.status, status)
 
     def assertResponseContains(self, response, header, value=None):
-        if not header in response.headers:
+        if header not in response.headers:
             raise AssertionError("Response does not contain '%s'" % header)
         if value is None:
             return
