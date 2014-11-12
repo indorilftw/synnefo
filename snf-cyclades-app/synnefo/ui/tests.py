@@ -12,11 +12,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-# 
+#
 from django.test import TestCase
 from selenium import selenium
 from multiprocessing import Process
 from time import sleep
+
 
 class FunctionalCase(TestCase):
     """
@@ -74,8 +75,8 @@ class FunctionalCase(TestCase):
         except AssertionError, e:
             self.verificationErrors.append(str(e))
 
-        #self.assertEqual("Success!",
+        # self.assertEqual("Success!",
         #                 sel.get_text("//div[@id='error-success']/h3"))
-        #sel.click("//div[@id='error-success']/a")
-        #try: self.failUnless(sel.is_text_present("My Debian Unstable server"))
-        #except AssertionError, e: self.verificationErrors.append(str(e))
+        # sel.click("//div[@id='error-success']/a")
+        # try: self.failUnless(sel.is_text_present("My Debian Unstable server"))
+        # except AssertionError, e: self.verificationErrors.append(str(e))
