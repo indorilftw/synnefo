@@ -28,7 +28,7 @@ EXCLUDED_PACKAGES = os.environ.get('SYNNEFO_EXCLUDE_PACKAGES', '').split(":")
 def get_entry_points(ns, name):
     for entry_point in pkg_resources.iter_entry_points(group=ns):
         if entry_point.name == name and \
-                not entry_point.dist.project_name in EXCLUDED_PACKAGES:
+                entry_point.dist.project_name not in EXCLUDED_PACKAGES:
             yield entry_point
 
 
@@ -109,7 +109,7 @@ def extend_list_from_entry_point(settings_object, ns, entry_point_name,
                     inserts = [inserts]
 
                 for entry in inserts:
-                    if not entry in settings_object:
+                    if entry not in settings_object:
                         settings_object.insert(insert_at, entry)
                         insert_at = insert_at + 1
             else:
