@@ -41,7 +41,7 @@ def _patch_resolver(r):
     for entry in entries:
         if isinstance(entry, urlresolvers.RegexURLResolver):
             _patch_resolver(entry)
-        #if isinstance(entry, urlresolvers.RegexURLPattern):
+        # if isinstance(entry, urlresolvers.RegexURLPattern):
         # let it break...
         else:
             _patch_pattern(entry)
