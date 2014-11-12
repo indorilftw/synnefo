@@ -315,4 +315,3 @@ def redirect_to_next(request, default_resolve, *args, **kwargs):
 
     next = restrict_next(next, domain=settings.COOKIE_DOMAIN)
     return redirect(next)
-

@@ -52,13 +52,12 @@ import astakos.im.messages as astakos_messages
 import logging
 import hashlib
 import recaptcha.client.captcha as captcha
-import re
 
 logger = logging.getLogger(__name__)
 
 BASE_PROJECT_NAME_REGEX = re.compile(
     r'^system:[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-'
-     '[a-f0-9]{12}$')
+    '[a-f0-9]{12}$')
 DOMAIN_VALUE_REGEX = re.compile(
     r'^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$',
     re.IGNORECASE)
@@ -738,7 +737,7 @@ class ProjectApplicationForm(forms.ModelForm):
                 name_field = self.fields['name']
                 name_field.validators = [base_app_name_validator]
             if self.initial['limit_on_members_number'] == \
-                                                    units.PRACTICALLY_INFINITE:
+                    units.PRACTICALLY_INFINITE:
                 self.initial['limit_on_members_number'] = 'Unlimited'
 
     def clean_limit_on_members_number(self):
@@ -846,8 +845,7 @@ class ProjectApplicationForm(forms.ModelForm):
                                                 resource.name)
 
                 # keep only resource limits for selected resource groups
-                if data.get('is_selected_%s' % \
-                                     resource.group, "0") == "1":
+                if data.get('is_selected_%s' % resource.group, "0") == "1":
                     if not resource.ui_visible:
                         raise forms.ValidationError("Invalid resource %s" %
                                                     resource.name)
@@ -915,8 +913,7 @@ class ProjectApplicationForm(forms.ModelForm):
 
                         if not handled:
                             d.update(dict(resource=prefix, m_uplimit=0,
-                                      display_m_uplimit=units.show(0,
-                                           resource.unit)))
+                                     display_m_uplimit=units.show(0, resource.unit)))
                     else:
                         d.update(dict(resource=prefix, m_uplimit=uplimit,
                                       display_m_uplimit=display))
@@ -926,8 +923,7 @@ class ProjectApplicationForm(forms.ModelForm):
 
                         if not handled:
                             d.update(dict(resource=prefix, p_uplimit=0,
-                                      display_p_uplimit=units.show(0,
-                                           resource.unit)))
+                                     display_p_uplimit=units.show(0, resource.unit)))
 
                     if resource_indexes.get(prefix, None) is not None:
                         # already included in policies
@@ -992,8 +988,7 @@ class ProjectApplicationForm(forms.ModelForm):
             instance = Project.objects.get(pk=self.instance.pk)
 
         for key in [dkey for dkey in data.keys() if not dkey in exclude_keys]:
-            if not is_new and \
-                   (getattr(instance, key) == data.get(key)):
+            if not is_new and (getattr(instance, key) == data.get(key)):
                 del data[key]
 
         resources = self.cleaned_resource_policies()

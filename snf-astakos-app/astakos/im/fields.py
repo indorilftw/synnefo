@@ -34,7 +34,7 @@ class EmailValidator(object):
     code = 'invalid'
     user_regex = re.compile(
         r"(^[-!#$%&'*+/=?^_`{}|~0-9A-Z]+(\.[-!#$%&'*+/=?^_`{}|~0-9A-Z]+)*$"  # dot-atom
-        r'|^"([\001-\010\013\014\016-\037!#-\[\]-\177]|\\[\001-\011\013\014\016-\177])*"$)', # quoted-string
+        r'|^"([\001-\010\013\014\016-\037!#-\[\]-\177]|\\[\001-\011\013\014\016-\177])*"$)',  # quoted-string
         re.IGNORECASE)
     domain_regex = re.compile(
         r'(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}|[A-Z0-9-]{2,})$'  # domain
@@ -115,9 +115,9 @@ $(document).ready(function() {
 });
 </script>
 """ % ({
-    'id': attrs.get("id"),
-    'html': out
-}))
+            'id': attrs.get("id"),
+            'html': out
+        }))
 
     def decompress(self, value):
         if not value:
@@ -152,7 +152,7 @@ class InfiniteChoiceField(forms.ChoiceField):
 
     INFINITE_VALUES = ['Unlimited']
     widget = CustomChoiceWidget
-    default_validators=[validators.MinValueValidator(0)]
+    default_validators = [validators.MinValueValidator(0)]
 
     def _get_choices(self):
         return self._choices
@@ -160,7 +160,7 @@ class InfiniteChoiceField(forms.ChoiceField):
     def _set_choices(self, value):
         self._choices = self.widget.choices = \
             self.widget.widgets[0].choices = \
-                list(value) + [("custom", "Other")]
+            list(value) + [("custom", "Other")]
 
     choices = property(_get_choices, _set_choices)
 

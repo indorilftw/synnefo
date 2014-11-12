@@ -140,7 +140,7 @@ def login(request,
         fullname = '%s %s' % (first_name, last_name)
 
         if not any([first_name, last_name]) and \
-                    settings.SHIBBOLETH_REQUIRE_NAME_INFO:
+                settings.SHIBBOLETH_REQUIRE_NAME_INFO:
             raise KeyError(_(astakos_messages.SHIBBOLETH_MISSING_NAME))
 
     except KeyError, e:

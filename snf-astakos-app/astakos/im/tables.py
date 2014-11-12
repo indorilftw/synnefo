@@ -263,11 +263,11 @@ class UserProjectsTable(UserTable):
     caption = _('My projects')
 
     name = ProjectNameColumn('project_detail',
-                      coerce=lambda x: truncatename(x, 25),
-                      append=project_name_append,
-                      args=(A('uuid'),),
-                      orderable=False,
-                      accessor='display_name')
+                             coerce=lambda x: truncatename(x, 25),
+                             append=project_name_append,
+                             args=(A('uuid'),),
+                             orderable=False,
+                             accessor='display_name')
 
     creation_date = tables.DateColumn(verbose_name=_('Application'),
                                       format=DEFAULT_DATE_FORMAT,

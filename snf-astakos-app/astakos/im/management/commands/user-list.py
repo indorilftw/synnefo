@@ -51,7 +51,7 @@ class Command(ListCommand):
         'displayname': ('username', 'The display name of the user'),
         'groups': (get_groups, 'The groups of the user'),
         'last_login_details': ('last_login_info_display',
-                             'User last login dates for each login method'),
+                               'User last login dates for each login method'),
         'last_login': ('last_login', 'User last login date')
     }
 

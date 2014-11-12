@@ -61,7 +61,7 @@ class ShibbolethTests(TestCase):
 
         # shibboleth logged us in
         client.set_tokens(mail="kpap@synnefo.org", remote_user="kpapeppn",
-                          cn="Kostas Papadimitriou" + 30*"*",
+                          cn="Kostas Papadimitriou" + 30 * "*",
                           ep_affiliation="Test Affiliation")
         r = client.get(ui_url('login/shibboleth?'), follow=True,
                        **{'HTTP_SHIB_CUSTOM_IDP_KEY': 'test'})
@@ -216,7 +216,6 @@ class ShibbolethTests(TestCase):
         self.assertFalse(activation_result.is_error())
         backend.send_result_notifications(activation_result, u)
         self.assertEqual(u.is_active, True)
-
 
         # we visit our profile view
         r = client.get(ui_url("login/shibboleth?"), follow=True)
@@ -986,8 +985,8 @@ class TestAuthProviderViews(TestCase):
         self.assertRedirects(r, ui_url('landing'))
         helpdesk_email = astakos_settings.HELPDESK[0][1]
         self.assertEqual(len(get_mailbox(helpdesk_email)), 1)
-        self.assertTrue(u'AstakosUser: Academic γιούνικοουντ' in \
-                            get_mailbox(helpdesk_email)[0].body)
+        self.assertTrue(u'AstakosUser: Academic γιούνικοουντ' in
+                        get_mailbox(helpdesk_email)[0].body)
         newuser = User.objects.get(email="newuser@synnefo.org")
         self.assertEqual(newuser.is_active, True)
         self.assertEqual(newuser.email_verified, True)
@@ -1084,7 +1083,7 @@ class TestAuthProvidersAPI(TestCase):
         module = 'local'
         identifier = None
         provider_params = {'auth_backend': 'ldap', 'info':
-                          {'office': 'A1'}}
+                           {'office': 'A1'}}
         provider = auth.get_provider(module, user, identifier,
                                      **provider_params)
         provider.add_to_user()
@@ -1302,7 +1301,6 @@ class TestAuthProvidersAPI(TestCase):
         self.assertEqual(provider.get_method_details_msg, u'Account: kpap@s\u1e6bynnefo.org')
         self.assertEqual(provider.get_username_msg, u'kpap@s\u1e6bynnefo.org')
 
-
     @im_settings(IM_MODULES=['local', 'shibboleth'])
     @shibboleth_settings(LIMIT_POLICY=2)
     def test_templates(self):
@@ -1359,8 +1357,8 @@ class TestActivationBackend(TestCase):
         MANAGERS=MANAGERS,
         HELPDESK=HELPDESK,
         ADMINS=ADMINS,
-        ACCOUNT_PENDING_MODERATION_RECIPIENTS=MANAGERS+HELPDESK+ADMINS,
-        ACCOUNT_ACTIVATED_RECIPIENTS=MANAGERS+HELPDESK+ADMINS)
+        ACCOUNT_PENDING_MODERATION_RECIPIENTS=MANAGERS + HELPDESK + ADMINS,
+        ACCOUNT_ACTIVATED_RECIPIENTS=MANAGERS + HELPDESK + ADMINS)
     def test_without_moderation(self):
         backend = activation_backends.get_backend()
         form = backend.get_signup_form('local')
@@ -1413,8 +1411,8 @@ class TestActivationBackend(TestCase):
         MANAGERS=MANAGERS,
         HELPDESK=HELPDESK,
         ADMINS=ADMINS,
-        ACCOUNT_PENDING_MODERATION_RECIPIENTS=HELPDESK+MANAGERS+ADMINS,
-        ACCOUNT_ACTIVATED_RECIPIENTS=HELPDESK+MANAGERS+ADMINS)
+        ACCOUNT_PENDING_MODERATION_RECIPIENTS=HELPDESK + MANAGERS + ADMINS,
+        ACCOUNT_ACTIVATED_RECIPIENTS=HELPDESK + MANAGERS + ADMINS)
     def test_with_moderation(self):
 
         backend = activation_backends.get_backend()

@@ -56,7 +56,7 @@ DEFAULT_CONTENT_TYPE = None
 _content_type = None
 
 SYSTEM_PROJECT_NAME_TPL = getattr(astakos_settings, "SYSTEM_PROJECT_NAME_TPL",
-                                u"[system] %s")
+                                  u"[system] %s")
 
 
 def get_content_type():
@@ -375,7 +375,7 @@ class AstakosUser(User):
     affiliation = models.CharField(_('Affiliation'), max_length=255,
                                    blank=True, null=True)
 
-    #for invitations
+    # for invitations
     user_level = astakos_settings.DEFAULT_USER_LEVEL
     level = models.IntegerField(_('Inviter level'), default=user_level)
     invitations = models.IntegerField(
@@ -769,7 +769,7 @@ class AstakosUser(User):
         msg_inactive = provider.get_account_inactive_msg
         msg_pending = provider.get_pending_activation_msg
         msg_pending_help = _(astakos_messages.ACCOUNT_PENDING_ACTIVATION_HELP)
-        #msg_resend_prompt = _(astakos_messages.ACCOUNT_RESEND_ACTIVATION)
+        # msg_resend_prompt = _(astakos_messages.ACCOUNT_RESEND_ACTIVATION)
         msg_pending_mod = provider.get_pending_moderation_msg
         msg_rejected = _(astakos_messages.ACCOUNT_REJECTED)
         msg_resend = _(astakos_messages.ACCOUNT_RESEND_ACTIVATION)
@@ -858,7 +858,6 @@ class AstakosUser(User):
             display.append("[%s] %s" % (module, date))
 
         return ", ".join(display)
-
 
 
 class AstakosUserAuthProviderManager(models.Manager):
@@ -1564,7 +1563,7 @@ class ProjectResourceGrant(models.Model):
 
         def disp(v, disp_func=None):
             if not disp_func:
-                disp_func = lambda : ''
+                disp_func = lambda: ''
 
             if v == 0:
                 return ''
@@ -1640,7 +1639,6 @@ class ProjectManager(models.Manager):
     @property
     def has_infinite_members_limit(self):
         return self.limit_on_members_number == units.PRACTICALLY_INFINITE
-
 
 
 class Project(models.Model):
@@ -1740,12 +1738,12 @@ class Project(models.Model):
         None: O_UNINITIALIZED,
         ProjectApplication.PENDING: O_PENDING,
         ProjectApplication.DENIED:  O_DENIED,
-        }
+    }
     O_STATE_DELETED = {
         None: O_DELETED,
         ProjectApplication.DISMISSED: O_DISMISSED,
         ProjectApplication.CANCELLED: O_CANCELLED,
-        }
+    }
 
     OVERALL_STATE = {
         NORMAL: lambda app_state: Project.O_ACTIVE,
@@ -1755,7 +1753,7 @@ class Project(models.Model):
             app_state, None),
         SUSPENDED: lambda app_state: Project.O_SUSPENDED,
         TERMINATED: lambda app_state: Project.O_TERMINATED,
-        }
+    }
 
     def display_name_for_user(self, user):
         if not self.is_base:
@@ -2105,7 +2103,7 @@ class ProjectMembership(models.Model):
 
     class Meta:
         unique_together = ("person", "project")
-        #index_together = [["project", "state"]]
+        # index_together = [["project", "state"]]
 
     def __unicode__(self):
         return (_("<'%s' membership in '%s'>") %

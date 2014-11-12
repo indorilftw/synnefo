@@ -543,7 +543,6 @@ class ProjectAPITest(TestCase):
                         action, content_type="application/json", **h_owner)
         self.assertEqual(r.status_code, 400)
 
-
         ap_base = {
             "owner": self.user1.uuid,
             "name": "domain.name",
@@ -556,8 +555,8 @@ class ProjectAPITest(TestCase):
                 u"σέρβις1.ρίσορς11": {
                     "member_capacity": 512,
                     "project_capacity": 1024}
-                },
-            }
+            },
+        }
         status, body = self.create(ap_base, h_owner)
         project_b_id = body["id"]
         app_b_id = body["application"]
@@ -620,7 +619,7 @@ class ProjectAPITest(TestCase):
         self.assertEqual(status, 400)
 
         ap = copy.deepcopy(ap_base)
-        ap["max_members"] = 2**63
+        ap["max_members"] = 2 ** 63
         status, body = self.create(ap, h_owner)
         self.assertEqual(status, 400)
 
@@ -640,14 +639,18 @@ class ProjectAPITest(TestCase):
         self.assertEqual(status, 400)
 
         ap = copy.deepcopy(ap_base)
-        ap["resources"] = {u"σέρβις1.ρίσορς11": {"member_capacity": -512,
-                                                 "project_capacity": 256}}
+        ap["resources"] = {u"σέρβις1.ρίσορς11": {
+            "member_capacity": -512,
+            "project_capacity": 256}
+        }
         status, body = self.create(ap, h_owner)
         self.assertEqual(status, 400)
 
         ap = copy.deepcopy(ap_base)
-        ap["resources"] = {u"σέρβις1.ρίσορς11": {"member_capacity": 512,
-                                                 "project_capacity": 256}}
+        ap["resources"] = {u"σέρβις1.ρίσορς11": {
+            "member_capacity": 512,
+            "project_capacity": 256}
+        }
         status, body = self.create(ap, h_owner)
         self.assertEqual(status, 400)
 
@@ -713,15 +716,15 @@ class ProjectAPITest(TestCase):
 
         admin_pa1 = get_pending_apps(self.user2)
         owner_pa1 = get_pending_apps(self.user1)
-        self.assertEqual(admin_pa1, admin_pa0+1)
+        self.assertEqual(admin_pa1, admin_pa0 + 1)
         self.assertEqual(owner_pa1, owner_pa0)
         status, body = self.modify(app, project_id, h_owner)
         self.assertEqual(status, 201)
 
         admin_pa2 = get_pending_apps(self.user2)
         owner_pa2 = get_pending_apps(self.user1)
-        self.assertEqual(admin_pa2, admin_pa1-1)
-        self.assertEqual(owner_pa2, owner_pa1+1)
+        self.assertEqual(admin_pa2, admin_pa1 - 1)
+        self.assertEqual(owner_pa2, owner_pa1 + 1)
 
         status, body = self.modify(app, project_id, h_owner)
         self.assertEqual(status, 201)
@@ -821,8 +824,8 @@ class TestProjects(TestCase):
                 "astakos.pending_app": {
                     "member_capacity": 2,
                     "project_capacity": 2}
-                }
             }
+        }
         functions.modify_project(self.user.uuid, request)
 
         r = self.user_client.get(reverse('project_add'), follow=True)
@@ -886,12 +889,12 @@ class TestProjects(TestCase):
         # admin approves
         r = self.admin_client.post(reverse('project_app_approve',
                                            kwargs={
-                                            'application_id': app1_id,
-                                            'project_uuid': app1.chain.uuid}),
+                                               'application_id': app1_id,
+                                               'project_uuid': app1.chain.uuid}),
                                    follow=True)
         self.assertEqual(r.status_code, 200)
         self.assertEqual(Project.objects.filter(is_base=False,
-            state=Project.O_ACTIVE).count(), 1)
+                                                state=Project.O_ACTIVE).count(), 1)
 
         # login
         self.member_client.get(reverse("edit_profile"))

@@ -112,8 +112,8 @@ def project_list(request, template_name="im/projects/project_list.html"):
 
     # exclude base projects by default for admin users
     if not show_base and request.user.is_project_admin():
-        query = query & ~Q(Q(is_base=True) & \
-                          ~Q(realname="system:%s" % request.user.uuid))
+        query = query & ~Q(Q(is_base=True) &
+                           ~Q(realname="system:%s" % request.user.uuid))
 
     query = query & ~Q(state=Project.DELETED)
     mode = "default"
@@ -277,7 +277,7 @@ def project_or_app_detail(request, project_uuid, app_id=None):
     user = request.user
     owns_base = False
     if project and project.is_base and \
-                           project.realname == "system:%s" % request.user.uuid:
+       project.realname == "system:%s" % request.user.uuid:
         owns_base = True
     is_project_admin = user.is_project_admin()
     is_owner = user.owns_project(project)
@@ -285,7 +285,7 @@ def project_or_app_detail(request, project_uuid, app_id=None):
     last_pending_app = project.last_pending_application()
     if last_pending_app:
         is_applicant = last_pending_app and \
-                last_pending_app.applicant.pk == user.pk
+            last_pending_app.applicant.pk == user.pk
 
     if not (is_owner or is_project_admin) and \
             not user.non_owner_can_view(project):
@@ -302,7 +302,7 @@ def project_or_app_detail(request, project_uuid, app_id=None):
     can_join_req = can_join_request(project, user) if project else False
     can_leave_req = can_leave_request(project, user) if project else False
     can_cancel_req = \
-            can_cancel_join_request(project, user) if project else False
+        can_cancel_join_request(project, user) if project else False
 
     is_modification = application.is_modification() if application else False
 
@@ -319,7 +319,7 @@ def project_or_app_detail(request, project_uuid, app_id=None):
 
     display_usage = False
     if (owns_base or is_owner or membership or is_project_admin) \
-                                                               and not app_id:
+            and not app_id:
         display_usage = True
 
     return object_detail(

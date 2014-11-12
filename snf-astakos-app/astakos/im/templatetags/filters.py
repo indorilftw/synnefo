@@ -197,7 +197,7 @@ def resource_grants(project_or_app):
         grants = project_or_app.resource_set
         grants = grants.values_list(
             'resource__name', 'member_capacity', 'project_capacity')
-        return dict((e[0], {'member':e[1], 'project':e[2]}) for e in grants)
+        return dict((e[0], {'member': e[1], 'project': e[2]}) for e in grants)
     except:
         return {}
 
@@ -231,7 +231,7 @@ def resource_diff(r, member_or_project):
 
     project, member = r.display_project_diff()
     diff = dict(zip(['project', 'member'],
-                     r.display_project_diff())).get(member_or_project)
+                    r.display_project_diff())).get(member_or_project)
 
     diff_disp = ''
     if diff != '':
@@ -271,7 +271,7 @@ def display_resource_usage_for_project(resource, project):
     usage_perc_display = "%s%%" % usage_perc
 
     resp = """<span class="%s policy-diff">%s (%s)</span>""" % \
-            (cls, usage_perc_display, usage_display)
+           (cls, usage_perc_display, usage_display)
     return mark_safe(resp)
 
 
@@ -372,8 +372,8 @@ def display_modification_param(form_or_app, param, formatter=None):
     changed_prefix = "<span>current: </span>"
     if formatter:
         app_value, changed, cls, prefix = formatter(form_or_app,
-                                            app_value, changed,
-                                            **formatter_params)
+                                                    app_value, changed,
+                                                    **formatter_params)
         if cls:
             changed_cls = cls
 

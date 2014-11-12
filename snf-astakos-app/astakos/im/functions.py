@@ -482,7 +482,7 @@ def join_project(project_id, request_user, reason=None):
 
 
 MEMBERSHIP_ACTION_CHECKS = {
-    "leave":  leave_project_checks,
+    "leave": leave_project_checks,
     "cancel": cancel_membership_checks,
     "accept": accept_membership_checks,
     "reject": reject_membership_checks,

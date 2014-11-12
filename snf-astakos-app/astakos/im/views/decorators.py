@@ -109,7 +109,7 @@ def requires_auth_provider(provider_id, **perms):
             for pkey, value in perms.iteritems():
                 attr = 'get_%s_policy' % pkey.lower()
                 if getattr(provider, attr) != value:
-                    #TODO: add session message
+                    # TODO: add session message
                     return HttpResponseRedirect(reverse('login'))
             return func(request, *args)
         return wrapper
