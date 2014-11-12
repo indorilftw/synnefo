@@ -36,7 +36,7 @@ STATS_PERMITTED_GROUPS = settings.ADMIN_STATS_PERMITTED_GROUPS
 
 try:
     AUTH_URL = settings.astakos_services \
-                ["astakos_identity"]["endpoints"][0]["publicURL"]
+        ["astakos_identity"]["endpoints"][0]["publicURL"]
 except (IndexError, KeyError) as e:
     logger.error("Failed to load Astakos Auth URL: %s", e)
     AUTH_URL = None
@@ -60,4 +60,3 @@ def get_astakos_stats(request):
     _stats = stats.get_astakos_stats()
     data = json.dumps(_stats)
     return http.HttpResponse(data, status=200, content_type='application/json')
-
