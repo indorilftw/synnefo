@@ -1,4 +1,4 @@
-#Enable the helpdesk application
+# Enable the helpdesk application
 #HELPDESK_ENABLED = True
 
 # Which is the cookie name that stores the token, leave it commented out

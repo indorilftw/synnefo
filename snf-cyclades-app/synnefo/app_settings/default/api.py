@@ -146,10 +146,10 @@ CYCLADES_SERVERS_FQDN = 'snf-%(id)s.vm.example.synnefo.org'
 # the external address 'gate.example.synnefo.org' and port 60000+server_id.
 # e.g. iptables -t nat -A prerouting -d gate.example.synnefo.org \
 # --dport (61000 + $(VM_ID)) -j DNAT --to-destination $(VM_IP):22
-#CYCLADES_PORT_FORWARDING = {
+# CYCLADES_PORT_FORWARDING = {
 #    22: lambda ip_address, server_id, fqdn, user:
 #               ("gate.example.synnefo.org", 61000 + server_id),
-#}
+# }
 CYCLADES_PORT_FORWARDING = {}
 
 # Extra configuration options required for snf-vncauthproxy (>=1.5). Each dict
