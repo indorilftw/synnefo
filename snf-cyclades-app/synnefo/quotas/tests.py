@@ -126,8 +126,8 @@ class GetCommissionInfoTest(TestCase):
                                status="IN_USE",
                                delete_on_termination=True)
         vm.volumes.update(project=vm.project)
-        #commission = quotas.get_commission_info(vm, "BUILD")
-        #self.assertEqual({"cyclades.vm": 1,
+        # commission = quotas.get_commission_info(vm, "BUILD")
+        # self.assertEqual({"cyclades.vm": 1,
         #                  "cyclades.cpu": 2,
         #                  "cyclades.cpu": 2,
         #                  "cyclades.ram": 1048576 * 1024,
