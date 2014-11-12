@@ -476,7 +476,7 @@ def min_prefix():
     """
     Return minified files folder for production environment
     """
-    if settings.DEBUG == False:
+    if not settings.DEBUG:
         return 'min-'
     else:
         return ''
